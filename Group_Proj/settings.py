@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'app-jquinn3-5.devedu.io',
     'app-jedwar15-5.devedu.io',
+    'app-bsulliv2-5.devedu.io',
 ]
 
 
