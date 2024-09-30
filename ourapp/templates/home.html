@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Django Site</title>
+    <title>Sauced and Sauteed - Master the Art of Cooking</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Welcome to My Django Site</h1>
-    <p>This is a simple landing page.</p>
+    <header>
+        <h1>Sauced and Sauteed</h1>
+    </header>
+    <main>
+        <section class="hero">
+            <h2>Elevate Your Culinary Skills With Drink Pairings</h2>
+            <p>Master the art of cooking with drink paring techniques with our expert-guided recipes and tutorials.</p>
+            <img src="" alt="Food and drink">
+        </section>
+        <section>
+            <h3>Unlock Your Potential</h3>
+            <p>Whether you're a beginner or a seasoned chef, Sauced and Sauteed will help you create restaurant-quality dishes at home with drink parings to enhance the flavor.</p>
+            <a href="#" class="cta-button">Start Cooking</a>
+        </section>
+        <section class="features">
+            <div class="feature">
+                <h4>Cooking Mastery</h4>
+                <p>Learn to create the perfect dish</p>
+            </div>
+            <div class="feature">
+                <h4>Pair Like a Pro</h4>
+                <p>Master the techniques of pairing various meals with your favorite drinks</p>
+            </div>
+            <div class="feature">
+                <h4>Interactive Tutorials</h4>
+                <p>Step-by-step guided cooking and pairng experiences</p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
