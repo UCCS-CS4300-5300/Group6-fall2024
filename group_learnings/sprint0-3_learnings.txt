@@ -1,0 +1,11 @@
+Group 6 Josh E, Carl M, Jake Q, Brendan S, Aubrey M
+
+Carl: During this sprint I took on the challenge of creating the sidebar navigation. Throughout the process of building that out using CSS, I had to look into some of the parameters when creating the different classes. This included looking into spacing, flex containers, and making the other content visually appealing. I also learned that the border-radius property in CSS allows you to get the rounded corners.
+
+Josh: This sprint I learned that when working with a group, just because something works for me does not mean it will automatically work for everyone else. I need to put more effort into designing a complete, functional system because I am not the only one riding on my success in development. I also learned how to add custom animations to a stylesheet with javascript. 
+
+Aubrey: In this sprint I learned how to upload a favicon to help our site stand out in browser tabs. I also learned how to use css to impact the position of images such as our logo. Other things learned were resolving merge conflicts with github. 
+
+Jake: During this sprint I had the challenge of setting up the project, and getting all the initial ‘divs’ on the page inorder for my teammates to add and customize the rest of the site. I was able to connect to GitHub easily enough. The biggest issue I ran into was getting the app to display but thankfully another student helped out. From there I was also able to help my other teammates view the app on their machines. 
+
+Brendan: I learned through this sprint that there might be multiple ways of doing something “right”, especially when it comes to workflows or Github. I realized that I have my own methodology when it comes to those things, such as how to utilize branches and commits, but they didn’t always match those of my teammates, and I realized that there are other ways to go about those.
