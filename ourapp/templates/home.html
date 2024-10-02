@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sauced and Sauteed - Master the Art of Cooking</title>
     {% load static %}
+    <link rel="shortcut icon" href="{% static 'Temp_logo_favicon.ico' %}" type="image/x-icon"
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2DhYAW6ebY7h02mjSllkSBpCqLjNq0U6xgq/VEF1xbLdpKGpCzEVOE9/c5pE23cA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
@@ -12,6 +13,16 @@
         .container {
             display: flex;
             min-height: 100vh;
+        }
+        /* Styling for the logo */
+        .logo{
+            position: static;
+            top:0;
+            width: 35%;
+            margin-top:0;
+            height: 35%;
+            object-fit: contain;
+
         }
 
         /* Sidebar styling */
@@ -84,7 +95,9 @@
 </head>
 <body>
     <header>
-        <h1>Sauced and Sauteed</h1>
+        <div class="logo">
+            <img class="logo" src="static/Temp_logo.jpg" alt="Sauced and Sauteed Logo">
+        </div>
     </header>
 
     <div class="container">
