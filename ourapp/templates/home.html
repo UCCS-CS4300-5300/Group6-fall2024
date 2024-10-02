@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sauced and Sauteed - Master the Art of Cooking</title>
     {% load static %}
-    <link rel="shortcut icon" href="{% static 'Temp_logo_favicon.ico' %}" type="image/x-icon"
+    <link rel="shortcut icon" href="{% static 'Temp_logo_favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2DhYAW6ebY7h02mjSllkSBpCqLjNq0U6xgq/VEF1xbLdpKGpCzEVOE9/c5pE23cA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
@@ -15,14 +15,25 @@
             min-height: 100vh;
         }
         /* Styling for the logo */
-        .logo{
-            position: static;
-            top:0;
-            width: 35%;
-            margin-top:0;
-            height: 35%;
-            object-fit: contain;
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Logo styling with transition */
+        .logo {
+            position: relative;
+            top: 10px;
+            left: 0px;
+            width: 150px;
+            height: auto;
+            z-index: 1000;
+            border-radius: 20%;
+            transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out; /* Apply transition directly to .logo */
+        }
 
+        .logo:hover {
+            transform: scale(1.05); /* Slight zoom on hover */
+            opacity: 0.9; /* Reduce opacity for a fading effect */
         }
 
         /* Sidebar styling */
@@ -33,6 +44,7 @@
             position: fixed;
             height: 100%;
             font-family: 'Arial', sans-serif;
+            border-radius: 15px;
         }
 
         .sidebar ul {
@@ -52,10 +64,16 @@
             color: white;
             font-size: 16px;
             font-weight: 600;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Add transform for bounce effect */
             border-radius: 5px;
         }
 
+        .sidebar ul li a:hover {
+            background-color: #f2d5aa;
+            color: white;
+            transform: bounce 0.5s; /* Slight scale-up on hover */
+        }
+    
         .sidebar ul li a i {
             margin-right: 10px;
         }
@@ -72,6 +90,8 @@
             padding: 40px;
             flex-grow: 1;
             background-color: #ecf0f1;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
         }
 
         .cta-button {
@@ -82,7 +102,13 @@
             border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
+            transition: transform 0.3s ease; /* Add transition for smooth animation */
         }
+
+        .cta-button:hover {
+            transform: scale(1.1); /* Add a subtle scale effect on hover */
+        }
+
 
         /* Hero section styling */
         .hero {
@@ -91,18 +117,75 @@
             padding: 30px;
             border-radius: 10px;
         }
+        /* .hero img {
+            transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+        }
+
+        .hero img:hover {
+            transform: scale(1.02); /* Slight zoom on hover */
+            opacity: 0.9; /* Reduce opacity for a fading effect */
+        /* } */
+
+        .feature {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+                font-size: 14px;
+            }
+
+            .logo {
+                width: 100px;
+            }
+
+            main {
+                margin-left: 220px; /* Adjust space for smaller sidebar */
+                padding: 20px;
+            }
+
+            .hero {
+                padding: 20px;
+            }
+
+            .cta-button {
+                padding: 8px 16px;
+            }
+        }
+    
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .sidebar ul li a:hover {
+            animation: bounce 0.5s;
+        }
+
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img class="logo" src="static/Temp_logo.jpg" alt="Sauced and Sauteed Logo">
-        </div>
-    </header>
-
     <div class="container">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
+            <div class="logo-container">
+                <img class="logo" src="{% static 'Temp_logo.jpg' %}" alt="Sauced and Sauteed Logo">
+            </div>
             <ul>
                 <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="#"><i class="fas fa-utensils"></i> Recipes</a></li>
