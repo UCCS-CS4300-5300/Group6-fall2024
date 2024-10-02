@@ -1,3 +1,5 @@
 # Group6-fall2024
 
-django app is on master branch
+Josh E, Brendan S, Aubrey M, Jake Q, Carl M
+
+django app production happens on master branch, pushes up to main for sprint releases
