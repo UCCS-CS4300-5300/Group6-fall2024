@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sauced and Sauteed - Master the Art of Cooking</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css" integrity="Fo3rlrZj/k7ujTnHg4CGR2DhYAW6ebY7h02mjSllkSBpCqLjNq0U6xgq/VEF1xbLdpKGpCzEVOE9/c5pE23cA==" crossorigin="anonymous">
+    <style>
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo-container">
+                <img class="logo" src="{% static 'Temp_logo.jpg' %}" alt="Sauced and Sauteed Logo">
+            </div>
+            <ul>
+                <li><a href="{% url 'home_page' %}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-utensils"></i> Recipes</a></li>
+                <li><a href="{% url 'search_page' %}?query=pairing"><i class="fas fa-wine-glass"></i> Drink Pairings</a></li>
+                <li><a href="#"><i class="fas fa-book-open"></i> Tutorials</a></li>
+                <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </body>
+</html>
