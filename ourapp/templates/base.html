@@ -13,6 +13,21 @@
 </head>
 <body>
 
+    <!-- Full-width Hero Section -->
+    <section class="hero">
+        <!-- Video Background -->
+        <video autoplay muted loop class="hero-video">
+            <source src="{% static 'header_background1.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>  
+
+        <div class="hero-content">
+            <h2>Elevate Your Culinary Skills With Drink Pairings</h2>
+            <p>Master the art of cooking with drink paring techniques with our expert-guided recipes and tutorials.</p>
+            <img src="static/food_and_drink.jpg" alt="Food and drink">
+        </div>
+    </section>
+
     <div class="container">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
@@ -28,10 +43,10 @@
                 <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
             </ul>
         </nav>
-
+        
         <main>
-            {% block content %}
-            {% endblock %}
+            {% block content %}{% endblock %}
         </main>
+    </div>
     </body>
 </html>

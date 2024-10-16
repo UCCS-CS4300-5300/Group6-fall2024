@@ -1,31 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Homepage{% endblock %}
 
-{% block content %}
+<body class="vertical stack">
 
-        <section class="hero">
-            <h2>Elevate Your Culinary Skills With Drink Pairings</h2>
-            <p>Master the art of cooking with drink paring techniques with our expert-guided recipes and tutorials.</p>
-            <img src="static/food_and_drink.jpg" alt="Food and drink">
-        </section>
-        <section>
-            <h3>Unlock Your Potential</h3>
-            <p>Whether you're a beginner or a seasoned chef, Sauced and Sauteed will help you create restaurant-quality dishes at home with drink parings to enhance the flavor.</p>
-            <a href="#" class="cta-button">Start Cooking</a>
-        </section>
-        <section class="features">
-            <div class="feature">
-                <h4>Cooking Mastery</h4>
-                <p>Learn to create the perfect dish</p>
-            </div>
-            <div class="feature">
-                <h4>Pair Like a Pro</h4>
-                <p>Master the techniques of pairing various meals with your favorite drinks</p>
-            </div>
-            <div class="feature">
-                <h4>Interactive Tutorials</h4>
-                <p>Step-by-step guided cooking and pairng experiences</p>
-            </div>
-        </section>
+    {% block content %}
+    <section>
+        <h3>Unlock Your Potential</h3>
+        <p>Whether you're a beginner or a seasoned chef, Sauced and Sauteed will help you create restaurant-quality dishes at home with drink parings to enhance the flavor.</p>
+        <a href="#" class="cta-button">Start Cooking</a>
+    </section>
+
+    <section class="features" style="padding-top: 20px;">
+        <div class="feature">
+            <h4>Cooking Mastery</h4>
+            <p>Learn to create the perfect dish</p>
+        </div>
+        <div class="feature">
+            <h4>Pair Like a Pro</h4>
+            <p>Master the techniques of pairing various meals with your favorite drinks</p>
+        </div>
+        <div class="feature">
+            <h4>Interactive Tutorials</h4>
+            <p>Step-by-step guided cooking and pairng experiences</p>
+        </div>
+    </section>
+</body>
 {% endblock %}
