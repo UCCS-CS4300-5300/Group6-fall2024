@@ -92,7 +92,7 @@ main {
     height: 50vh;
     /* height: 50vh;  Adjust height as needed */
     width: 100%;
-    /* object-fit: cover; */
+    object-fit: cover; 
     overflow: hidden;
     /* border-radius: 0px; */
 }
