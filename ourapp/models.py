@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -15,3 +16,5 @@ class Cocktails(models.Model):
         return self.name
     
 
+    def get_absolute_url(self):
+        return reverse("Drink-detail", args=[str(self.drinkID)])

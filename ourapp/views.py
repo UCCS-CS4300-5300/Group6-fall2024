@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views import generic
 from .models import *
 import requests
 
@@ -8,6 +9,9 @@ def home_page(request):
 def search_page(request):
     # This view will just render the search page with a form for the search bar
     return render(request, 'search_page.html')
+
+class cocktailDetails(generic.DetailView):
+    cocktails = Cocktails
 
 def search_results(request):
     search = request.GET.get('query','') #Get the input from the search 

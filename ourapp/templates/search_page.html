@@ -24,6 +24,7 @@
                     <div class="drink">
                         <img src="{{ drink.strDrinkThumb }}" alt="{{ drink.strDrink }}">
                         <span>{{ drink.strDrink }}</span>
+                        <button><a href="{{ drink.get_absolute_url }}">Recipe</a></button>
                     </div>
                 {% endfor %}
             {% else %}
