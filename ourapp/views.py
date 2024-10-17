@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views import generic
 from .models import *
 import requests
 
@@ -8,6 +9,9 @@ def home_page(request):
 def search_page(request):
     # This view will just render the search page with a form for the search bar
     return render(request, 'search_page.html')
+
+class cocktailDetails(generic.DetailView):
+    model = Cocktails
 
 def search_results(request):
     search = request.GET.get('query','') #Get the input from the search 
@@ -50,7 +54,12 @@ def search_results(request):
                     cocktail.ingredients = ingredients
                     cocktail.measurements = measurements
                     cocktail.save()
-                return render(request, 'search_page.html', {'drinks':data['drinks']}) #Show the results
+                
+                cocktail_list = []
+                sips = Cocktails.objects.all()
+                for k in sips:
+                    cocktail_list.append(k)
+                return render(request, 'search_page.html', {'drinks':cocktail_list}) #Show the results
             else:
                 return render(request,'search_page.html',{'error': 'No Results Found'}) #Incase there were no results found
         else: 
@@ -58,6 +67,11 @@ def search_results(request):
     else:
         return render(request,'search_page.html',{'error': 'Please enter a search term'}) #If no search term was provided return error
 
-
-
+def get_drink_detail(request):
+    cocktails = Cocktails.objects.all()
+    drinkID_list = []
+    for drink in cocktails:
+        drinkID = Cocktails.objects.values_list('drinkID', flat=True).distinct()
+        drinkID_list.append(drinkID)
+    return render( request, 'search_page.html', {'drinkID_list':drinkID_list})
 
