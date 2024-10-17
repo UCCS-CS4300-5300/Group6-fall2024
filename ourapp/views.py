@@ -4,7 +4,7 @@ from .models import *
 import requests
 
 def home_page(request):
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'show_hero': True})
 
 def search_page(request):
     # This view will just render the search page with a form for the search bar
