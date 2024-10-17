@@ -15,7 +15,12 @@
     <section class="hero-content">
         <h2>Elevate Your Culinary Skills With Drink Pairings</h2>
         <p>Master the art of cooking with drink paring techniques with our expert-guided recipes and tutorials.</p>
-        <img src="static/food_and_drink.jpg" alt="Food and drink">
+        <br>
+        <div class="img-row">
+            <img src="{% static 'food_and_drink.jpg' %}" alt="Food and drink" class="img-card">
+            <img src="{% static 'cooking_with_alcohol.jpg' %}" alt="Food and drink" class="img-card2">
+            <img src="{% static 'food_plate_drink.jpg' %}" alt="Food and drink" class="img-card">
+        </div>        
     </section>
     {% endblock %}
 
@@ -23,7 +28,10 @@
     <section>
         <h3>Unlock Your Potential</h3>
         <p>Whether you're a beginner or a seasoned chef, Sauced and Sauteed will help you create restaurant-quality dishes at home with drink parings to enhance the flavor.</p>
-        <a href="#" class="cta-button">Start Cooking</a>
+        <div class="cta-button">
+            <!-- <a href="#" class="cta-button">Start Cooking</a> -->
+            <a href="{% url 'search_page' %}?query=pairing"><i class="fas fa-pencil"></i> Start Cooking</a></li>
+        </div>
     </section>
 
     <section class="features" style="padding-top: 20px;">

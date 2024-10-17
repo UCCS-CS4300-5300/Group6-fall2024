@@ -1,12 +1,13 @@
 {% extends 'ourapp/base.html' %}
 
 {% block content %}
-<img src="{{ cocktails.thumbnail}}">
-<p><strong>Name:</strong> {{ cocktails.name }}</p>
-<p><strong>Glass:</strong> {{ cocktails.glass }}</p>
-<p><strong>Ingredients:</strong>{{ cocktails.ingredients}}</p>
-
-
-
+<div class="hero">
+    <img src="{{ cocktails.thumbnail}}" class="img-card">
+</div>
+<div style="margin: 0 auto; text-align: center;">
+    <h2>Name: {{ cocktails.name }}</h2>
+    <p><strong>Glass:</strong> {{ cocktails.glass }}</p>
+    <p><strong>Ingredients:</strong> {{ cocktails.ingredients}}</p>
+</div>
 
 {% endblock %}

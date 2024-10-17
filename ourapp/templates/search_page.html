@@ -21,12 +21,13 @@
                 {% for drink in drinks %}
                         <div class="drink">
                             <img src="{{ drink.thumbnail }}" alt="{{ drink.name }}">
-                            <span>{{ drink.name }}</span>
-                            <button><a href="{{ drink.get_absolute_url }}">Recipe</a></button>
+                            <!-- <span> {{ drink.name }} </span> -->
+                            <a href="{{ drink.get_absolute_url }}" class="drink-button">{{ drink.name }} Recipe</a>
+                            <!-- <button class="cta-button"><a href="{{ drink.get_absolute_url }}"> Recipe</a></button> -->
                         </div>
                 {% endfor %}
             {% else %}
-                <p>No results found.</p>
+                <p-results>No results found.</p>
             {% endif %}
         </div>
     </main>
