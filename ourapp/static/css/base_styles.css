@@ -103,7 +103,7 @@ body, p {
     left: 0;
     height: 100vh; /* Ensure the sidebar takes up the full height */
     overflow-y: auto;
-    border-radius: 0 15px 15px 0;
+    border-radius: 0;
     z-index: 3;
 }
 
