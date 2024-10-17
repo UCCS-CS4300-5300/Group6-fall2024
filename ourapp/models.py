@@ -17,4 +17,4 @@ class Cocktails(models.Model):
     
 
     def get_absolute_url(self):
-        return reverse("Drink-detail", args=[str(self.drinkID)])
+        return reverse("Drink_detail", args=[str(self.drinkID)])
