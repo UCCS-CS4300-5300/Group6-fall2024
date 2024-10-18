@@ -34,7 +34,7 @@ ALLOWED_HOSTS = ['app-jquinn3-5.devedu.io',
 CSRF_TRUSTED_ORIGINS = ['https://app-amorga-5.devedu.io',
                         'https://app-jedwar15-5.devedu.io',
                         'https://app-bsulliv2-5.devedu.io',
-                        'https://app-amorga-5.devedu.io',
+                        'https://app-jquinn3-5.devedu.io',
                         'https://app-cmarkow2-5.devedu.io']
 
 # Application definition

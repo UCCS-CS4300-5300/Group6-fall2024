@@ -2,12 +2,20 @@
 
 {% block content %}
 <div class="hero">
-    <img src="{{ cocktails.thumbnail}}" class="img-card">
+    <img src="{{ cocktails.thumbnail }}" class="img-card">
 </div>
 <div style="margin: 0 auto; text-align: center;">
     <h2>Name: {{ cocktails.name }}</h2>
     <p><strong>Glass:</strong> {{ cocktails.glass }}</p>
-    <p><strong>Ingredients:</strong> {{ cocktails.ingredients}}</p>
+    <p><strong>Ingredients:</strong> {{ cocktails.ingredients }}</p>
+
+    <!-- Save Drink Button -->
+    {% if user.is_authenticated %}
+    <form action="{% url 'save_drink' drink_id=cocktails.drinkID %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Save Drink</button>
+    </form>
+    {% endif %}
 </div>
 
 {% endblock %}

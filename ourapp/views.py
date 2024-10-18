@@ -1,7 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 from .models import *
 import requests
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from .forms import SignUpForm, CustomAuthenticationForm
+from .models import Profile, Cocktails
+from django.contrib import messages
+
 
 def home_page(request):
     return render(request, 'home.html', {'show_hero': True})
@@ -12,6 +18,9 @@ def search_page(request):
 
 class cocktailDetails(generic.DetailView):
     model = Cocktails
+    template_name = 'ourapp/cocktails_detail.html'
+    context_object_name = 'cocktails'
+    pk_url_kwarg = 'pk'
 
 def search_results(request):
     search = request.GET.get('query','') #Get the input from the search 
@@ -60,9 +69,8 @@ def search_results(request):
                 sips = Cocktails.objects.all()
                 for k in sips:
                     for ingrdient in k.ingredients:
-                        if (search in str(ingrdient).lower()) or (search in str(k.name).lower()):
-                            if k not in cocktail_list:
-                                cocktail_list.append(k)
+                        if search in str(ingrdient).lower():
+                            cocktail_list.append(k)
                 return render(request, 'search_page.html', {'drinks':cocktail_list}) #Show the results
             else:
                 return render(request,'search_page.html',{'error': 'No Results Found'}) #Incase there were no results found
@@ -71,3 +79,80 @@ def search_results(request):
     else:
         return render(request,'search_page.html',{'error': 'Please enter a search term'}) #If no search term was provided return error
 
+def get_drink_detail(request):
+    cocktails = Cocktails.objects.all()
+    drinkID_list = []
+    for drink in cocktails:
+        drinkID = Cocktails.objects.values_list('drinkID', flat=True).distinct()
+        drinkID_list.append(drinkID)
+    return render( request, 'search_page.html', {'drinkID_list':drinkID_list})
+
+
+def signup(request):
+    # Handle the user signup process
+    if request.method == 'POST':
+        # If the form is submitted, create an instance
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            # If the form is valid save the user and log them in
+            user = form.save()
+            login(request, user)
+            # Redirect to the home page after successful signup
+            return redirect('home_page')
+    else:
+        # If the request is Get create an empty instance
+        form = SignUpForm()
+    # Show the signup template with the form
+    return render(request, 'ourapp/signup.html', {'form': form})
+
+def user_login(request):
+    # Handle the user login process
+    if request.method == 'POST':
+        # If the form is submitted create an instance
+        form = CustomAuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            # If the form is valid get the username and password
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            # Authenticate the user
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                # If the user is authenticated log them in
+                login(request, user)
+                # Check if the Remember Me box is checked
+                if form.cleaned_data.get('remember_me'):
+                    # Set the session to expire to 1 week if checked
+                    request.session.set_expiry(604800)  # 1 week in secs.
+                # Redirect to the home page after successful login
+                return redirect('home_page')
+    else:
+        # If the request method is Get
+        form = CustomAuthenticationForm()
+    # Show the login template
+    return render(request, 'ourapp/login.html', {'form': form})
+
+# TO DO: Redirect to the login Page when logged out 
+@login_required
+def user_logout(request):
+    # Handle the user logout process
+    logout(request)  # Log the user out
+    # Redirect to the home page after logging out
+    return redirect('home_page')
+
+@login_required
+def profile(request):
+    # Display the user's profile and their saved drinks 
+    saved_drinks = request.user.profile.saved_drinks.all()
+    # Show the profile template with the saved drinks
+    return render(request, 'ourapp/profile.html', {'saved_drinks': saved_drinks})
+
+@login_required
+def save_drink(request, drink_id):
+    print("Save drink view called!") 
+    # Handle saving a drink to the user's profile
+    drink = Cocktails.objects.get(drinkID=drink_id) 
+    request.user.profile.saved_drinks.add(drink)
+    # Show a message
+    messages.success(request, f'{drink.name} has been saved to your profile.')
+    # Redirect to the detail page of the saved drink
+    return redirect('Drink_detail', pk=drink_id)

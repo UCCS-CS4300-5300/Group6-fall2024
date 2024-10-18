@@ -47,6 +47,13 @@
                 <li><a href="#"><i class="fas fa-book-open"></i> Tutorials</a></li>
                 <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
                 <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'signup' %}">Sign up</a></li>
+                {% endif %}
             </ul>
         </nav>
         
