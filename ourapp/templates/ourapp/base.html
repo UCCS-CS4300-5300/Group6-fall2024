@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sauced and Sauteed - Master the Art of Cooking</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base_styles.css' %}">
+    <!-- fonts sheet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css" integrity="Fo3rlrZj/k7ujTnHg4CGR2DhYAW6ebY7h02mjSllkSBpCqLjNq0U6xgq/VEF1xbLdpKGpCzEVOE9/c5pE23cA==" crossorigin="anonymous">
+</head>
+<body>
+
+    <!-- Full-width Hero Section (displayed only on the homepage) -->
+    {% if show_hero %}
+    <div class="container">
+        {% block hero %}{% endblock %}
+    </div>
+    {% endif %}
+
+    <div class="container">
+               
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+            <script>
+                function toggleSidebar() {
+                    document.querySelector('.sidebar').classList.toggle('collapsed');
+                }
+            </script> 
+                
+            <div class="logo-container">
+                <a href="{% url 'home_page' %}">
+                    <img class="logo" src="{% static 'Temp_logo.jpg' %}" alt="Sauced and Sauteed Logo">
+                </a>
+            </div>
+            <ul>
+                <li><a href="{% url 'home_page' %}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-utensils"></i> Recipes</a></li>
+                <li><a href="{% url 'search_page' %}?query=pairing"><i class="fas fa-wine-glass"></i> Drink Pairings</a></li>
+                <li><a href="#"><i class="fas fa-book-open"></i> Tutorials</a></li>
+                <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'signup' %}">Sign up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    </body>
+</html>

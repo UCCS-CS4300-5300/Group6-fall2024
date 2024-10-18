@@ -25,13 +25,17 @@ SECRET_KEY = 'django-insecure-bu#*g(9%=qdz=n$k5cd+x9cqo=8kv)ld1bgl)*#9^d4%g6fp3(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'app-jquinn3-5.devedu.io',
-    'app-jedwar15-5.devedu.io',
-    'app-bsulliv2-5.devedu.io',
-    'app-amorga-5.devedu.io',
-]
+ALLOWED_HOSTS = ['app-jquinn3-5.devedu.io',
+                'app-jedwar15-5.devedu.io',
+                'app-bsulliv2-5.devedu.io', 
+                'app-amorga-5.devedu.io', 
+                'app-cmarkow2-5.devedu.io']
 
+CSRF_TRUSTED_ORIGINS = ['https://app-amorga-5.devedu.io',
+                        'https://app-jedwar15-5.devedu.io',
+                        'https://app-bsulliv2-5.devedu.io',
+                        'https://app-jquinn3-5.devedu.io',
+                        'https://app-cmarkow2-5.devedu.io']
 
 # Application definition
 

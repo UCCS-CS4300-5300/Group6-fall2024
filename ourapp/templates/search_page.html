@@ -1,0 +1,35 @@
+{% extends 'ourapp/base.html' %}
+
+{% block title %}Your Booking History{% endblock %}
+
+{% block content %}
+    <header>
+        <h1>Search for Cocktails</h1>
+    </header>
+
+    <main class="search-main">
+        <!-- Search Form -->
+        <form class='search-form' action="{% url 'search_results' %}" method="GET" onsubmit="hideSuggestions()">
+            <input type="text" name="query" placeholder="Enter a cocktail name..." required>
+            <button type="submit">Search</button>
+        </form>
+
+
+        <!-- Search Results -->
+        <div class="results">
+            {% if drinks %}
+                {% for drink in drinks %}
+                        <div class="drink">
+                            <img src="{{ drink.thumbnail }}" alt="{{ drink.name }}">
+                            <!-- <span> {{ drink.name }} </span> -->
+                            <a href="{{ drink.get_absolute_url }}" class="drink-button">{{ drink.name }} Recipe</a>
+                            <!-- <button class="cta-button"><a href="{{ drink.get_absolute_url }}"> Recipe</a></button> -->
+                        </div>
+                {% endfor %}
+            {% else %}
+                <p-results>No results found.</p>
+            {% endif %}
+        </div>
+    </main>
+
+{% endblock %}
