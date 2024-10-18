@@ -1,0 +1,15 @@
+{% extends 'ourapp/base.html' %}
+
+{% block content %}
+  <h2>{{ user.username }}'s Profile</h2>
+  <h3>Saved Drinks</h3>
+  {% if saved_drinks %}
+    <ul>
+      {% for drink in saved_drinks %}
+        <li><a href="{% url 'Drink_detail' pk=drink.drinkID %}">{{ drink.name }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No saved drinks yet.</p>
+  {% endif %}
+{% endblock %}
