@@ -69,8 +69,9 @@ def search_results(request):
                 sips = Cocktails.objects.all()
                 for k in sips:
                     for ingrdient in k.ingredients:
-                        if search in str(ingrdient).lower():
-                            cocktail_list.append(k)
+                        if (search in str(ingrdient).lower()) or (search in str(k.name).lower()):
+                            if k not in cocktail_list:
+                                cocktail_list.append(k)
                 return render(request, 'search_page.html', {'drinks':cocktail_list}) #Show the results
             else:
                 return render(request,'search_page.html',{'error': 'No Results Found'}) #Incase there were no results found
