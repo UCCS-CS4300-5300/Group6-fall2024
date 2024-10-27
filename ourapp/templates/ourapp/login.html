@@ -1,10 +1,14 @@
 {% extends 'ourapp/base.html' %}
 
 {% block content %}
-<h2>Login</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
+    <h2>Login</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="cta-button" type="submit">Login</button>
+    </form>
+
+    <!-- Link to Sign Up Page -->
+    <br>
+    <p>Don't have an account?<button class="cta-button" onclick="window.location.href='{% url 'signup' %}'" style="margin-left: 10px;">Register here</button></p>
 {% endblock %}

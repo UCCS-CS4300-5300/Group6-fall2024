@@ -260,6 +260,21 @@ body, p {
     background-color: #917f66;
 }
 
+/* login page button */ 
+login-button {
+    padding: 10px 15px;
+    background-color: #f2d5aa;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+
+login-button:hover {
+    background-color: #917f66;
+}
+
 /* Results */
 .results, .suggestions {
     margin-top: 20px;

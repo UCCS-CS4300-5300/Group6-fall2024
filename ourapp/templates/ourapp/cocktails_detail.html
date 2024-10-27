@@ -15,10 +15,18 @@
 
     <!-- Save Drink Button -->
     {% if user.is_authenticated %}
-    <form action="{% url 'save_drink' drink_id=cocktails.drinkID %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Save Drink</button>
-    </form>
+        {% if is_saved %}
+            <!-- Remove Drink Button -->
+            <form action="{% url 'remove_drink' drink_id=cocktails.drinkID %}" method="post">
+                {% csrf_token %}
+                <button class="cta-button" type="submit">Remove Drink</button>
+            </form>
+        {% else %}
+            <form action="{% url 'save_drink' drink_id=cocktails.drinkID %}" method="post">
+                {% csrf_token %}
+                <button class="cta-button" type="submit">Save Drink</button>
+            </form>
+        {% endif %}
     {% endif %}
 
     <!-- Display existing reviews -->
@@ -26,9 +34,19 @@
     <ul>
         {% for review in reviews %}
         <li>
-            <strong>{{ review.user.username }}:</strong> {{ review.rating }}/5
+            <h4><strong>{{ review.user.username }}:</strong> {{ review.rating }}/5</h4>
             <p>{{ review.review_text }}</p>
-            <small>Posted on {{ review.created_at }}</small>
+            <small>Posted on {{ review.created_at|date:"F j, Y" }}</small>
+            <p>
+            {% if user.is_authenticated and review.user == user %}
+                <!-- Delete Review Button (only shown to the author) -->
+                <form action="{% url 'delete_review' review_id=review.reviewID %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="cta-button">Delete Review</button>
+                </form>
+            {% endif %}
+            </p>
+            <br>
         </li>
         {% empty %}
         <p>No reviews yet. Be the first to review!</p>

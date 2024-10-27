@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm, CustomAuthenticationForm, ReviewForm
 from .models import Profile, Cocktails
 from django.contrib import messages
-
+from datetime import datetime
 
 def home_page(request):
     return render(request, 'home.html', {'show_hero': True})
@@ -16,29 +16,41 @@ def search_page(request):
     # This view will just render the search page with a form for the search bar
     return render(request, 'search_page.html')
 
-class cocktailDetails(generic.DetailView):
+class CocktailDetails(generic.DetailView):
     model = Cocktails
     template_name = 'ourapp/cocktails_detail.html'
     context_object_name = 'cocktails'
     pk_url_kwarg = 'pk'
 
     def get_context_data(self, **kwargs):
+        cocktail = self.object
+        user = self.request.user
         context = super().get_context_data(**kwargs)
-        context['reviews'] = self.object.reviews.all()
+        # Load all reviews linked to this cocktail and add them to the context
+        context['reviews'] = Review.objects.filter(cocktail=cocktail)
+        #context['reviews'] = self.object.reviews.all()
         context['review_form'] = ReviewForm()
+
+        # Check if the drink is saved in the user's profile
+        if user.is_authenticated:
+            context['is_saved'] = user.profile.saved_drinks.filter(drinkID=cocktail.drinkID).exists()
+        else:
+            context['is_saved'] = False
         return context
 
     def post(self, request, *args, **kwargs):
         cocktail = get_object_or_404(Cocktails, pk=self.kwargs['pk'])
         form = ReviewForm(request.POST)
+        
         if form.is_valid():
             review = form.save(commit=False)
             review.user = request.user
             review.cocktail = cocktail
+            review.created_at = datetime.now()
             review.save()
             return redirect('Drink_detail', pk=cocktail.pk)
         return self.get(request, *args, **kwargs)
-        
+
 def search_results(request):
     search = request.GET.get('query','') #Get the input from the search 
     if search:
@@ -161,16 +173,36 @@ def user_logout(request):
 def profile(request):
     # Display the user's profile and their saved drinks 
     saved_drinks = request.user.profile.saved_drinks.all()
+    user_reviews = Review.objects.filter(user=request.user)
+
     # Show the profile template with the saved drinks
-    return render(request, 'ourapp/profile.html', {'saved_drinks': saved_drinks})
+    return render(request, 'ourapp/profile.html', {'saved_drinks': saved_drinks, 'user_reviews': user_reviews})
 
 @login_required
 def save_drink(request, drink_id):
     print("Save drink view called!") 
-    # Handle saving a drink to the user's profile
-    drink = Cocktails.objects.get(drinkID=drink_id) 
-    request.user.profile.saved_drinks.add(drink)
+    drink = get_object_or_404(Cocktails, drinkID=drink_id)
+    profile = request.user.profile
+    profile.saved_drinks.add(drink)  # Adds the drink to the user's saved drinks
     # Show a message
     messages.success(request, f'{drink.name} has been saved to your profile.')
-    # Redirect to the detail page of the saved drink
     return redirect('Drink_detail', pk=drink_id)
+
+@login_required
+def remove_drink(request, drink_id):
+    print("Remove drink view called")
+    drink = get_object_or_404(Cocktails, drinkID=drink_id)
+    profile = request.user.profile
+    profile.saved_drinks.remove(drink)  # Removes the drink from the user's saved drinks
+    return redirect('Drink_detail', pk=drink_id)
+
+@login_required
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, reviewID=review_id)
+    
+    # Ensure only the author can delete their review
+    if review.user != request.user:
+        return HttpResponseForbidden("You are not allowed to delete this review.")
+    
+    review.delete()
+    return redirect('Drink_detail', pk=review.cocktail.drinkID)

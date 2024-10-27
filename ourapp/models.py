@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -24,7 +25,7 @@ class Cocktails(models.Model):
 
 
 class Review(models.Model):
-    reviewID = models.CharField(max_length = 10, primary_key=True)
+    reviewID = models.CharField(max_length = 10, primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     cocktail = models.ForeignKey(Cocktails, related_name="reviews", on_delete=models.CASCADE)
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # 1 to 5 rating
@@ -37,6 +38,11 @@ class Review(models.Model):
     def get_absolute_url(self):
         return reverse("review_detail", args=[str(self.reviewID)])
 
+    def save(self, *args, **kwargs):
+        # Generate a unique reviewID if it's a new object
+        if not self.reviewID:
+            self.reviewID = str(uuid.uuid4())[:10]  # Use the first 10 characters of a UUID
+        super().save(*args, **kwargs)
 
 class Profile(models.Model):
     # This line creates a one-to-one relationship between the 

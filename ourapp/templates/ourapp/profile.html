@@ -12,4 +12,20 @@
   {% else %}
     <p>No saved drinks yet.</p>
   {% endif %}
+
+  <h3>Your Reviews</h3>
+  {% if user_reviews %}
+    <ul>
+      {% for review in user_reviews %}
+        <li>
+          <a href="{% url 'Drink_detail' pk=review.cocktail.drinkID %}">{{ review.cocktail.name }}</a>
+          - {{ review.rating }}/5
+          <p>{{ review.review_text }}</p>
+          <small>Posted on {{ review.created_at|date:"F j, Y" }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No reviews yet.</p>
+  {% endif %}
 {% endblock %}
