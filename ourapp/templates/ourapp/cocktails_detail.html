@@ -7,7 +7,11 @@
 <div style="margin: 0 auto; text-align: center;">
     <h2>Name: {{ cocktails.name }}</h2>
     <p><strong>Glass:</strong> {{ cocktails.glass }}</p>
-    <p><strong>Ingredients:</strong> {{ cocktails.ingredients }}</p>
+    <p><strong>Ingredients:</strong> 
+        {% for ingrediment in cocktails.ingredients %}
+            {{ ingrediment }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
 
     <!-- Save Drink Button -->
     {% if user.is_authenticated %}
@@ -15,6 +19,32 @@
         {% csrf_token %}
         <button type="submit">Save Drink</button>
     </form>
+    {% endif %}
+
+    <!-- Display existing reviews -->
+    <h3>Reviews:</h3>
+    <ul>
+        {% for review in reviews %}
+        <li>
+            <strong>{{ review.user.username }}:</strong> {{ review.rating }}/5
+            <p>{{ review.review_text }}</p>
+            <small>Posted on {{ review.created_at }}</small>
+        </li>
+        {% empty %}
+        <p>No reviews yet. Be the first to review!</p>
+        {% endfor %}
+    </ul>
+
+    <!-- Submit a new review -->
+    {% if user.is_authenticated %}
+    <h3>Leave a Review:</h3>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ review_form.as_p }}
+        <button type="submit">Submit Review</button>
+    </form>
+    {% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to leave a review.</p>
     {% endif %}
 </div>
 

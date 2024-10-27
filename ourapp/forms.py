@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from .models import Review
 
  # the built-in functions for creating a new user in Django
 class SignUpForm(UserCreationForm):
@@ -11,3 +12,11 @@ class SignUpForm(UserCreationForm):
 
 class CustomAuthenticationForm(AuthenticationForm):
     remember_me = forms.BooleanField(required=False, initial=False)
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'review_text']
+        widgets = {
+            'rating': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)])
+        }

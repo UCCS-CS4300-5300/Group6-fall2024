@@ -24,3 +24,34 @@ class HomepageTests(TestCase):
         self.assertContains(response, "<h2>Elevate Your Culinary Skills With Drink Pairings</h2>")
         self.assertNotContains(response, "Not on the page")
 
+from django.test import TestCase
+from django.contrib.auth.models import User
+from .models import Cocktails, Review
+
+class ReviewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpass')
+        self.cocktail = Cocktails.objects.create(
+            drinkID="12345",
+            name="Test Cocktail",
+            instructions="Mix and serve",
+            thumbnail="https://example.com/image.jpg"
+        )
+
+    def test_add_review(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.post(f'/drink/details/{self.cocktail.pk}', {
+            'rating': 5,
+            'review_text': 'Excellent drink!'
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Review.objects.count(), 1)
+        review = Review.objects.first()
+        self.assertEqual(review.rating, 5)
+        self.assertEqual(review.review_text, 'Excellent drink!')
+
+    def test_view_reviews(self):
+        Review.objects.create(user=self.user, cocktail=self.cocktail, rating=4, review_text="Great!")
+        response = self.client.get(f'/drink/details/{self.cocktail.pk}')
+        self.assertContains(response, "Great!")
+        self.assertContains(response, "4/5")

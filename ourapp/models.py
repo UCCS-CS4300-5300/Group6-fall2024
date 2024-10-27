@@ -22,6 +22,22 @@ class Cocktails(models.Model):
     def get_absolute_url(self):
         return reverse("Drink_detail", args=[str(self.drinkID)])
 
+
+class Review(models.Model):
+    reviewID = models.CharField(max_length = 10, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cocktail = models.ForeignKey(Cocktails, related_name="reviews", on_delete=models.CASCADE)
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # 1 to 5 rating
+    review_text = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.cocktail.name} - {self.rating}/5"
+
+    def get_absolute_url(self):
+        return reverse("review_detail", args=[str(self.reviewID)])
+
+
 class Profile(models.Model):
     # This line creates a one-to-one relationship between the 
     # Profile model and Django's built-in User model.

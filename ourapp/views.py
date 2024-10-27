@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from .models import *
 import requests
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import SignUpForm, CustomAuthenticationForm
+from .forms import SignUpForm, CustomAuthenticationForm, ReviewForm
 from .models import Profile, Cocktails
 from django.contrib import messages
 
@@ -22,6 +22,23 @@ class cocktailDetails(generic.DetailView):
     context_object_name = 'cocktails'
     pk_url_kwarg = 'pk'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reviews'] = self.object.reviews.all()
+        context['review_form'] = ReviewForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        cocktail = get_object_or_404(Cocktails, pk=self.kwargs['pk'])
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.cocktail = cocktail
+            review.save()
+            return redirect('Drink_detail', pk=cocktail.pk)
+        return self.get(request, *args, **kwargs)
+        
 def search_results(request):
     search = request.GET.get('query','') #Get the input from the search 
     if search:
