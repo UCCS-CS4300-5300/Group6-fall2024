@@ -1,0 +1,10 @@
+{% if cocktails %}
+    {% for cocktail in cocktails %}
+        <div class="drink">
+            <img src="{{ cocktail.thumbnail }}" alt="{{ cocktail.name }}">
+            <a href="{{ cocktail.get_absolute_url }}" class="drink-button">{{ cocktail.name }} Recipe</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>{{ error }}</p>
+{% endif %}

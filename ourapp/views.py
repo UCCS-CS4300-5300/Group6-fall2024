@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm, CustomAuthenticationForm, ReviewForm
 from .models import Profile, Cocktails
 from django.contrib import messages
+from django.http import JsonResponse
 from datetime import datetime
 
 def home_page(request):
@@ -52,62 +53,78 @@ class CocktailDetails(generic.DetailView):
         return self.get(request, *args, **kwargs)
 
 def search_results(request):
-    search = request.GET.get('query','') #Get the input from the search 
+    search = request.GET.get('query', '').lower()  # Normalize case for search
+    
     if search:
-
-        apiURL = f'https://www.thecocktaildb.com/api/json/v1/1/search.php?s={search}' #Append the search term onto the api 
+        apiURL = f'https://www.thecocktaildb.com/api/json/v1/1/search.php?s={search}'
         response = requests.get(apiURL)
-        if response.status_code == 200: #If we have connection then get the drinks
+        
+        if response.status_code == 200:
             data = response.json()
             if data['drinks']:
-                for drink in data['drinks']: #Iterate through the drinks to get the ingredients and measurements
-
+                cocktail_list = []
+                
+                for drink in data['drinks']:
                     ingredients = []
                     measurements = []
-
-                    for i in range(1,16):
-                        ingredient = drink.get(f'strIngredient{i}') #Get the ingredients and measurements
+                    
+                    # Collect ingredients and measurements
+                    for i in range(1, 16):
+                        ingredient = drink.get(f'strIngredient{i}')
                         measurement = drink.get(f'strMeasure{i}')
-
                         if ingredient:
                             ingredients.append(ingredient)
                         if measurement:
                             measurements.append(measurement)
-                        
-                    #Check if the cocktail already exists within the database
-                    cocktail, created = Cocktails.objects.get_or_create( 
-                    drinkID=drink['idDrink'],
-                    defaults={
-                        'name': drink['strDrink'],
-                        'glass': drink.get('strGlass'),
-                        'instructions': drink.get('strInstructions'),
-                        'thumbnail': drink.get('strDrinkThumb'),
-                        'ingredients': ingredients,
-                        'measurements': measurements
-                    }
-                )
-
-                if not created:
-                    # Update existing record if necessary
-                    cocktail.ingredients = ingredients
-                    cocktail.measurements = measurements
-                    cocktail.save()
+                    
+                    # Create or update the cocktail in the database
+                    cocktail, created = Cocktails.objects.get_or_create(
+                        drinkID=drink['idDrink'],
+                        defaults={
+                            'name': drink['strDrink'],
+                            'glass': drink.get('strGlass'),
+                            'instructions': drink.get('strInstructions'),
+                            'thumbnail': drink.get('strDrinkThumb'),
+                            'ingredients': ingredients,
+                            'measurements': measurements
+                        }
+                    )
+                    
+                    # Update the cocktail if it already exists
+                    if not created:
+                        cocktail.ingredients = ingredients
+                        cocktail.measurements = measurements
+                        cocktail.save()
                 
-                cocktail_list = []
-                drink_list=[]
+                # Filter cocktails by search term in name or ingredients
                 sips = Cocktails.objects.all()
                 for k in sips:
-                    for ingrdient in k.ingredients:
-                        if (search in str(ingrdient).lower()) or (search in str(k.name).lower()):
+                    for ingredient in k.ingredients:
+                        if search in ingredient.lower() or search in k.name.lower():
                             if k not in cocktail_list:
                                 cocktail_list.append(k)
-                return render(request, 'search_page.html', {'drinks':cocktail_list}) #Show the results
+                
+                # Check if the request is AJAX
+                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                    return render(request, '_search_results.html', {'cocktails': cocktail_list})
+                
+                # Return full page render for non-AJAX requests
+                return render(request, 'search_page.html', {'drinks': cocktail_list})
+            
             else:
-                return render(request,'search_page.html',{'error': 'No Results Found'}) #Incase there were no results found
-        else: 
-            return render(request,'search_page.html',{'error':'Failed to retrieve data'}) #In case the status code was not 200 return error
+                error_message = 'No Results Found'
+        else:
+            error_message = 'Failed to retrieve data'
+        
+        # Render error messages
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return render(request, '_search_results.html', {'error': error_message})
+        else:
+            return render(request, 'search_page.html', {'error': error_message})
+    
     else:
-        return render(request,'search_page.html',{'error': 'Please enter a search term'}) #If no search term was provided return error
+        error_message = 'Please enter a search term'
+        return render(request, 'search_page.html', {'error': error_message})
 
 def get_drink_detail(request):
     cocktails = Cocktails.objects.all()

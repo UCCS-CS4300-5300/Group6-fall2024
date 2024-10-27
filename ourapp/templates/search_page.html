@@ -1,6 +1,6 @@
 {% extends 'ourapp/base.html' %}
 
-{% block title %}Your Booking History{% endblock %}
+{% block title %}Cocktail Search{% endblock %}
 
 {% block content %}
     <header>
@@ -10,26 +10,48 @@
     <main class="search-main">
         <!-- Search Form -->
         <form class='search-form' action="{% url 'search_results' %}" method="GET" onsubmit="hideSuggestions()">
-            <input type="text" name="query" placeholder="Enter a cocktail name..." required>
+            <input type="text" name="query" id="search-box" placeholder="Enter a cocktail name..." required>
             <button type="submit">Search</button>
         </form>
 
+        <!-- Suggestions -->
+        <ul id="suggestions" class="suggestions-list"></ul>
 
         <!-- Search Results -->
-        <div class="results">
+        <div class="results" id="search-results">
             {% if drinks %}
                 {% for drink in drinks %}
-                        <div class="drink">
-                            <img src="{{ drink.thumbnail }}" alt="{{ drink.name }}">
-                            <!-- <span> {{ drink.name }} </span> -->
-                            <a href="{{ drink.get_absolute_url }}" class="drink-button">{{ drink.name }} Recipe</a>
-                            <!-- <button class="cta-button"><a href="{{ drink.get_absolute_url }}"> Recipe</a></button> -->
-                        </div>
+                    <div class="drink">
+                        <img src="{{ drink.thumbnail }}" alt="{{ drink.name }}">
+                        <a href="{{ drink.get_absolute_url }}" class="drink-button">{{ drink.name }} Recipe</a>
+                    </div>
                 {% endfor %}
             {% else %}
-                <p-results>No results found.</p>
+                <p>No results found.</p>
             {% endif %}
         </div>
     </main>
 
+    <script>
+        const searchBox = document.getElementById('search-box');
+        const suggestionsList = document.getElementById('search-results');
+    
+        searchBox.addEventListener('keyup', function () {
+            const query = searchBox.value;
+    
+            if (query.length > 0) {
+                fetch(`/search/results/?query=` + query, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        suggestionsList.innerHTML = html;
+                    });
+            } else {
+                suggestionsList.innerHTML = '';
+            }
+        });
+    </script>
+    
+    
 {% endblock %}

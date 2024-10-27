@@ -14,4 +14,7 @@ urlpatterns = [
     path('drink/save/<int:drink_id>/', views.save_drink, name='save_drink'),
     path('drink/remove/<int:drink_id>/', views.remove_drink, name='remove_drink'),
     path('review/delete/<str:review_id>/', views.delete_review, name='delete_review'),
+
+
+
 ]
