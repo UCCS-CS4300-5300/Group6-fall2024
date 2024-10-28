@@ -43,6 +43,21 @@ class Review(models.Model):
         if not self.reviewID:
             self.reviewID = str(uuid.uuid4())[:10]  # Use the first 10 characters of a UUID
         super().save(*args, **kwargs)
+class Meals(models.Model):
+    mealID = models.CharField(max_length=10, primary_key=True)
+    name = models.CharField(max_length=200)
+    category = models.CharField(max_length=200, blank=True, null=True)
+    area = models.CharField(max_length=200, blank=True, null=True)
+    instructions = models.TextField()
+    thumbnail = models.URLField()
+    ingredients = models.JSONField(null=True, blank=True)
+    measurements = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("Meal_detail", args=[str(self.mealID)])
 
 class Profile(models.Model):
     # This line creates a one-to-one relationship between the 
@@ -50,6 +65,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # many-to-many relationship with the Cocktails model.
     saved_drinks = models.ManyToManyField('Cocktails', blank=True)
+    saved_meals = models.ManyToManyField('Meals', blank=True)
 
     def __str__(self):
         return self.user.username

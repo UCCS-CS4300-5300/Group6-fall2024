@@ -140,8 +140,70 @@ def get_drink_detail(request):
     return render( request, 'search_page.html', {'drinkID_list':drinkID_list})
 
 
+# MEALS
+class MealDetails(generic.DetailView):
+    model = Meals
+    template_name = 'ourapp/meals_detail.html'
+    context_object_name = 'meal'
+    pk_url_kwarg = 'pk'
+
+def search_meals(request):
+    search = request.GET.get('query', '')
+    if search:
+        apiURL = f'https://www.themealdb.com/api/json/v1/1/search.php?s={search}'
+        response = requests.get(apiURL)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data['meals']:
+                for meal in data['meals']:
+                    ingredients = []
+                    measurements = []
+
+                    for i in range(1, 21):  # MealDB has up to 20 ingredients
+                        ingredient = meal.get(f'strIngredient{i}')
+                        measurement = meal.get(f'strMeasure{i}')
+
+                        if ingredient and ingredient.strip():
+                            ingredients.append(ingredient)
+                        if measurement and measurement.strip():
+                            measurements.append(measurement)
+
+                    meal_obj, created = Meals.objects.get_or_create(
+                        mealID=meal['idMeal'],
+                        defaults={
+                            'name': meal['strMeal'],
+                            'category': meal.get('strCategory'),
+                            'area': meal.get('strArea'),
+                            'instructions': meal.get('strInstructions'),
+                            'thumbnail': meal.get('strMealThumb'),
+                            'ingredients': ingredients,
+                            'measurements': measurements
+                        }
+                    )
+
+                    if not created:
+                        meal_obj.ingredients = ingredients
+                        meal_obj.measurements = measurements
+                        meal_obj.save()
+
+                # Search in database for matches in name or ingredients
+                meal_list = []
+                meals = Meals.objects.all()
+                for meal in meals:
+                    if (search.lower() in meal.name.lower() or 
+                        any(search.lower() in str(ingredient).lower() 
+                            for ingredient in meal.ingredients)):
+                        if meal not in meal_list:
+                            meal_list.append(meal)
+                            
+                return render(request, 'search_page.html', {'meals': meal_list})
+
+        return render(request, 'search_page.html', {'error': 'No meals found'})
+    return render(request, 'search_page.html', {'error': 'Please enter a search term'})
+
 def signup(request):
-    # Handle the user signup process
+    # Handle the user signup
     if request.method == 'POST':
         # If the form is submitted, create an instance
         form = SignUpForm(request.POST)
@@ -228,3 +290,12 @@ def delete_review(request, review_id):
     
     review.delete()
     return redirect('Drink_detail', pk=review.cocktail.drinkID)
+    # Redirect to the detail page of the saved drink
+    return redirect('Drink_detail', pk=drink_id)
+
+@login_required
+def save_meal(request, meal_id):
+    meal = Meals.objects.get(mealID=meal_id)
+    request.user.profile.saved_meals.add(meal)
+    messages.success(request, f'{meal.name} has been saved to your profile.')
+    return redirect('Meal_detail', pk=meal_id)

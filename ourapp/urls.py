@@ -14,7 +14,8 @@ urlpatterns = [
     path('drink/save/<int:drink_id>/', views.save_drink, name='save_drink'),
     path('drink/remove/<int:drink_id>/', views.remove_drink, name='remove_drink'),
     path('review/delete/<str:review_id>/', views.delete_review, name='delete_review'),
-
-
-
+    path('save_drink/<str:drink_id>/', views.save_drink, name='save_drink'),
+    path('search/meals/', views.search_meals, name='search_meals'),
+    path('meal/details/<int:pk>', views.MealDetails.as_view(), name='Meal_detail'),
+    path('save_meal/<str:meal_id>/', views.save_meal, name='save_meal'),
 ]
