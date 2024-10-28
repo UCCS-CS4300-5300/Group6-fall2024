@@ -37,6 +37,11 @@ class CocktailDetails(generic.DetailView):
             context['is_saved'] = user.profile.saved_drinks.filter(drinkID=cocktail.drinkID).exists()
         else:
             context['is_saved'] = False
+
+        # Split instructions into a list and add to context
+        instructions_list = [instruction.strip() + '.' for instruction in cocktail.instructions.split('.') if instruction.strip()]
+        context['instructions_list'] = instructions_list
+        
         return context
 
     def post(self, request, *args, **kwargs):
