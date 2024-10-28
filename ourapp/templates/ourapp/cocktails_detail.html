@@ -8,10 +8,25 @@
     <h2>Name: {{ cocktails.name }}</h2>
     <p><strong>Glass:</strong> {{ cocktails.glass }}</p>
     <p><strong>Ingredients:</strong> 
-        {% for ingrediment in cocktails.ingredients %}
-            {{ ingrediment }}{% if not forloop.last %}, {% endif %}
+        {% for ingredient in cocktails.ingredients %}
+            {{ ingredient }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </p>
+
+    {% if user.is_authenticated %}
+    <p><strong>Measurements:</strong> 
+        {% for measurement in cocktails.measurements %}
+            {{ measurement }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <p><strong>Instructions:</strong></p>
+    {% for instruction in instructions_list %}
+        <p>{{ instruction }}</p>
+    {% endfor %}
+    {% else %}
+    <p><em>Log in to view the measurements and instructions.</em></p>
+    {% endif %}
+    
 
     <!-- Save Drink Button -->
     {% if user.is_authenticated %}
@@ -29,29 +44,32 @@
         {% endif %}
     {% endif %}
 
-    <!-- Display existing reviews -->
     <h3>Reviews:</h3>
-    <ul>
+    <div class="review-list">
         {% for review in reviews %}
-        <li>
-            <h4><strong>{{ review.user.username }}:</strong> {{ review.rating }}/5</h4>
+        <div class="review-card">
+            <h4><strong>{{ review.user.username }}</strong></h4>
+            <div class="star-rating">
+                {% for star in "12345" %}
+                    <span class="star {% if star|add:0 <= review.rating %}filled{% endif %}">&#9733;</span>
+                {% endfor %}
+            </div>
             <p>{{ review.review_text }}</p>
             <small>Posted on {{ review.created_at|date:"F j, Y" }}</small>
-            <p>
             {% if user.is_authenticated and review.user == user %}
-                <!-- Delete Review Button (only shown to the author) -->
                 <form action="{% url 'delete_review' review_id=review.reviewID %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="cta-button">Delete Review</button>
                 </form>
             {% endif %}
-            </p>
-            <br>
-        </li>
+        </div>
         {% empty %}
-        <p>No reviews yet. Be the first to review!</p>
+        <p>No reviews yet. Be the first!</p>
         {% endfor %}
-    </ul>
+    </div>
+    
+
+    
 
     <!-- Submit a new review -->
     {% if user.is_authenticated %}
@@ -65,5 +83,4 @@
     <p><a href="{% url 'login' %}">Log in</a> to leave a review.</p>
     {% endif %}
 </div>
-
 {% endblock %}
