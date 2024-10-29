@@ -16,12 +16,13 @@ main {
     width: calc(100% - 270px); /* Ensure main content fills the space */
 }
 .main-content {
-    flex-grow: 1;
+    margin-left: auto; 
+    margin-right: auto; 
     padding: 40px;
+    max-width: 1200px; 
+    width: calc(100% - 250px); 
     transition: margin-left 0.3s ease, width 0.3s ease;
-    width: calc(100% - 250px); /* Full width minus sidebar */
 }
-
 .main-content.expanded {
     margin-left: 60px; /* Adjust margin when sidebar is collapsed */
     width: calc(100% - 60px); /* Adjust width when sidebar is collapsed */
@@ -216,10 +217,31 @@ body, p {
     /* transform: translateX(-250px); /* Moves sidebar off-screen */
 }
 
-.sidebar.collapsed .sidebar-toggle {
-    right: 0px; /* Keeps button visible when sidebar is collapsed */
+.sidebar.collapsed ul li a {
+    justify-content: center;
 }
 
+.sidebar.collapsed ul li a i {
+    margin-right: 0; /* Remove icon margin */
+}
+
+.sidebar.collapsed ul li a span {
+    display: none; /* Hide text labels */
+}
+
+.sidebar.collapsed .sidebar-toggle {
+    left: 70px; /* Keeps button visible when sidebar is collapsed */
+}
+
+/* Logo styling for collapsed sidebar */
+.sidebar.collapsed .logo {
+    width: 50px; /* Adjust logo size for collapsed sidebar */
+    transition: width 0.3s ease; 
+}
+
+.sidebar.collapsed .logo-container {
+    margin-bottom: 10px;
+}
 
 /* Logo styling */
 .logo-container {
