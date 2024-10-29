@@ -367,12 +367,20 @@ p-results {
     border-radius: 4px;
     margin-right: 15px;
 }
+.meal-result img {
+    width: 100px;
+    border-radius: 4px;
+    margin-right: 15px;
+}
 
 .drink span {
     font-weight: bold;
     color: #333; /* Dark text for the drink name */
 }
-
+.meal-result span {
+    font-weight: bold;
+    color: #333; /* Dark text for the drink name */
+}
 
 .drink-button {
     display: inline-flex;
