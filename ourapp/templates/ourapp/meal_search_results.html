@@ -1,0 +1,10 @@
+{% if meals %}
+    {% for meal in meals %}
+        <div class="drink">
+            <img src="{{ meal.thumbnail }}" alt="{{ meal.name }}">
+            <a href="{{ meal.get_absolute_url }}" class="drink-button">{{ meal.name }} Recipe</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>{{ error }}</p>
+{% endif %}

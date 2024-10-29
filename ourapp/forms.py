@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Review
+from .models import Review, MealReview
 
  # the built-in functions for creating a new user in Django
 class SignUpForm(UserCreationForm):
@@ -18,3 +18,15 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['rating', 'review_text']
        
+class MealReviewForm(forms.ModelForm):
+    class Meta:
+        model = MealReview
+        fields = ['rating', 'review_text']
+        widgets = {
+            'rating': forms.Select(choices=[(i, f"{i} Stars") for i in range(1, 6)]),
+            'review_text': forms.Textarea(attrs={
+                'rows': 4,
+                'placeholder': 'Write your review here...',
+                'class': 'form-control'
+            }),
+        }

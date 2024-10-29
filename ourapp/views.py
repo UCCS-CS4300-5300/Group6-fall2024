@@ -4,7 +4,7 @@ from .models import *
 import requests
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import SignUpForm, CustomAuthenticationForm, ReviewForm
+from .forms import *
 from .models import Profile, Cocktails
 from django.contrib import messages
 from django.http import JsonResponse
@@ -143,9 +143,39 @@ def get_drink_detail(request):
 # MEALS
 class MealDetails(generic.DetailView):
     model = Meals
-    template_name = 'ourapp/meals_detail.html'
+    template_name = 'ourapp/meal_detail.html'
     context_object_name = 'meal'
     pk_url_kwarg = 'pk'
+
+    def get_context_data(self, **kwargs):
+        meal = self.object
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+
+        # Split instructions into a list and add to context
+        instructions_list = [instruction.strip() + '.' for instruction in meal.instructions.split('.') if instruction.strip()]
+        context['instructions_list'] = instructions_list
+
+        # Check if the meal is saved in the user's profile
+        if user.is_authenticated:
+            context['is_saved'] = user.profile.saved_meals.filter(mealID=meal.mealID).exists()
+        else:
+            context['is_saved'] = False
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        meal = self.get_object()
+        form = MealReviewForm(request.POST)
+        
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.meal = meal
+            review.created_at = datetime.now()
+            review.save()
+            return redirect('meal_detail', pk=meal.pk)
+        return self.get(request, *args, **kwargs)
 
 def search_meals(request):
     search = request.GET.get('query', '')
@@ -197,10 +227,38 @@ def search_meals(request):
                         if meal not in meal_list:
                             meal_list.append(meal)
                             
-                return render(request, 'search_page.html', {'meals': meal_list})
+                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                    return render(request, '_meal_search_results.html', {'meals': meal_list})
+                
+                return render(request, 'ourapp/meal_search.html', {'meals': meal_list})
+            
+            else:
+                error_message = 'No Results Found'
+        else:
+            error_message = 'Failed to retrieve data'
+        
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return render(request, '_meal_search_results.html', {'error': error_message})
+        else:
+            return render(request, 'ourapp/meal_search.html', {'error': error_message})
+    
+    else:
+        error_message = 'Please enter a search term'
+        return render(request, 'ourapp/meal_search.html', {'error': error_message})
 
-        return render(request, 'search_page.html', {'error': 'No meals found'})
-    return render(request, 'search_page.html', {'error': 'Please enter a search term'})
+def meal_search_results(request):
+    query = request.GET.get('query', '')
+    if query:
+        meals = Meal.objects.filter(name__icontains=query)
+    else:
+        meals = Meal.objects.none()
+
+def get_meal_detail(request):
+    # Get all meal objects
+    meals = Meal.objects.all()
+    # Create a list of meal IDs
+    mealID_list = Meal.objects.values_list('mealID', flat=True).distinct()  
+    return render(request, 'meal_search_page.html', {'mealID_list': mealID_list, 'meals': meals})
 
 def signup(request):
     # Handle the user signup
@@ -257,14 +315,21 @@ def user_logout(request):
 def profile(request):
     # Display the user's profile and their saved drinks 
     saved_drinks = request.user.profile.saved_drinks.all()
-    user_reviews = Review.objects.filter(user=request.user)
+    saved_meals = request.user.profile.saved_meals.all()
+    drink_reviews = Review.objects.filter(user=request.user)
+    meal_reviews = MealReview.objects.filter(user=request.user)
 
     # Show the profile template with the saved drinks
-    return render(request, 'ourapp/profile.html', {'saved_drinks': saved_drinks, 'user_reviews': user_reviews})
+    return render(request, 'ourapp/profile.html', {
+        'saved_drinks': saved_drinks,
+        'saved_meals': saved_meals,
+        'drink_reviews': drink_reviews,
+        'meal_reviews': meal_reviews,
+    })
 
 @login_required
 def save_drink(request, drink_id):
-    print("Save drink view called!") 
+    # print("Save drink view called!") THIS IS FOR LOGGING WE DONT NEED THESE 
     drink = get_object_or_404(Cocktails, drinkID=drink_id)
     profile = request.user.profile
     profile.saved_drinks.add(drink)  # Adds the drink to the user's saved drinks
@@ -274,7 +339,7 @@ def save_drink(request, drink_id):
 
 @login_required
 def remove_drink(request, drink_id):
-    print("Remove drink view called")
+    # print("Remove drink view called")
     drink = get_object_or_404(Cocktails, drinkID=drink_id)
     profile = request.user.profile
     profile.saved_drinks.remove(drink)  # Removes the drink from the user's saved drinks
@@ -291,11 +356,31 @@ def delete_review(request, review_id):
     review.delete()
     return redirect('Drink_detail', pk=review.cocktail.drinkID)
     # Redirect to the detail page of the saved drink
-    return redirect('Drink_detail', pk=drink_id)
+    # return redirect('Drink_detail', pk=drink_id) TWO RETURNS???
 
 @login_required
 def save_meal(request, meal_id):
-    meal = Meals.objects.get(mealID=meal_id)
-    request.user.profile.saved_meals.add(meal)
+    meal = get_object_or_404(Meals, mealID=meal_id)
+    profile = request.user.profile
+    profile.saved_meals.add(meal)
     messages.success(request, f'{meal.name} has been saved to your profile.')
-    return redirect('Meal_detail', pk=meal_id)
+    return redirect('meal_detail', pk=meal_id)
+
+@login_required
+def remove_meal(request, meal_id):
+    meal = get_object_or_404(Meals, mealID=meal_id)
+    profile = request.user.profile
+    profile.saved_meals.remove(meal)
+    messages.success(request, f'{meal.name} has been removed from your profile.')
+    return redirect('meal_detail', pk=meal_id)
+
+@login_required
+def delete_meal_review(request, review_id):
+    review = get_object_or_404(MealReview, reviewID=review_id)
+    
+    # Ensure only the author can delete their review
+    if review.user != request.user:
+        return HttpResponseForbidden("You are not allowed to delete this review.")
+    
+    review.delete()
+    return redirect('meal_detail', pk=review.meal.mealID)
