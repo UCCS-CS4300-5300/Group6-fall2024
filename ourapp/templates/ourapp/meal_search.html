@@ -1,0 +1,59 @@
+{% extends 'ourapp/base.html' %}
+{% block title %}Recipe Search{% endblock %}
+{% block content %}
+    <header>
+        <h1>Search for Recipes <i class="fa-solid fa-utensils"></i></h1>
+    </header>
+
+    <main class="search-main">
+        <!-- Search Form -->
+        <form class="search-form" action="{% url 'search_meals' %}" method="GET" onsubmit="hideSuggestions()">
+            <input type="text" name="query" id="meal-search-box" placeholder="Search for a recipe..." required>
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- Suggestions -->
+        <ul id="meal-suggestions" class="suggestions-list"></ul>
+
+        <!-- Search Results -->
+        <div class="results" id="meal-search-results">
+            {% if meals %}
+                {% for meal in meals %}
+                    <div class="meal-result">
+                        <img src="{{ meal.thumbnail }}" alt="{{ meal.name }}">
+                            <h2>{{ meal.name }}</h2>
+                            <p>{{ meal.category }} | {{ meal.area }}</p>
+                            <a href="{{ meal.get_absolute_url }}" class="drink-button">View Recipe</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% if error %}
+                    <p class="error-message" style="color: white">{{ error }}</p>
+                {% else %}
+                    <p style="color: white">No results found.</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </main>
+
+    <script>
+        const mealSearchBox = document.getElementById('meal-search-box');
+        const mealSuggestionsList = document.getElementById('meal-search-results');
+
+        mealSearchBox.addEventListener('keyup', function () {
+            const query = mealSearchBox.value;
+
+            if (query.length > 0) {
+                fetch(`/meal/search/results/?query=` + query, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    mealSuggestionsList.innerHTML = data.html;
+                });
+            } else {
+                mealSuggestionsList.innerHTML = '';
+            }
+        });
+    </script>
+{% endblock %}

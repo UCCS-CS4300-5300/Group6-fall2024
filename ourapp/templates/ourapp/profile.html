@@ -2,6 +2,7 @@
 
 {% block content %}
   <h2>{{ user.username }}'s Profile</h2>
+
   <h3>Saved Drinks</h3>
   {% if saved_drinks %}
     <ul>
@@ -13,10 +14,21 @@
     <p>No saved drinks yet.</p>
   {% endif %}
 
-  <h3>Your Reviews</h3>
-  {% if user_reviews %}
+  <h3>Saved Meals</h3>
+  {% if saved_meals %}
     <ul>
-      {% for review in user_reviews %}
+      {% for meal in saved_meals %}
+        <li><a href="{% url 'meal_detail' pk=meal.mealID %}">{{ meal.name }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No saved meals yet.</p>
+  {% endif %}
+
+  <h3>Your Drink Reviews</h3>
+  {% if drink_reviews %}
+    <ul>
+      {% for review in drink_reviews %}
         <li>
           <a href="{% url 'Drink_detail' pk=review.cocktail.drinkID %}">{{ review.cocktail.name }}</a>
           - {{ review.rating }}/5
@@ -26,6 +38,22 @@
       {% endfor %}
     </ul>
   {% else %}
-    <p>No reviews yet.</p>
+    <p>No drink reviews yet.</p>
+  {% endif %}
+
+  <h3>Your Meal Reviews</h3>
+  {% if meal_reviews %}
+    <ul>
+      {% for review in meal_reviews %}
+        <li>
+          <a href="{% url 'meal_detail' pk=review.meal.mealID %}">{{ review.meal.name }}</a>
+          - {{ review.rating }}/5
+          <p>{{ review.review_text }}</p>
+          <small>Posted on {{ review.created_at|date:"F j, Y" }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No meal reviews yet.</p>
   {% endif %}
 {% endblock %}
