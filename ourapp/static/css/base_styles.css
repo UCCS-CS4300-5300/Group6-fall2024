@@ -18,11 +18,12 @@ main {
 .main-content {
     flex-grow: 1;
     padding: 40px;
-    transition: margin-left 0.3s ease; /* Smooth transition for expanded content */
+    transition: margin-left 0.3s ease, width 0.3s ease;
     width: calc(100% - 250px); /* Full width minus sidebar */
 }
 
 .main-content.expanded {
+    margin-left: 60px; /* Adjust margin when sidebar is collapsed */
     width: calc(100% - 60px); /* Adjust width when sidebar is collapsed */
 }
 
@@ -102,6 +103,43 @@ body, p {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow on hover */
 }
 
+/* Container Styling */
+.icon-carousel {
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    width: 100% !important; /* Full width container */
+    height: 50px !important; /* Adjust height as needed */
+    background-color: #2c3e50 !important; /* Background color of the container */
+    color: #f2d5aa !important; /* Icon color */
+    padding: 10px !important;
+    position: relative !important;
+}
+
+/* Icon Styling */
+.icon-carousel i {
+    font-size: 24px !important;
+    margin: 0 15px !important; /* Space between icons */
+    animation: rotate-icons 10s linear infinite !important;
+}
+
+/* Keyframes for Icon Rotation */
+@keyframes rotate-icons {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Duplicate the icons to create the loop effect */
+.icon-carousel::before,
+.icon-carousel::after {
+    content: attr(data-icons);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    animation: rotate-icons 10s linear infinite;
+}
 
 /* Sidebar Styles */
 .sidebar {
