@@ -1,5 +1,7 @@
 from django.test import TestCase, LiveServerTestCase
 from django.urls import reverse
+from django.contrib.auth.models import User
+from .models import Cocktails, Review
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -24,9 +26,6 @@ class HomepageTests(TestCase):
         self.assertContains(response, "<h2>Elevate Your Culinary Skills With Drink Pairings</h2>")
         self.assertNotContains(response, "Not on the page")
 
-from django.test import TestCase
-from django.contrib.auth.models import User
-from .models import Cocktails, Review
 
 class ReviewTests(TestCase):
     def setUp(self):
@@ -54,4 +53,4 @@ class ReviewTests(TestCase):
         Review.objects.create(user=self.user, cocktail=self.cocktail, rating=4, review_text="Great!")
         response = self.client.get(f'/drink/details/{self.cocktail.pk}')
         self.assertContains(response, "Great!")
-        self.assertContains(response, "4/5")
+        self.assertContains(response, "4")

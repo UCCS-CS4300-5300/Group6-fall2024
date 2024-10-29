@@ -2,7 +2,7 @@
 {% block title %}Recipe Search{% endblock %}
 {% block content %}
     <header>
-        <h1>Search for Recipes</h1>
+        <h1>Search for Recipes <i class="fa-solid fa-utensils"></i></h1>
     </header>
 
     <main class="search-main">
@@ -28,9 +28,9 @@
                 {% endfor %}
             {% else %}
                 {% if error %}
-                    <p class="error-message">{{ error }}</p>
+                    <p class="error-message" style="color: white">{{ error }}</p>
                 {% else %}
-                    <p>No results found.</p>
+                    <p style="color: white">No results found.</p>
                 {% endif %}
             {% endif %}
         </div>
