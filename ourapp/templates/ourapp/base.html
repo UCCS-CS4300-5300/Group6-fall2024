@@ -46,9 +46,9 @@
                 <li><a href="{% url 'home_page' %}"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="{% url 'search_meals' %}"><i class="fa-solid fa-utensils"></i>Recipe Search</a></li>
                 <li><a href="{% url 'search_page' %}?query=pairing"><i class="fas fa-wine-glass"></i> Drink Pairings</a></li>
-                <li><a href="#"><i class="fas fa-book-open"></i> Tutorials</a></li>
-                <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
-                <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="https://www.dummies.com/article/home-auto-hobbies/food-drink/cooking-baking/general-cooking-baking/cooking-basics-for-dummies-cheat-sheet-208787/" target="_blank"><i class="fas fa-book-open"></i> Tutorials</a></li>
+                <li><a href="https://images.app.goo.gl/eu5yi13W4Yaeccu47" target="_blank"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="mailto:thastings@uccs.edu" target="_blank"><i class="fas fa-envelope"></i> Contact</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'profile' %}">Profile</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
