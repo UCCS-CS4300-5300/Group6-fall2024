@@ -37,17 +37,17 @@
                 </a>
             </div>
             <ul>
-                <li><a href="{% url 'home_page' %}"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="{% url 'search_meals' %}"><i class="fa-solid fa-utensils"></i>Recipe Search</a></li>
-                <li><a href="{% url 'search_page' %}?query=pairing"><i class="fas fa-wine-glass"></i> Drink Pairings</a></li>
-                <li><a href="https://www.dummies.com/article/home-auto-hobbies/food-drink/cooking-baking/general-cooking-baking/cooking-basics-for-dummies-cheat-sheet-208787/" target="_blank"><i class="fas fa-book-open"></i> Tutorials</a></li>
-                <li><a href="https://images.app.goo.gl/eu5yi13W4Yaeccu47" target="_blank"><i class="fas fa-info-circle"></i> About Us</a></li>
-                <li><a href="mailto:thastings@uccs.edu" target="_blank"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="{% url 'home_page' %}"><i class="fas fa-home"></i><span>Home</span></a></li>
+                <li><a href="{% url 'search_meals' %}"><i class="fa-solid fa-utensils"></i><span>Recipe Search</span></a></li>
+                <li><a href="{% url 'search_page' %}?query=pairing"><i class="fas fa-wine-glass"></i><span>Drink Pairings</span></a></li>
+                <li><a href="https://www.dummies.com/article/home-auto-hobbies/food-drink/cooking-baking/general-cooking-baking/cooking-basics-for-dummies-cheat-sheet-208787/" target="_blank"><i class="fas fa-book-open"></i><span>Tutorials</span></a></li>
+                <li><a href="https://images.app.goo.gl/eu5yi13W4Yaeccu47" target="_blank"><i class="fas fa-info-circle"></i><span>About Us</span> </a></li>
+                <li><a href="mailto:thastings@uccs.edu" target="_blank"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'profile' %}">Profile</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'profile' %}"><span>Profile</span></a></li>
+                    <li><a href="{% url 'logout' %}"><span>Logout</span></a></li>
                 {% else %}
-                    <li><a href="{% url 'login' %}">Login/Register</a></li>
+                    <li><a href="{% url 'login' %}"><span>Login/Register</span></a></li>
                 {% endif %}
             </ul>
         </nav>
