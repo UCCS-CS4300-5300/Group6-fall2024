@@ -2,20 +2,21 @@
 
 {% block content %}
 <div class="hero">
-    <img src="{{ cocktails.thumbnail }}" class="img-card">
+    <img src="{{ meal.thumbnail }}" class="img-card">
 </div>
 <div style="margin: 0 auto; text-align: center;">
-    <h2>Name: {{ cocktails.name }}</h2>
-    <p><strong>Glass:</strong> {{ cocktails.glass }}</p>
+    <h2>Name: {{ meal.name }}</h2>
+    <p><strong>Category:</strong> {{ meal.category }}</p>
+    <p><strong>Area:</strong> {{ meal.area }}</p>
     <p><strong>Ingredients:</strong> 
-        {% for ingredient in cocktails.ingredients %}
+        {% for ingredient in meal.ingredients %}
             {{ ingredient }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </p>
 
     {% if user.is_authenticated %}
     <p><strong>Measurements:</strong> 
-        {% for measurement in cocktails.measurements %}
+        {% for measurement in meal.measurements %}
             {{ measurement }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </p>
@@ -28,18 +29,18 @@
     {% endif %}
     
 
-    <!-- Save Drink Button -->
+    <!-- Save Meal Button -->
     {% if user.is_authenticated %}
         {% if is_saved %}
-            <!-- Remove Drink Button -->
-            <form action="{% url 'remove_drink' drink_id=cocktails.drinkID %}" method="post">
+            <!-- Remove Meal Button -->
+            <form action="{% url 'remove_meal' meal_id=meal.mealID %}" method="post">
                 {% csrf_token %}
-                <button class="cta-button" type="submit">Remove Drink</button>
+                <button class="cta-button" type="submit">Remove Meal</button>
             </form>
         {% else %}
-            <form action="{% url 'save_drink' drink_id=cocktails.drinkID %}" method="post">
+            <form action="{% url 'save_meal' meal_id=meal.mealID %}" method="post">
                 {% csrf_token %}
-                <button class="cta-button" type="submit">Save Drink</button>
+                <button class="cta-button" type="submit">Save Meal</button>
             </form>
         {% endif %}
     {% endif %}
@@ -57,7 +58,7 @@
             <p>{{ review.review_text }}</p>
             <small>Posted on {{ review.created_at|date:"F j, Y" }}</small>
             {% if user.is_authenticated and review.user == user %}
-                <form action="{% url 'delete_review' review_id=review.reviewID %}" method="post" style="display:inline;">
+                <form action="{% url 'delete_meal_review' review_id=review.reviewID %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="cta-button">Delete Review</button>
                 </form>
@@ -73,7 +74,7 @@
     <h3>Leave a Review:</h3>
     <form method="post" action="">
         {% csrf_token %}
-        {{ review_form.as_p }}
+        {{ MealReviewForm.as_p }}
         <button type="submit">Submit Review</button>
     </form>
     {% else %}
