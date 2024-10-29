@@ -15,6 +15,16 @@ main {
     box-sizing: border-box;
     width: calc(100% - 270px); /* Ensure main content fills the space */
 }
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    transition: margin-left 0.3s ease; /* Smooth transition for expanded content */
+    width: calc(100% - 250px); /* Full width minus sidebar */
+}
+
+.main-content.expanded {
+    width: calc(100% - 60px); /* Adjust width when sidebar is collapsed */
+}
 
 /* Heading font */
 h1, h2, h3 {
@@ -41,7 +51,7 @@ body, p {
 
 /* Basic container setup */
 .container {
-    display: block;
+    display: flex;
     min-height: 100vh;
     margin-top: 0; /* Remove any unwanted margin */
 }
@@ -95,17 +105,18 @@ body, p {
 
 /* Sidebar Styles */
 .sidebar {
-    width: 250px;
+    width: 250px;   
     background-color: #2c3e50;
     padding: 20px;
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     height: 100vh; /* Ensure the sidebar takes up the full height */
     overflow-y: auto;
+    flex-shrink: 0; /* Prevents sidebar from shrinking */
     border-radius: 0;
     z-index: 3;
-    transition: transform 0.3s ease; /* Smooth transition */
+    transition: width 0.3s ease; /* Smooth transition */
 }
 
 .sidebar ul {
@@ -157,13 +168,14 @@ body, p {
     font-size: 20px;
     cursor: pointer;
     border-radius: 5px;
-    transition: right 0.3s ease; /* Smooth transition for movement */
+    transition: all 0.3s ease; /* Smooth transition for movement */
 }
 
 
 /* Collapsed Sidebar */
 .sidebar.collapsed {
-    transform: translateX(-250px); /* Moves sidebar off-screen */
+    width: 60px; /* Sidebar width when collapsed */
+    /* transform: translateX(-250px); /* Moves sidebar off-screen */
 }
 
 .sidebar.collapsed .sidebar-toggle {
