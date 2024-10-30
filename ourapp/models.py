@@ -54,6 +54,7 @@ class Meals(models.Model):
     thumbnail = models.URLField()
     ingredients = models.JSONField(null=True, blank=True)
     measurements = models.JSONField(null=True, blank=True)
+    reccomended_pairing = models.TextField(null=True)
 
     @property
     def ingredient_measurements(self):

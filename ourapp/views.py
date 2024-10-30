@@ -10,6 +10,11 @@ from django.contrib import messages
 from django.http import JsonResponse
 from datetime import datetime
 import re
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 def home_page(request):
     return render(request, 'home.html', {'show_hero': True})
@@ -185,8 +190,6 @@ def search_meals(request):
         response = requests.get(apiURL)
         
         if response.status_code == 200:
-            gpt_response = get_chatgpt_response('What cocktails pair well with ' + search)
-            print(gpt_response)
             data = response.json()
             if data['meals']:
                 for meal in data['meals']:
@@ -211,13 +214,15 @@ def search_meals(request):
                             'instructions': meal.get('strInstructions'),
                             'thumbnail': meal.get('strMealThumb'),
                             'ingredients': ingredients,
-                            'measurements': measurements
+                            'measurements': measurements,
+                            #'reccomended_pairing' : get_chatgpt_response('What cocktails pair well with ' + meal['strMeal'])
                         }
                     )
 
                     if not created:
                         meal_obj.ingredients = ingredients
                         meal_obj.measurements = measurements
+                        #meal_obj.reccomended_pairing = get_chatgpt_response('What cocktails pair well with ' + meal['strMeal'])
                         meal_obj.save()
 
                 # Search in database for matches in name or ingredients
@@ -386,13 +391,20 @@ def delete_meal_review(request, review_id):
         return HttpResponseForbidden("You are not allowed to delete this review.")
     
     review.delete()
-    return redirect('meal_detail', pk=review.meal.mealID)
+    return redirect('meal_detail', meal_id=review.meal.mealID)
+
+def update_meal_with_drink_pairing(request, meal_id):
+    meal = get_object_or_404(Meals, pk=meal_id)
+    print(request.method)
+    meal.reccomended_pairing = get_chatgpt_response('What cocktail pairs well with ' + meal.name)
+    meal.save()
+    return redirect('meal_detail', pk=meal_id)
 
 def get_chatgpt_response(user_message):
     #Send a message to OpenAI's ChatGPT and return the response.
         url = "https://api.openai.com/v1/chat/completions"
         headers = {
-            "Authorization": f"Bearer {"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"}",
+            "Authorization": f"Bearer {OPENAI_API_KEY}",
             "Content-Type": "application/json"
         }
         data = {

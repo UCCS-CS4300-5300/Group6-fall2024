@@ -20,4 +20,5 @@ urlpatterns = [
     path('meal/details/<int:pk>', views.MealDetails.as_view(), name='meal_detail'),
     path('meal/save/<str:meal_id>/', views.save_meal, name='save_meal'),
     path('meal/remove/<int:meal_id>/', views.remove_meal, name='remove_meal'),
+    path('meal/details/updated/<int:meal_id>/', views.update_meal_with_drink_pairing, name='update_meal_pairing'),
 ]

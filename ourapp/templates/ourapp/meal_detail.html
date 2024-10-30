@@ -1,6 +1,7 @@
 {% extends 'ourapp/base.html' %}
 
 {% block content %}
+<script src="{% url 'update_meal_pairing' meal_id=meal.mealID %}"></script>
 <div class="hero">
     <img src="{{ meal.thumbnail }}" class="img-card">
 </div>
@@ -8,6 +9,7 @@
     <h2>Name: {{ meal.name }}</h2>
     <p><strong>Category:</strong> {{ meal.category }}</p>
     <p><strong>Area:</strong> {{ meal.area }}</p>
+    <p><strong>Rec Drinks:</strong> {{ meal.reccomended_pairing }}</p>
     <p><strong>Ingredients:</strong> 
         {% for ingredient in meal.ingredients %}
             {{ ingredient }}{% if not forloop.last %}, {% endif %}
