@@ -1,3 +1,9 @@
+{% load static %}
+
+{% block extra_css %}
+    <link rel = "stylesheet" href="{% static 'css/pages/drink_results.css' %}">
+{% endblock %}
+
 {% if cocktails %}
     {% for cocktail in cocktails %}
         <div class="drink">
