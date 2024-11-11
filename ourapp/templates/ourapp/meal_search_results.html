@@ -1,10 +1,23 @@
+{% load static %}
+
+{% block extra_css %}
+    <link rel = "stylesheet" href="{% static 'css/pages/search_page.css' %}">
+{% endblock %}
+
+
 {% if meals %}
     {% for meal in meals %}
         <div class="meal-result">
             <img src="{{ meal.thumbnail }}" alt="{{ meal.name }}">
-            <a href="{{ meal.get_absolute_url }}" class="drink-button">{{ meal.name }} Recipe</a>
+                <h2>{{ meal.name }}</h2>
+                <p>{{ meal.category }} | {{ meal.area }}</p>
+                <a href="{{ meal.get_absolute_url }}" class="drink-button">View Recipe</a>
         </div>
     {% endfor %}
 {% else %}
-    <p>{{ error }}</p>
+    {% if error %}
+        <p class="error-message" style="color: white">{{ error }}</p>
+    {% else %}
+        <p style="color: white">No results found.</p>
+    {% endif %}
 {% endif %}

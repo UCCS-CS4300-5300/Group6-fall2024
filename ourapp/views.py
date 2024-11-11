@@ -235,8 +235,9 @@ def search_meals(request):
                         if meal not in meal_list:
                             meal_list.append(meal)
                             
+                # If AJAX
                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    return render(request, '_meal_search_results.html', {'meals': meal_list})
+                    return render(request, 'ourapp/meal_search_results.html', {'meals': meal_list})
                 
                 return render(request, 'ourapp/meal_search.html', {'meals': meal_list})
             
@@ -246,7 +247,7 @@ def search_meals(request):
             error_message = 'Failed to retrieve data'
         
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return render(request, '_meal_search_results.html', {'error': error_message})
+            return render(request, 'ourapp/meal_search_results.html', {'error': error_message})
         else:
             return render(request, 'ourapp/meal_search.html', {'error': error_message})
     
@@ -254,12 +255,12 @@ def search_meals(request):
         error_message = 'Please enter a search term'
         return render(request, 'ourapp/meal_search.html', {'error': error_message})
 
-def meal_search_results(request):
-    query = request.GET.get('query', '')
-    if query:
-        meals = Meals.objects.filter(name__icontains=query)
-    else:
-        meals = Meals.objects.none()
+# def meal_search_results(request):
+#     query = request.GET.get('query', '')
+#     if query:
+#         meals = Meals.objects.filter(name__icontains=query)
+#     else:
+#         meals = Meals.objects.none()
 
 def get_meal_detail(request):
     # Get all meal objects

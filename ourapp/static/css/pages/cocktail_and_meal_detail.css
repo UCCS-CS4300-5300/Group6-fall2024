@@ -31,3 +31,11 @@
 .star.filled {
     color: #ffcc00;                
 }
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

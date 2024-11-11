@@ -54,9 +54,9 @@
                 fetch(`/meal/search/results/?query=` + query, {
                     headers: { 'X-Requested-With': 'XMLHttpRequest' }
                 })
-                .then(response => response.json())
-                .then(data => {
-                    mealSuggestionsList.innerHTML = data.html;
+                .then(response => response.text())
+                .then(html => {
+                    mealSuggestionsList.innerHTML = html;
                 });
             } else {
                 mealSuggestionsList.innerHTML = '';
