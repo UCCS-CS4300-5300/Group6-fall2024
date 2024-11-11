@@ -162,6 +162,10 @@ class MealDetails(generic.DetailView):
         instructions_list = [instruction.strip() + '.' for instruction in meal.instructions.split('.') if instruction.strip()]
         context['instructions_list'] = instructions_list
 
+        # Combine into pairs
+        ingredients_measurements = zip(meal.ingredients, meal.measurements)
+        context['ingredients_measurements'] = ingredients_measurements
+
         # Check if the meal is saved in the user's profile
         if user.is_authenticated:
             context['is_saved'] = user.profile.saved_meals.filter(mealID=meal.mealID).exists()

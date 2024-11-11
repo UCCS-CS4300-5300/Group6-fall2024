@@ -23,11 +23,12 @@
     </p>
 
     {% if user.is_authenticated %}
-    <p><strong>Measurements:</strong> 
-        {% for measurement in meal.measurements %}
-            {{ measurement }}{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-    </p>
+    <p><strong>Ingredients & Measurements:</strong></p>
+
+    {% for ingredient, measurement in ingredients_measurements %}
+        <li>{{ ingredient }} - {{ measurement }}</li>
+    {% endfor %}
+
     <p><strong>Instructions:</strong></p>
     {% for instruction in instructions_list %}
         <p>{{ instruction }}</p>
