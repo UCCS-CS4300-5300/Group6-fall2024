@@ -117,7 +117,7 @@ def search_results(request):
                 
                 # Check if the request is AJAX
                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    return render(request, '_search_results.html', {'cocktails': cocktail_list})
+                    return render(request, 'search_results.html', {'cocktails': cocktail_list})
                 
                 # Return full page render for non-AJAX requests
                 return render(request, 'search_page.html', {'drinks': cocktail_list})
@@ -129,7 +129,7 @@ def search_results(request):
         
         # Render error messages
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return render(request, '_search_results.html', {'error': error_message})
+            return render(request, 'search_results.html', {'error': error_message})
         else:
             return render(request, 'search_page.html', {'error': error_message})
     
