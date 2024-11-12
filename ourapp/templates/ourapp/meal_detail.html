@@ -1,5 +1,6 @@
 {% extends 'ourapp/base.html' %}
 
+
 {% load static %}
 
 {% block extra_css %}
@@ -15,7 +16,14 @@
     <h2>Name: {{ meal.name }}</h2>
     <p><strong>Category:</strong> {{ meal.category }}</p>
     <p><strong>Area:</strong> {{ meal.area }}</p>
-    <p><strong>Rec Drinks:</strong> {{ meal.reccomended_pairing }}</p>
+    <p><strong>Rec Drinks:</strong> 
+        {% if meal.reccomended_pairing %}
+    {{ meal.reccomended_pairing|linebreaks }}
+{% else %}
+    <p>No recommended pairings available</p>
+{% endif %}
+    </ul>
+</p>
     <p><strong>Ingredients:</strong> 
         {% for ingredient in meal.ingredients %}
             {{ ingredient }}{% if not forloop.last %}, {% endif %}

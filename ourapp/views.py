@@ -12,6 +12,7 @@ from datetime import datetime
 import re
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -420,7 +421,9 @@ def get_chatgpt_response(user_message):
         if response.status_code == 200:
             content_text = response.json()["choices"][0]["message"]["content"]
             cocktail_names = re.findall(r"\*\*(.*?)\*\*", content_text)
-            return cocktail_names
+            cleaned_cocktails = [name.strip() for name in cocktail_names]
+            # Join with newlines for bullet points
+            return "\n".join(cleaned_cocktails)
         else:
             print("Error:", response.json())
             return "Error with OpenAI API."

@@ -66,6 +66,10 @@ class Meals(models.Model):
     def get_absolute_url(self):
         return reverse("meal_detail", args=[str(self.mealID)])
 
+    def get_pairings_list(self):
+        """Returns the recommended pairings as a list"""
+        return self.reccomended_pairing.split(',') if self.reccomended_pairing else []
+
 class MealReview(models.Model):
     reviewID = models.CharField(max_length=10, primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
