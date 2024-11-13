@@ -8,11 +8,11 @@
 
 {% if meals %}
     {% for meal in meals %}
-        <div class="drink">
+        <div class="drink" aria-label="Meal Results Item">
             <img src="{{ meal.thumbnail }}" alt="{{ meal.name }}">
-            <h4>{{ meal.name }}</h4>
+            <h4 aria-label="Mean name">{{ meal.name }}</h4>
             <p style="padding-left: 10px; margin-left: 10px;">{{ meal.category }} | {{ meal.area }}</p>
-            <a style="padding-left: 10px; margin-left: 10px;" href="{{ meal.get_absolute_url }}" class="drink-button">View Recipe</a>
+            <a style="padding-left: 10px; margin-left: 10px;" href="{{ meal.get_absolute_url }}" class="drink-button">View Meal</a>
         </div>
     {% endfor %}
 {% else %}
