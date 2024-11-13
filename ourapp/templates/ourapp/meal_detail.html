@@ -5,6 +5,7 @@
 
 {% block extra_css %}
     <link rel = "stylesheet" href="{% static 'css/pages/cocktail_and_meal_detail.css' %}">
+    <link rel = "stylesheet" href="{% static 'css/pages/search_page.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -95,7 +96,7 @@
         <button type="submit">Submit Review</button>
     </form>
     {% else %}
-    <p><a href="{% url 'login' %}">Log in</a> to leave a review.</p>
+    <p><a class="cta-button" href="{% url 'login' %}">Log in</a> to leave a review.</p>
     {% endif %}
 </div>
 {% endblock %}

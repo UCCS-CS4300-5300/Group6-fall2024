@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
     margin: 0;
-    background: linear-gradient(to right, #d95a4a, #db978f); /* Gradient from left to right */
+    background: linear-gradient(to right, #db978f, #da9086); /* Gradient from left to right d95a4a db978f */
     color: #333;
     /* display: flex; causes problems /* Ensure body takes up full screen with flexbox */
     min-height: 100vh;

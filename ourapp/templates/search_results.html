@@ -2,13 +2,15 @@
 
 {% block extra_css %}
     <link rel = "stylesheet" href="{% static 'css/pages/drink_results.css' %}">
+    <link rel = "stylesheet" href="{% static 'css/pages/search_page.css' %}">
 {% endblock %}
 
 {% if cocktails %}
     {% for cocktail in cocktails %}
         <div class="drink">
             <img src="{{ cocktail.thumbnail }}" alt="{{ cocktail.name }}">
-            <a href="{{ cocktail.get_absolute_url }}" class="drink-button">{{ cocktail.name }} Recipe</a>
+            <h4>{{ cocktail.name }}</h4><br>
+            <a style="padding-left: 10px; margin-left: 10px;" href="{{ cocktail.get_absolute_url }}" class="drink-button">View Recipe</a>
         </div>
     {% endfor %}
 {% else %}

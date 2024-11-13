@@ -19,7 +19,7 @@
         <!-- Search Form -->
         <form class='search-form' action="{% url 'search_results' %}" method="GET" onsubmit="hideSuggestions()">
             <input type="text" name="query" id="search-box" placeholder="Enter a cocktail name..." required>
-            <button type="submit">Search</button>
+            <button type="submit" style="color: black; font-weight: bold;">Search</button>
         </form>
 
         <!-- Suggestions -->
@@ -31,11 +31,12 @@
                 {% for drink in drinks %}
                     <div class="drink">
                         <img src="{{ drink.thumbnail }}" alt="{{ drink.name }}">
-                        <a href="{{ drink.get_absolute_url }}" class="drink-button">{{ drink.name }} Recipe</a>
+                        <h4>{{ drink.name }}</h4><br>
+                        <a style="padding-left: 10px; margin-left: 10px;" href="{{ drink.get_absolute_url }}" class="drink-button">View Recipe</a>
                     </div>
                 {% endfor %}
             {% else %}
-                <p style="color: white">No results found.</p>
+                <p style="color: white">Please enter a search term</p>
             {% endif %}
         </div>
     </main>

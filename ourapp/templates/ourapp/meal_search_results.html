@@ -1,17 +1,18 @@
 {% load static %}
 
 {% block extra_css %}
+    <link rel = "stylesheet" href="{% static 'css/pages/drink_results.css' %}">
     <link rel = "stylesheet" href="{% static 'css/pages/search_page.css' %}">
 {% endblock %}
 
 
 {% if meals %}
     {% for meal in meals %}
-        <div class="meal-result">
+        <div class="drink">
             <img src="{{ meal.thumbnail }}" alt="{{ meal.name }}">
-                <h2>{{ meal.name }}</h2>
-                <p>{{ meal.category }} | {{ meal.area }}</p>
-                <a href="{{ meal.get_absolute_url }}" class="drink-button">View Recipe</a>
+            <h4>{{ meal.name }}</h4>
+            <p style="padding-left: 10px; margin-left: 10px;">{{ meal.category }} | {{ meal.area }}</p>
+            <a style="padding-left: 10px; margin-left: 10px;" href="{{ meal.get_absolute_url }}" class="drink-button">View Recipe</a>
         </div>
     {% endfor %}
 {% else %}
