@@ -1,0 +1,18 @@
+{% load static %}
+
+{% block extra_css %}
+    <link rel = "stylesheet" href="{% static 'css/pages/drink_results.css' %}">
+    <link rel = "stylesheet" href="{% static 'css/pages/search_page.css' %}">
+{% endblock %}
+
+{% if cocktails %}
+    {% for cocktail in cocktails %}
+        <div class="drink">
+            <img src="{{ cocktail.thumbnail }}" alt="{{ cocktail.name }}">
+            <h4 aria-label="Drink Result name">{{ cocktail.name }}</h4><br>
+            <a style="padding-left: 10px; margin-left: 10px;" aria-label="View Drink button" href="{{ cocktail.get_absolute_url }}" class="drink-button">View Drink</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>{{ error }}</p>
+{% endif %}

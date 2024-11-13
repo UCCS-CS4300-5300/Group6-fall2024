@@ -12,6 +12,7 @@ from datetime import datetime
 import re
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -117,7 +118,7 @@ def search_results(request):
                 
                 # Check if the request is AJAX
                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    return render(request, '_search_results.html', {'cocktails': cocktail_list})
+                    return render(request, 'search_results.html', {'cocktails': cocktail_list})
                 
                 # Return full page render for non-AJAX requests
                 return render(request, 'search_page.html', {'drinks': cocktail_list})
@@ -129,7 +130,7 @@ def search_results(request):
         
         # Render error messages
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return render(request, '_search_results.html', {'error': error_message})
+            return render(request, 'search_results.html', {'error': error_message})
         else:
             return render(request, 'search_page.html', {'error': error_message})
     
@@ -161,6 +162,10 @@ class MealDetails(generic.DetailView):
         # Split instructions into a list and add to context
         instructions_list = [instruction.strip() + '.' for instruction in meal.instructions.split('.') if instruction.strip()]
         context['instructions_list'] = instructions_list
+
+        # Combine into pairs
+        ingredients_measurements = zip(meal.ingredients, meal.measurements)
+        context['ingredients_measurements'] = ingredients_measurements
 
         # Check if the meal is saved in the user's profile
         if user.is_authenticated:
@@ -235,8 +240,9 @@ def search_meals(request):
                         if meal not in meal_list:
                             meal_list.append(meal)
                             
+                # If AJAX
                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    return render(request, '_meal_search_results.html', {'meals': meal_list})
+                    return render(request, 'ourapp/meal_search_results.html', {'meals': meal_list})
                 
                 return render(request, 'ourapp/meal_search.html', {'meals': meal_list})
             
@@ -246,7 +252,7 @@ def search_meals(request):
             error_message = 'Failed to retrieve data'
         
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return render(request, '_meal_search_results.html', {'error': error_message})
+            return render(request, 'ourapp/meal_search_results.html', {'error': error_message})
         else:
             return render(request, 'ourapp/meal_search.html', {'error': error_message})
     
@@ -254,12 +260,12 @@ def search_meals(request):
         error_message = 'Please enter a search term'
         return render(request, 'ourapp/meal_search.html', {'error': error_message})
 
-def meal_search_results(request):
-    query = request.GET.get('query', '')
-    if query:
-        meals = Meals.objects.filter(name__icontains=query)
-    else:
-        meals = Meals.objects.none()
+# def meal_search_results(request):
+#     query = request.GET.get('query', '')
+#     if query:
+#         meals = Meals.objects.filter(name__icontains=query)
+#     else:
+#         meals = Meals.objects.none()
 
 def get_meal_detail(request):
     # Get all meal objects
@@ -415,7 +421,9 @@ def get_chatgpt_response(user_message):
         if response.status_code == 200:
             content_text = response.json()["choices"][0]["message"]["content"]
             cocktail_names = re.findall(r"\*\*(.*?)\*\*", content_text)
-            return cocktail_names
+            cleaned_cocktails = [name.strip() for name in cocktail_names]
+            # Join with newlines for bullet points
+            return "\n".join(cleaned_cocktails)
         else:
             print("Error:", response.json())
             return "Error with OpenAI API."

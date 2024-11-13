@@ -1,10 +1,24 @@
+{% load static %}
+
+{% block extra_css %}
+    <link rel = "stylesheet" href="{% static 'css/pages/drink_results.css' %}">
+    <link rel = "stylesheet" href="{% static 'css/pages/search_page.css' %}">
+{% endblock %}
+
+
 {% if meals %}
     {% for meal in meals %}
-        <div class="meal-result">
+        <div class="drink" aria-label="Meal Results Item">
             <img src="{{ meal.thumbnail }}" alt="{{ meal.name }}">
-            <a href="{{ meal.get_absolute_url }}" class="drink-button">{{ meal.name }} Recipe</a>
+            <h4 aria-label="Mean name">{{ meal.name }}</h4>
+            <p style="padding-left: 10px; margin-left: 10px;">{{ meal.category }} | {{ meal.area }}</p>
+            <a style="padding-left: 10px; margin-left: 10px;" href="{{ meal.get_absolute_url }}" class="drink-button">View Meal</a>
         </div>
     {% endfor %}
 {% else %}
-    <p>{{ error }}</p>
+    {% if error %}
+        <p class="error-message" style="color: white">{{ error }}</p>
+    {% else %}
+        <p style="color: white">No results found.</p>
+    {% endif %}
 {% endif %}
