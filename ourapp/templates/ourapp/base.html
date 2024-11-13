@@ -41,32 +41,30 @@
     <div class="container">
                
         <!-- Sidebar Navigation -->
-        <nav class="sidebar">
-            <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-
-            
+        <nav class="sidebar" aria-label="Main navigation sidebar">
+            <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">☰</button>
                 
             <div class="logo-container">
                 <a href="{% url 'home_page' %}">
-                    <img class="logo" src="{% static 'Temp_logo.jpg' %}" alt="Sauced and Sauteed Logo">
+                    <img class="logo" src="{% static 'Temp_logo.jpg' %}" alt="Sauced and Sauteed Logo" aria-label="Logo">
                 </a>
             </div>
             <ul>
-                <li><a href="{% url 'home_page' %}"><i class="fas fa-home"></i><span>Home</span></a></li>
-                <li><a href="{% url 'search_meals' %}"><i class="fa-solid fa-utensils"></i><span>Recipe Search</span></a></li>
-                <li><a href="{% url 'search_page' %}?query=pairing"><i class="fas fa-wine-glass"></i><span>Drink Pairings</span></a></li>
-                <li><a href="https://www.dummies.com/article/home-auto-hobbies/food-drink/cooking-baking/general-cooking-baking/cooking-basics-for-dummies-cheat-sheet-208787/" target="_blank"><i class="fas fa-book-open"></i><span>Tutorials</span></a></li>
-                <li><a href="https://images.app.goo.gl/eu5yi13W4Yaeccu47" target="_blank"><i class="fas fa-info-circle"></i><span>About Us</span> </a></li>
-                <li><a href="mailto:thastings@uccs.edu" target="_blank"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
+                <li><a href="{% url 'home_page' %}" aria-label="Navbar home page link"><i class="fas fa-home"></i><span>Home</span></a></li>
+                <li><a href="{% url 'search_meals' %}" aria-label="Navbar meals search page link"><i class="fa-solid fa-utensils"></i><span>Recipe Search</span></a></li>
+                <li><a href="{% url 'search_page' %}?query=pairing" aria-label="navbar drink search page link"><i class="fas fa-wine-glass"></i><span>Drink Pairings</span></a></li>
+                <li><a href="https://www.dummies.com/article/home-auto-hobbies/food-drink/cooking-baking/general-cooking-baking/cooking-basics-for-dummies-cheat-sheet-208787/" aria-label="Tutorials external link" target="_blank"><i class="fas fa-book-open"></i><span>Tutorials</span></a></li>
+                <li><a href="https://images.app.goo.gl/eu5yi13W4Yaeccu47" aria-label="About us external link" target="_blank"><i class="fas fa-info-circle"></i><span>About Us</span> </a></li>
+                <li><a href="mailto:thastings@uccs.edu" aria-label="Contact us email link" target="_blank"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
                 {% if user.is_authenticated %}
                     <br>
-                    <li><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i><span>Profile</span></a></li>
-                    <li><a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a></li>
+                    <li><a href="{% url 'profile' %}" aria-label="Profile page link"><i class="fa-solid fa-user"></i><span>Profile</span></a></li>
+                    <li><a href="{% url 'logout' %}" aria-label="Logout link"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a></li>
                 {% else %}
-                    <li><a href="{% url 'login' %}"><i class="fa-solid fa-user"></i><span>Login/Register</span></a></li>
+                    <li><a href="{% url 'login' %}" aria-label="Login/Register page link"><i class="fa-solid fa-user"></i><span>Login/Register</span></a></li>
                 {% endif %}
                 <br>
-                <li><a href="javascript:void(0);" onclick="toggleDarkMode()"><i class="fa-regular fa-moon"></i><span>Dark Mode</span></a></li>
+                <li><a href="javascript:void(0);" aria-label="Toggle Dark Mode Button" onclick="toggleDarkMode()"><i class="fa-regular fa-moon"></i><span>Dark Mode</span></a></li>
             </ul>
         </nav>
         

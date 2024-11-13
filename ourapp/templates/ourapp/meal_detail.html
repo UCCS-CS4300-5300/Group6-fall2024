@@ -13,10 +13,10 @@
     <img src="{{ meal.thumbnail }}" class="img-card">
 </div>
 <div style="margin: 0 auto; text-align: center;">
-    <h2>Name: {{ meal.name }}</h2>
-    <p><strong>Category:</strong> {{ meal.category }}</p>
-    <p><strong>Area:</strong> {{ meal.area }}</p>
-    <p><strong>Rec Drinks:</strong> 
+    <h2 aria-label="Meal Name">Name: {{ meal.name }}</h2>
+    <p aria-label="Meal Category"><strong>Category:</strong> {{ meal.category }}</p>
+    <p aria-label="Meal Area"><strong>Area:</strong> {{ meal.area }}</p>
+    <p aria-label="Recommended Drinks for Meal"><strong>Rec Drinks:</strong> 
         {% if meal.reccomended_pairing %}
     {{ meal.reccomended_pairing|linebreaks }}
 {% else %}
@@ -24,20 +24,20 @@
 {% endif %}
     </ul>
 </p>
-    <p><strong>Ingredients:</strong> 
+    <p aria-label="Meal Ingredients"><strong>Ingredients:</strong> 
         {% for ingredient in meal.ingredients %}
             {{ ingredient }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </p>
 
     {% if user.is_authenticated %}
-    <p><strong>Ingredients & Measurements:</strong></p>
+    <p aria-label="Meal Ingredients and Measurements"><strong>Ingredients & Measurements:</strong></p>
 
     {% for ingredient, measurement in ingredients_measurements %}
         <li>{{ ingredient }} - {{ measurement }}</li>
     {% endfor %}
 
-    <p><strong>Instructions:</strong></p>
+    <p aria-label="Meal Instructions"><strong>Instructions:</strong></p>
     {% for instruction in instructions_list %}
         <p>{{ instruction }}</p>
     {% endfor %}
@@ -52,12 +52,12 @@
             <!-- Remove Meal Button -->
             <form action="{% url 'remove_meal' meal_id=meal.mealID %}" method="post">
                 {% csrf_token %}
-                <button class="cta-button" type="submit">Remove Meal</button>
+                <button class="cta-button" aria-label="Remove Saved Meal" type="submit">Remove Meal</button>
             </form>
         {% else %}
             <form action="{% url 'save_meal' meal_id=meal.mealID %}" method="post">
                 {% csrf_token %}
-                <button class="cta-button" type="submit">Save Meal</button>
+                <button class="cta-button" aria-label="Save Meal" type="submit">Save Meal</button>
             </form>
         {% endif %}
     {% endif %}
@@ -65,19 +65,19 @@
     <h3>Reviews:</h3>
     <div class="review-list">
         {% for review in reviews %}
-        <div class="review-card">
+        <div class="review-card" aria-label="Review Item">
             <h4><strong>{{ review.user.username }}</strong></h4>
-            <div class="star-rating">
+            <div class="star-rating" aria-label="Review Star Rating">
                 {% for star in "12345" %}
                     <span class="star {% if star|add:0 <= review.rating %}filled{% endif %}">&#9733;</span>
                 {% endfor %}
             </div>
-            <p>{{ review.review_text }}</p>
+            <p aria-label="Review Text">{{ review.review_text }}</p>
             <small>Posted on {{ review.created_at|date:"F j, Y" }}</small>
             {% if user.is_authenticated and review.user == user %}
                 <form action="{% url 'delete_meal_review' review_id=review.reviewID %}" method="post" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit" class="cta-button">Delete Review</button>
+                    <button type="submit" class="cta-button" aria-label="Delete Review">Delete Review</button>
                 </form>
             {% endif %}
         </div>
@@ -92,10 +92,10 @@
     <form method="post" action="">
         {% csrf_token %}
         {{ MealReviewForm.as_p }}
-        <button type="submit">Submit Review</button>
+        <button type="submit" aria-label="Submit Review">Submit Review</button>
     </form>
     {% else %}
-    <p><a class="cta-button" href="{% url 'login' %}">Log in</a> to leave a review.</p>
+    <p><a class="cta-button" href="{% url 'login' %}" aria-label="Log in button">Log in</a> to leave a review.</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -11,21 +11,21 @@
     <img src="{{ cocktails.thumbnail }}" class="img-card">
 </div>
 <div style="margin: 0 auto; text-align: center;">
-    <h2>Name: {{ cocktails.name }}</h2>
-    <p><strong>Glass:</strong> {{ cocktails.glass }}</p>
-    <p><strong>Ingredients:</strong> 
+    <h2 aria-label="Drink name">Name: {{ cocktails.name }}</h2>
+    <p aria-label="Drink glass"><strong>Glass:</strong> {{ cocktails.glass }}</p>
+    <p aria-label="Drink Ingredients"><strong>Ingredients:</strong> 
         {% for ingredient in cocktails.ingredients %}
             {{ ingredient }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </p>
 
     {% if user.is_authenticated %}
-    <p><strong>Measurements:</strong> 
+    <p aria-label="Drink measurements"><strong>Measurements:</strong> 
         {% for measurement in cocktails.measurements %}
             {{ measurement }}{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </p>
-    <p><strong>Instructions:</strong></p>
+    <p aria-label="drink instructions"><strong>Instructions:</strong></p>
     {% for instruction in instructions_list %}
         <p>{{ instruction }}</p>
     {% endfor %}
@@ -40,12 +40,12 @@
             <!-- Remove Drink Button -->
             <form action="{% url 'remove_drink' drink_id=cocktails.drinkID %}" method="post">
                 {% csrf_token %}
-                <button class="cta-button" type="submit">Remove Drink</button>
+                <button class="cta-button" type="submit" aria-label="Remove drink button">Remove Drink</button>
             </form>
         {% else %}
             <form action="{% url 'save_drink' drink_id=cocktails.drinkID %}" method="post">
                 {% csrf_token %}
-                <button class="cta-button" type="submit">Save Drink</button>
+                <button class="cta-button" type="submit" aria-label="Save drink button">Save Drink</button>
             </form>
         {% endif %}
     {% endif %}
@@ -53,19 +53,19 @@
     <h3>Reviews:</h3>
     <div class="review-list">
         {% for review in reviews %}
-        <div class="review-card">
+        <div class="review-card" aria-label="Review item">
             <h4><strong>{{ review.user.username }}</strong></h4>
             <div class="star-rating">
                 {% for star in "12345" %}
                     <span class="star {% if star|add:0 <= review.rating %}filled{% endif %}">&#9733;</span>
                 {% endfor %}
             </div>
-            <p>{{ review.review_text }}</p>
+            <p aria-label="Review text">{{ review.review_text }}</p>
             <small>Posted on {{ review.created_at|date:"F j, Y" }}</small>
             {% if user.is_authenticated and review.user == user %}
                 <form action="{% url 'delete_review' review_id=review.reviewID %}" method="post" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit" class="cta-button">Delete Review</button>
+                    <button type="submit" class="cta-button" aria-label="Delete review button">Delete Review</button>
                 </form>
             {% endif %}
         </div>
@@ -80,10 +80,10 @@
     <form method="post" action="">
         {% csrf_token %}
         {{ review_form.as_p }}
-        <button type="submit">Submit Review</button>
+        <button type="submit" aria-label="Submit review button">Submit Review</button>
     </form>
     {% else %}
-    <p><a class="cta-button" href="{% url 'login' %}">Log in</a> to leave a review.</p>
+    <p><a class="cta-button" aria-label="Login Button" href="{% url 'login' %}" aria-label="Log in button">Log in</a> to leave a review.</p>
     {% endif %}
 </div>
 {% endblock %}

@@ -15,11 +15,11 @@
         <h1>Search for Cocktails <i class="fa-solid fa-wine-glass"></i> </h1>
     </header>
 
-    <main class="search-main">
+    <main class="search-main" aria-label="Search container">
         <!-- Search Form -->
         <form class='search-form' action="{% url 'search_results' %}" method="GET" onsubmit="hideSuggestions()">
-            <input type="text" name="query" id="search-box" placeholder="Enter a cocktail name..." required>
-            <button type="submit" style="color: black; font-weight: bold;">Search</button>
+            <input type="text" aria-label="Search Drinks field" name="query" id="search-box" placeholder="Enter a cocktail name..." required>
+            <button type="submit" aria-label="Search Drink submit button" style="color: black; font-weight: bold;">Search</button>
         </form>
 
         <!-- Suggestions -->
@@ -29,10 +29,10 @@
         <div class="results" id="search-results">
             {% if drinks %}
                 {% for drink in drinks %}
-                    <div class="drink">
+                    <div class="drink" aria-label="Drink Result Item">
                         <img src="{{ drink.thumbnail }}" alt="{{ drink.name }}">
-                        <h4>{{ drink.name }}</h4><br>
-                        <a style="padding-left: 10px; margin-left: 10px;" href="{{ drink.get_absolute_url }}" class="drink-button">View Recipe</a>
+                        <h4 aria-label="Drink name">{{ drink.name }}</h4><br>
+                        <a style="padding-left: 10px; margin-left: 10px;" aria-label="View Recipe button" href="{{ drink.get_absolute_url }}" class="drink-button">View Drink</a>
                     </div>
                 {% endfor %}
             {% else %}

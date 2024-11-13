@@ -3,7 +3,7 @@
 {% block content %}
   <h2>{{ user.username }}'s Profile</h2>
 
-  <h3>Saved Drinks</h3>
+  <h3 aria-label="Saved Drinks">Saved Drinks</h3>
   {% if saved_drinks %}
     <ul>
       {% for drink in saved_drinks %}
@@ -14,7 +14,7 @@
     <p>No saved drinks yet.</p>
   {% endif %}
 
-  <h3>Saved Meals</h3>
+  <h3 aria-label="Saved Meals">Saved Meals</h3>
   {% if saved_meals %}
     <ul>
       {% for meal in saved_meals %}
@@ -25,7 +25,7 @@
     <p>No saved meals yet.</p>
   {% endif %}
 
-  <h3>Your Drink Reviews</h3>
+  <h3 aria-label="Your Drink Reviews">Your Drink Reviews</h3>
   {% if drink_reviews %}
     <ul>
       {% for review in drink_reviews %}
@@ -41,7 +41,7 @@
     <p>No drink reviews yet.</p>
   {% endif %}
 
-  <h3>Your Meal Reviews</h3>
+  <h3 aria-label="Your Meal Reviews">Your Meal Reviews</h3>
   {% if meal_reviews %}
     <ul>
       {% for review in meal_reviews %}

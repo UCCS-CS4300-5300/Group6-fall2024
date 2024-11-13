@@ -9,9 +9,9 @@
 
 <body class="vertical stack">
     {% block hero %}
-    <section class="hero">
+    <section class="hero" aria-label="Featured section with culinary content">
         <!-- Video Background -->
-        <video autoplay muted loop class="hero-video">
+        <video autoplay muted loop class="hero-video" aria-label="Background video">
             <source src="{% static 'header_background3.mp4' %}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -19,8 +19,8 @@
     {% endblock %}
     
     {% block content %}
-    <section class="hero-content">
-        <h2>Elevate Your Culinary Skills With Drink Pairings</h2>
+    <section class="hero-content" aria-labelledby="hero-heading">
+        <h2 aria-labelledby="hero-heading">Elevate Your Culinary Skills With Drink Pairings</h2>
         <p>Master the art of cooking with drink paring techniques with our expert-guided recipes and tutorials.</p>
         <br>
         <div class="img-row">
@@ -32,12 +32,11 @@
     <section>
         <h3>Unlock Your Potential</h3>
         <p>Whether you're a beginner or a seasoned chef, Sauced and Sauteed will help you create restaurant-quality dishes at home with drink parings to enhance the flavor.</p>
-        <div class="cta-button">
-            <!-- <a href="#" class="cta-button">Start Cooking</a> -->
-            <a href="{% url 'search_page' %}?query=pairing"><i class="fas fa-pencil"></i> Start Drinking</a></li>
+        <div class="cta-button" aria-label="Call to action">
+            <a href="{% url 'search_page' %}?query=pairing" aria-label="Start Drinking Drink Search Page"><i class="fas fa-pencil"></i> Start Drinking</a></li>
         </div>
-        <div class="cta-button">
-            <a href="{% url 'search_meals' %}?query=pairing"><i class="fas fa-pencil"></i> Start Cooking</a></li>
+        <div class="cta-button" aria-label="Call to action">
+            <a href="{% url 'search_meals' %}?query=pairing" aria-label="Start Cooking Meal Search Page"><i class="fas fa-pencil"></i> Start Cooking</a></li>
         </div>
     </section>
 
