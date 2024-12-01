@@ -23,7 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-bu#*g(9%=qdz=n$k5cd+x9cqo=8kv)ld1bgl)*#9^d4%g6fp3('
+SECRET_KEY = '''django-insecure-bu#
+*g(9%=qdz=n$k5cd+x9cqo=8kv)ld1bgl)*#9^d4%g6fp3('''
 
 load_dotenv()
 
@@ -33,17 +34,22 @@ print(OPENAI_API_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['app-jquinn3-5.devedu.io',
-                'app-jedwar15-5.devedu.io',
-                'app-bsulliv2-5.devedu.io', 
-                'app-amorga-5.devedu.io', 
-                'app-cmarkow2-5.devedu.io']
+ALLOWED_HOSTS = [
+    'app-jquinn3-5.devedu.io',
+    'app-jedwar15-5.devedu.io',
+    'app-bsulliv2-5.devedu.io', 
+    'app-amorga-5.devedu.io', 
+    'app-cmarkow2-5.devedu.io',
+    '127.0.0.1'
+]
 
-CSRF_TRUSTED_ORIGINS = ['https://app-amorga-5.devedu.io',
-                        'https://app-jedwar15-5.devedu.io',
-                        'https://app-bsulliv2-5.devedu.io',
-                        'https://app-jquinn3-5.devedu.io',
-                        'https://app-cmarkow2-5.devedu.io']
+CSRF_TRUSTED_ORIGINS = [
+    'https://app-amorga-5.devedu.io',
+    'https://app-jedwar15-5.devedu.io',
+    'https://app-bsulliv2-5.devedu.io',
+    'https://app-jquinn3-5.devedu.io',
+    'https://app-cmarkow2-5.devedu.io'
+]
 
 # Application definition
 
@@ -104,16 +110,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': '''django.contrib.auth.
+        password_validation.UserAttributeSimilarityValidator''',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': '''django.contrib.auth.
+        password_validation.MinimumLengthValidator''',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': '''django.contrib.auth.
+        password_validation.CommonPasswordValidator''',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': '''django.contrib.auth.
+        password_validation.NumericPasswordValidator''',
     },
 ]
 

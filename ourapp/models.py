@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-# Create your models here.
 
+# Create your models here.
 class Cocktails(models.Model):
     drinkID = models.CharField(max_length = 10, primary_key=True)
     name = models.CharField(max_length = 200)
@@ -70,6 +70,7 @@ class Meals(models.Model):
         """Returns the recommended pairings as a list"""
         return self.reccomended_pairing.split(',') if self.reccomended_pairing else []
 
+
 class MealReview(models.Model):
     reviewID = models.CharField(max_length=10, primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -87,6 +88,7 @@ class MealReview(models.Model):
             self.reviewID = str(uuid.uuid4())[:10]  # Use first 10 characters of UUID
         super().save(*args, **kwargs)
 
+
 class Profile(models.Model):
     # This line creates a one-to-one relationship between the 
     # Profile model and Django's built-in User model.
@@ -97,6 +99,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
 
 # Decorator connects this function to the User model.
 @receiver(post_save, sender=User)

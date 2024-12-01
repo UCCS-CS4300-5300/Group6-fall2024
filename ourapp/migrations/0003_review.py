@@ -16,12 +16,20 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Review',
             fields=[
-                ('reviewID', models.CharField(max_length=10, primary_key=True, serialize=False)),
-                ('rating', models.IntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])),
+                ('reviewID', models.CharField(max_length=10,
+                                              primary_key=True,
+                                              serialize=False)),
+                ('rating', models.IntegerField(choices=
+                        [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])),
                 ('review_text', models.TextField(blank=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('cocktail', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='ourapp.cocktails')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('cocktail', models.ForeignKey(on_delete=
+                            django.db.models.deletion.CASCADE,
+                            related_name='reviews',
+                            to='ourapp.cocktails')),
+                ('user', models.ForeignKey(on_delete=
+                            django.db.models.deletion.CASCADE,
+                            to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

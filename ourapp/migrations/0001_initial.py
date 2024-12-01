@@ -14,13 +14,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Cocktails',
             fields=[
-                ('drinkID', models.CharField(max_length=10, primary_key=True, serialize=False)),
+                ('drinkID', models.CharField(max_length=10,
+                                             primary_key=True,
+                                             serialize=False)),
                 ('name', models.CharField(max_length=200)),
-                ('glass', models.CharField(blank=True, max_length=200, null=True)),
+                ('glass', models.CharField(blank=True,
+                                           max_length=200,
+                                           null=True)),
                 ('instructions', models.TextField()),
                 ('thumbnail', models.URLField()),
-                ('ingredients', models.JSONField(blank=True, null=True)),
-                ('measurements', models.JSONField(blank=True, null=True)),
+                ('ingredients', models.JSONField(blank=True,
+                                                 null=True)),
+                ('measurements', models.JSONField(blank=True,
+                                                  null=True)),
             ],
         ),
     ]

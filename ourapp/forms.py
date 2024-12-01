@@ -3,21 +3,25 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Review, MealReview
 
- # the built-in functions for creating a new user in Django
+# The built-in functions for creating a new user in Django
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=100, help_text='Required')
+
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', )
+        fields = ('username', 'email', 'password1', 'password2',)
+
 
 class CustomAuthenticationForm(AuthenticationForm):
     remember_me = forms.BooleanField(required=False, initial=False)
+
 
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['rating', 'review_text']
-       
+
+
 class MealReviewForm(forms.ModelForm):
     class Meta:
         model = MealReview
@@ -30,3 +34,6 @@ class MealReviewForm(forms.ModelForm):
                 'class': 'form-control'
             }),
         }
+
+# Ensure there is a newline at the end of the file
+        
