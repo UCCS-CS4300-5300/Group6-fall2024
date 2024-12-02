@@ -305,7 +305,10 @@ def get_meal_detail(request):
     meals = Meals.objects.all()
     # Create a list of meal IDs
     mealID_list = Meals.objects.values_list('mealID', flat=True).distinct()
-    return render(request, 'meal_search_page.html', {'mealID_list': mealID_list, 'meals': meals})
+    return render(request,
+                  'meal_search_page.html',
+                  {'mealID_list': mealID_list,
+                  'meals': meals})
 
 
 def signup(request):
@@ -381,11 +384,10 @@ def profile(request):
 
 @login_required
 def save_drink(request, drink_id):
-    # print("Save drink view called!") THIS IS FOR LOGGING WE DONT NEED THESE
     drink = get_object_or_404(Cocktails, drinkID=drink_id)
     profile = request.user.profile
-    profile.saved_drinks.add(drink)  # Adds the drink to the user's saved drinks
-    # Show a message
+    # Adds the drink to the user's saved drinks
+    profile.saved_drinks.add(drink)
     messages.success(request, f'{drink.name} has been saved to your profile.')
     return redirect('Drink_detail', pk=drink_id)
 
@@ -395,7 +397,8 @@ def remove_drink(request, drink_id):
     # print("Remove drink view called")
     drink = get_object_or_404(Cocktails, drinkID=drink_id)
     profile = request.user.profile
-    profile.saved_drinks.remove(drink)  # Removes the drink from the user's saved drinks
+    # Removes the drink from the user's saved drinks
+    profile.saved_drinks.remove(drink)
     return redirect('Drink_detail', pk=drink_id)
 
 
@@ -409,8 +412,6 @@ def delete_review(request, review_id):
 
     review.delete()
     return redirect('Drink_detail', pk=review.cocktail.drinkID)
-    # Redirect to the detail page of the saved drink
-    # return redirect('Drink_detail', pk=drink_id) TWO RETURNS???
 
 
 @login_required
