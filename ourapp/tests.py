@@ -1,11 +1,11 @@
-from django.test import TestCase, LiveServerTestCase
+from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import Cocktails, Review
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-import time
+# from selenium import webdriver
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.by import By
+
 
 # Create your tests here.
 class HomepageTests(TestCase):
@@ -23,13 +23,16 @@ class HomepageTests(TestCase):
 
     def test_template_content(self):
         response = self.client.get(reverse("home_page"))
-        self.assertContains(response, "<h2>Elevate Your Culinary Skills With Drink Pairings</h2>")
+        self.assertContains(response,
+                            '''<h2>Elevate Your Culinary
+                            Skills With Drink Pairings</h2>''')
         self.assertNotContains(response, "Not on the page")
 
 
 class ReviewTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpass')
+        self.user = User.objects.create_user(username='testuser',
+                                             password='testpass')
         self.cocktail = Cocktails.objects.create(
             drinkID="12345",
             name="Test Cocktail",
@@ -50,7 +53,9 @@ class ReviewTests(TestCase):
         self.assertEqual(review.review_text, 'Excellent drink!')
 
     def test_view_reviews(self):
-        Review.objects.create(user=self.user, cocktail=self.cocktail, rating=4, review_text="Great!")
+        Review.objects.create(user=self.user,
+                              cocktail=self.cocktail,
+                              rating=4, review_text="Great!")
         response = self.client.get(f'/drink/details/{self.cocktail.pk}')
         self.assertContains(response, "Great!")
         self.assertContains(response, "4")

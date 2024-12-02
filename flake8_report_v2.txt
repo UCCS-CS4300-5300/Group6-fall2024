@@ -1,0 +1,139 @@
+./ourapp/forms.py:31:80: E501 line too long (85 > 79 characters)
+./ourapp/migrations/0002_profile.py:23:80: E501 line too long (92 > 79 characters)
+./ourapp/migrations/0002_profile.py:24:80: E501 line too long (121 > 79 characters)
+./ourapp/migrations/0003_review.py:22:80: E501 line too long (98 > 79 characters)
+./ourapp/migrations/0003_review.py:25:80: E501 line too long (140 > 79 characters)
+./ourapp/migrations/0003_review.py:26:80: E501 line too long (118 > 79 characters)
+./ourapp/migrations/0005_mealreview.py:22:80: E501 line too long (98 > 79 characters)
+./ourapp/migrations/0005_mealreview.py:25:80: E501 line too long (132 > 79 characters)
+./ourapp/migrations/0005_mealreview.py:26:80: E501 line too long (118 > 79 characters)
+./ourapp/models.py:27:80: E501 line too long (80 > 79 characters)
+./ourapp/models.py:29:80: E501 line too long (93 > 79 characters)
+./ourapp/models.py:30:80: E501 line too long (88 > 79 characters)
+./ourapp/models.py:43:80: E501 line too long (91 > 79 characters)
+./ourapp/models.py:70:80: E501 line too long (86 > 79 characters)
+./ourapp/models.py:74:80: E501 line too long (80 > 79 characters)
+./ourapp/models.py:76:80: E501 line too long (85 > 79 characters)
+./ourapp/models.py:77:80: E501 line too long (88 > 79 characters)
+./ourapp/models.py:87:80: E501 line too long (85 > 79 characters)
+./ourapp/tests.py:26:80: E501 line too long (98 > 79 characters)
+./ourapp/tests.py:32:80: E501 line too long (86 > 79 characters)
+./ourapp/tests.py:53:80: E501 line too long (101 > 79 characters)
+./ourapp/urls.py:5:12: E231 missing whitespace after ','
+./ourapp/urls.py:8:80: E501 line too long (89 > 79 characters)
+./ourapp/urls.py:14:80: E501 line too long (82 > 79 characters)
+./ourapp/urls.py:15:80: E501 line too long (86 > 79 characters)
+./ourapp/urls.py:16:80: E501 line too long (107 > 79 characters)
+./ourapp/urls.py:19:80: E501 line too long (83 > 79 characters)
+./ourapp/urls.py:22:80: E501 line too long (114 > 79 characters)
+./ourapp/views.py:3:1: F403 'from .models import *' used; unable to detect undefined names
+./ourapp/views.py:7:1: F403 'from .forms import *' used; unable to detect undefined names
+./ourapp/views.py:8:1: F401 '.models.Profile' imported but unused
+./ourapp/views.py:10:1: F401 'django.http.JsonResponse' imported but unused
+./ourapp/views.py:15:1: F401 'json' imported but unused
+./ourapp/views.py:20:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:23:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:27:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:38:30: F405 'Review' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:39:9: E265 block comment should start with '# '
+./ourapp/views.py:40:34: F405 'ReviewForm' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:44:80: E501 line too long (101 > 79 characters)
+./ourapp/views.py:49:80: E501 line too long (130 > 79 characters)
+./ourapp/views.py:51:1: W293 blank line contains whitespace
+./ourapp/views.py:56:16: F405 'ReviewForm' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:57:1: W293 blank line contains whitespace
+./ourapp/views.py:67:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:69:1: W293 blank line contains whitespace
+./ourapp/views.py:71:80: E501 line too long (85 > 79 characters)
+./ourapp/views.py:73:1: W293 blank line contains whitespace
+./ourapp/views.py:78:1: W293 blank line contains whitespace
+./ourapp/views.py:82:1: W293 blank line contains whitespace
+./ourapp/views.py:91:1: W293 blank line contains whitespace
+./ourapp/views.py:104:1: W293 blank line contains whitespace
+./ourapp/views.py:110:1: W293 blank line contains whitespace
+./ourapp/views.py:115:80: E501 line too long (84 > 79 characters)
+./ourapp/views.py:118:1: W293 blank line contains whitespace
+./ourapp/views.py:121:80: E501 line too long (95 > 79 characters)
+./ourapp/views.py:122:1: W293 blank line contains whitespace
+./ourapp/views.py:124:80: E501 line too long (85 > 79 characters)
+./ourapp/views.py:125:1: W293 blank line contains whitespace
+./ourapp/views.py:130:1: W293 blank line contains whitespace
+./ourapp/views.py:133:80: E501 line too long (83 > 79 characters)
+./ourapp/views.py:135:80: E501 line too long (80 > 79 characters)
+./ourapp/views.py:136:1: W293 blank line contains whitespace
+./ourapp/views.py:141:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:145:80: E501 line too long (80 > 79 characters)
+./ourapp/views.py:147:19: E201 whitespace after '('
+./ourapp/views.py:147:64: E231 missing whitespace after ':'
+./ourapp/views.py:152:13: F405 'Meals' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:163:80: E501 line too long (126 > 79 characters)
+./ourapp/views.py:172:80: E501 line too long (94 > 79 characters)
+./ourapp/views.py:180:16: F405 'MealReviewForm' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:181:1: W293 blank line contains whitespace
+./ourapp/views.py:191:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:194:80: E501 line too long (81 > 79 characters)
+./ourapp/views.py:196:1: W293 blank line contains whitespace
+./ourapp/views.py:213:41: F405 'Meals' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:223:29: E265 block comment should start with '# '
+./ourapp/views.py:223:80: E501 line too long (125 > 79 characters)
+./ourapp/views.py:230:25: E265 block comment should start with '# '
+./ourapp/views.py:230:80: E501 line too long (128 > 79 characters)
+./ourapp/views.py:235:25: F405 'Meals' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:237:63: W291 trailing whitespace
+./ourapp/views.py:238:70: W291 trailing whitespace
+./ourapp/views.py:242:1: W293 blank line contains whitespace
+./ourapp/views.py:245:80: E501 line too long (99 > 79 characters)
+./ourapp/views.py:246:1: W293 blank line contains whitespace
+./ourapp/views.py:247:80: E501 line too long (87 > 79 characters)
+./ourapp/views.py:248:1: W293 blank line contains whitespace
+./ourapp/views.py:253:1: W293 blank line contains whitespace
+./ourapp/views.py:255:80: E501 line too long (95 > 79 characters)
+./ourapp/views.py:257:80: E501 line too long (87 > 79 characters)
+./ourapp/views.py:258:1: W293 blank line contains whitespace
+./ourapp/views.py:261:80: E501 line too long (83 > 79 characters)
+./ourapp/views.py:270:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:272:13: F405 'Meal' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:274:19: F405 'Meal' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:274:75: W291 trailing whitespace
+./ourapp/views.py:275:80: E501 line too long (97 > 79 characters)
+./ourapp/views.py:277:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:281:16: F405 'SignUpForm' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:290:16: F405 'SignUpForm' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:294:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:298:16: F405 'CustomAuthenticationForm' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:316:16: F405 'CustomAuthenticationForm' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:320:52: W291 trailing whitespace
+./ourapp/views.py:321:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:328:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:330:56: W291 trailing whitespace
+./ourapp/views.py:333:21: F405 'Review' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:334:20: F405 'MealReview' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:344:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:346:78: W291 trailing whitespace
+./ourapp/views.py:349:80: E501 line too long (80 > 79 characters)
+./ourapp/views.py:354:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:359:80: E501 line too long (88 > 79 characters)
+./ourapp/views.py:362:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:364:32: F405 'Review' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:365:1: W293 blank line contains whitespace
+./ourapp/views.py:368:16: F405 'HttpResponseForbidden' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:368:80: E501 line too long (82 > 79 characters)
+./ourapp/views.py:369:1: W293 blank line contains whitespace
+./ourapp/views.py:375:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:377:30: F405 'Meals' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:383:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:385:30: F405 'Meals' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:388:80: E501 line too long (81 > 79 characters)
+./ourapp/views.py:391:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:393:32: F405 'MealReview' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:394:1: W293 blank line contains whitespace
+./ourapp/views.py:397:16: F405 'HttpResponseForbidden' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:397:80: E501 line too long (82 > 79 characters)
+./ourapp/views.py:398:1: W293 blank line contains whitespace
+./ourapp/views.py:402:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:403:30: F405 'Meals' may be undefined, or defined from star imports: .forms, .models
+./ourapp/views.py:405:80: E501 line too long (97 > 79 characters)
+./ourapp/views.py:409:1: E302 expected 2 blank lines, found 1
+./ourapp/views.py:410:5: E265 block comment should start with '# '
+./ourapp/views.py:411:9: E117 over-indented
+./ourapp/views.py:417:80: E501 line too long (87 > 79 characters)

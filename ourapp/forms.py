@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Review, MealReview
 
+
 # The built-in functions for creating a new user in Django
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=100, help_text='Required')
@@ -27,13 +28,11 @@ class MealReviewForm(forms.ModelForm):
         model = MealReview
         fields = ['rating', 'review_text']
         widgets = {
-            'rating': forms.Select(choices=[(i, f"{i} Stars") for i in range(1, 6)]),
+            'rating': forms.Select(
+                choices=[(i, f"{i} Stars") for i in range(1, 6)]),
             'review_text': forms.Textarea(attrs={
                 'rows': 4,
                 'placeholder': 'Write your review here...',
                 'class': 'form-control'
             }),
         }
-
-# Ensure there is a newline at the end of the file
-        

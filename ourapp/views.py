@@ -1,28 +1,29 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
-from .models import *
+from .models import Review, Meals, Cocktails, MealReview
+from .forms import ReviewForm, SignUpForm, MealReviewForm, CustomAuthenticationForm
 import requests
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import *
-from .models import Profile, Cocktails
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import HttpResponseForbidden
 from datetime import datetime
 import re
 import os
 from dotenv import load_dotenv
-import json
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+
 def home_page(request):
     return render(request, 'home.html', {'show_hero': True})
+
 
 def search_page(request):
     # This view will just render the search page with a form for the search bar
     return render(request, 'search_page.html')
+
 
 class CocktailDetails(generic.DetailView):
     model = Cocktails
@@ -36,7 +37,7 @@ class CocktailDetails(generic.DetailView):
         context = super().get_context_data(**kwargs)
         # Load all reviews linked to this cocktail and add them to the context
         context['reviews'] = Review.objects.filter(cocktail=cocktail)
-        #context['reviews'] = self.object.reviews.all()
+        # context['reviews'] = self.object.reviews.all()
         context['review_form'] = ReviewForm()
 
         # Check if the drink is saved in the user's profile
@@ -48,13 +49,13 @@ class CocktailDetails(generic.DetailView):
         # Split instructions into a list and add to context
         instructions_list = [instruction.strip() + '.' for instruction in cocktail.instructions.split('.') if instruction.strip()]
         context['instructions_list'] = instructions_list
-        
+
         return context
 
     def post(self, request, *args, **kwargs):
         cocktail = get_object_or_404(Cocktails, pk=self.kwargs['pk'])
         form = ReviewForm(request.POST)
-        
+
         if form.is_valid():
             review = form.save(commit=False)
             review.user = request.user
@@ -64,22 +65,23 @@ class CocktailDetails(generic.DetailView):
             return redirect('Drink_detail', pk=cocktail.pk)
         return self.get(request, *args, **kwargs)
 
+
 def search_results(request):
     search = request.GET.get('query', '').lower()  # Normalize case for search
-    
+
     if search:
         apiURL = f'https://www.thecocktaildb.com/api/json/v1/1/search.php?s={search}'
         response = requests.get(apiURL)
-        
+
         if response.status_code == 200:
             data = response.json()
             if data['drinks']:
                 cocktail_list = []
-                
+
                 for drink in data['drinks']:
                     ingredients = []
                     measurements = []
-                    
+
                     # Collect ingredients and measurements
                     for i in range(1, 16):
                         ingredient = drink.get(f'strIngredient{i}')
@@ -88,7 +90,7 @@ def search_results(request):
                             ingredients.append(ingredient)
                         if measurement:
                             measurements.append(measurement)
-                    
+
                     # Create or update the cocktail in the database
                     cocktail, created = Cocktails.objects.get_or_create(
                         drinkID=drink['idDrink'],
@@ -101,13 +103,13 @@ def search_results(request):
                             'measurements': measurements
                         }
                     )
-                    
+
                     # Update the cocktail if it already exists
                     if not created:
                         cocktail.ingredients = ingredients
                         cocktail.measurements = measurements
                         cocktail.save()
-                
+
                 # Filter cocktails by search term in name or ingredients
                 sips = Cocktails.objects.all()
                 for k in sips:
@@ -115,36 +117,51 @@ def search_results(request):
                         if search in ingredient.lower() or search in k.name.lower():
                             if k not in cocktail_list:
                                 cocktail_list.append(k)
-                
+
                 # Check if the request is AJAX
                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    return render(request, 'search_results.html', {'cocktails': cocktail_list})
-                
+                    return render(request,
+                                  'search_results.html',
+                                  {'cocktails': cocktail_list})
+
                 # Return full page render for non-AJAX requests
-                return render(request, 'search_page.html', {'drinks': cocktail_list})
-            
+                return render(request,
+                              'search_page.html',
+                              {'drinks': cocktail_list})
+
             else:
                 error_message = 'No Results Found'
         else:
             error_message = 'Failed to retrieve data'
-        
+
         # Render error messages
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return render(request, 'search_results.html', {'error': error_message})
+            return render(request,
+                          'search_results.html',
+                          {'error': error_message})
         else:
-            return render(request, 'search_page.html', {'error': error_message})
-    
+            return render(request,
+                          'search_page.html',
+                          {'error': error_message})
+
     else:
         error_message = 'Please enter a search term'
-        return render(request, 'search_page.html', {'error': error_message})
+        return render(request,
+                      'search_page.html',
+                      {'error': error_message})
+    # to anyone who sees this, touch grass
+
 
 def get_drink_detail(request):
     cocktails = Cocktails.objects.all()
     drinkID_list = []
     for drink in cocktails:
-        drinkID = Cocktails.objects.values_list('drinkID', flat=True).distinct()
+        drinkID = Cocktails.objects.values_list('drinkID',
+                                                flat=True).distinct()
         drinkID_list.append(drinkID)
-    return render( request, 'search_page.html', {'drinkID_list':drinkID_list})
+    return render(request,
+                  'search_page.html',
+                  {'drinkID_list': drinkID_list})
 
 
 # MEALS
@@ -178,7 +195,7 @@ class MealDetails(generic.DetailView):
     def post(self, request, *args, **kwargs):
         meal = self.get_object()
         form = MealReviewForm(request.POST)
-        
+
         if form.is_valid():
             review = form.save(commit=False)
             review.user = request.user
@@ -188,12 +205,13 @@ class MealDetails(generic.DetailView):
             return redirect('meal_detail', pk=meal.pk)
         return self.get(request, *args, **kwargs)
 
+
 def search_meals(request):
     search = request.GET.get('query', '')
     if search:
         apiURL = f'https://www.themealdb.com/api/json/v1/1/search.php?s={search}'
         response = requests.get(apiURL)
-        
+
         if response.status_code == 200:
             data = response.json()
             if data['meals']:
@@ -220,45 +238,59 @@ def search_meals(request):
                             'thumbnail': meal.get('strMealThumb'),
                             'ingredients': ingredients,
                             'measurements': measurements,
-                            #'reccomended_pairing' : get_chatgpt_response('What cocktails pair well with ' + meal['strMeal'])
+                            # 'reccomended_pairing' : get_chatgpt_response
+                            # ('What cocktails pair well with ' +
+                            # meal['strMeal'])
                         }
                     )
 
                     if not created:
                         meal_obj.ingredients = ingredients
                         meal_obj.measurements = measurements
-                        #meal_obj.reccomended_pairing = get_chatgpt_response('What cocktails pair well with ' + meal['strMeal'])
+                        # meal_obj.reccomended_pairing =
+                        # get_chatgpt_response('What cocktails pair well with ' + meal['strMeal'])
                         meal_obj.save()
 
                 # Search in database for matches in name or ingredients
                 meal_list = []
                 meals = Meals.objects.all()
                 for meal in meals:
-                    if (search.lower() in meal.name.lower() or 
-                        any(search.lower() in str(ingredient).lower() 
+                    if (search.lower() in meal.name.lower() or
+                        any(search.lower() in str(ingredient).lower()
                             for ingredient in meal.ingredients)):
                         if meal not in meal_list:
                             meal_list.append(meal)
-                            
+
                 # If AJAX
                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    return render(request, 'ourapp/meal_search_results.html', {'meals': meal_list})
-                
-                return render(request, 'ourapp/meal_search.html', {'meals': meal_list})
-            
+                    return render(request,
+                                  'ourapp/meal_search_results.html',
+                                  {'meals': meal_list})
+
+                return render(request,
+                              'ourapp/meal_search.html',
+                              {'meals': meal_list})
+
             else:
                 error_message = 'No Results Found'
         else:
             error_message = 'Failed to retrieve data'
-        
+
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return render(request, 'ourapp/meal_search_results.html', {'error': error_message})
+            return render(request,
+                          'ourapp/meal_search_results.html',
+                          {'error': error_message})
         else:
-            return render(request, 'ourapp/meal_search.html', {'error': error_message})
-    
+            return render(request,
+                          'ourapp/meal_search.html',
+                          {'error': error_message})
+
     else:
         error_message = 'Please enter a search term'
-        return render(request, 'ourapp/meal_search.html', {'error': error_message})
+        return render(request,
+                      'ourapp/meal_search.html',
+                      {'error': error_message})
+
 
 # def meal_search_results(request):
 #     query = request.GET.get('query', '')
@@ -267,12 +299,14 @@ def search_meals(request):
 #     else:
 #         meals = Meals.objects.none()
 
+
 def get_meal_detail(request):
     # Get all meal objects
-    meals = Meal.objects.all()
+    meals = Meals.objects.all()
     # Create a list of meal IDs
-    mealID_list = Meal.objects.values_list('mealID', flat=True).distinct()  
+    mealID_list = Meals.objects.values_list('mealID', flat=True).distinct()
     return render(request, 'meal_search_page.html', {'mealID_list': mealID_list, 'meals': meals})
+
 
 def signup(request):
     # Handle the user signup
@@ -290,6 +324,7 @@ def signup(request):
         form = SignUpForm()
     # Show the signup template with the form
     return render(request, 'ourapp/signup.html', {'form': form})
+
 
 def user_login(request):
     # Handle the user login process
@@ -317,7 +352,8 @@ def user_login(request):
     # Show the login template
     return render(request, 'ourapp/login.html', {'form': form})
 
-# TO DO: Redirect to the login Page when logged out 
+
+# TO DO: Redirect to the login Page when logged out
 @login_required
 def user_logout(request):
     # Handle the user logout process
@@ -325,9 +361,10 @@ def user_logout(request):
     # Redirect to the home page after logging out
     return redirect('home_page')
 
+
 @login_required
 def profile(request):
-    # Display the user's profile and their saved drinks 
+    # Display the user's profile and their saved drinks
     saved_drinks = request.user.profile.saved_drinks.all()
     saved_meals = request.user.profile.saved_meals.all()
     drink_reviews = Review.objects.filter(user=request.user)
@@ -341,15 +378,17 @@ def profile(request):
         'meal_reviews': meal_reviews,
     })
 
+
 @login_required
 def save_drink(request, drink_id):
-    # print("Save drink view called!") THIS IS FOR LOGGING WE DONT NEED THESE 
+    # print("Save drink view called!") THIS IS FOR LOGGING WE DONT NEED THESE
     drink = get_object_or_404(Cocktails, drinkID=drink_id)
     profile = request.user.profile
     profile.saved_drinks.add(drink)  # Adds the drink to the user's saved drinks
     # Show a message
     messages.success(request, f'{drink.name} has been saved to your profile.')
     return redirect('Drink_detail', pk=drink_id)
+
 
 @login_required
 def remove_drink(request, drink_id):
@@ -359,18 +398,20 @@ def remove_drink(request, drink_id):
     profile.saved_drinks.remove(drink)  # Removes the drink from the user's saved drinks
     return redirect('Drink_detail', pk=drink_id)
 
+
 @login_required
 def delete_review(request, review_id):
     review = get_object_or_404(Review, reviewID=review_id)
-    
+
     # Ensure only the author can delete their review
     if review.user != request.user:
         return HttpResponseForbidden("You are not allowed to delete this review.")
-    
+
     review.delete()
     return redirect('Drink_detail', pk=review.cocktail.drinkID)
     # Redirect to the detail page of the saved drink
     # return redirect('Drink_detail', pk=drink_id) TWO RETURNS???
+
 
 @login_required
 def save_meal(request, meal_id):
@@ -380,6 +421,7 @@ def save_meal(request, meal_id):
     messages.success(request, f'{meal.name} has been saved to your profile.')
     return redirect('meal_detail', pk=meal_id)
 
+
 @login_required
 def remove_meal(request, meal_id):
     meal = get_object_or_404(Meals, mealID=meal_id)
@@ -388,16 +430,18 @@ def remove_meal(request, meal_id):
     messages.success(request, f'{meal.name} has been removed from your profile.')
     return redirect('meal_detail', pk=meal_id)
 
+
 @login_required
 def delete_meal_review(request, review_id):
     review = get_object_or_404(MealReview, reviewID=review_id)
-    
+
     # Ensure only the author can delete their review
     if review.user != request.user:
         return HttpResponseForbidden("You are not allowed to delete this review.")
-    
+
     review.delete()
     return redirect('meal_detail', meal_id=review.meal.mealID)
+
 
 def update_meal_with_drink_pairing(request, meal_id):
     meal = get_object_or_404(Meals, pk=meal_id)
@@ -406,24 +450,25 @@ def update_meal_with_drink_pairing(request, meal_id):
     meal.save()
     return redirect('meal_detail', pk=meal_id)
 
+
 def get_chatgpt_response(user_message):
-    #Send a message to OpenAI's ChatGPT and return the response.
-        url = "https://api.openai.com/v1/chat/completions"
-        headers = {
-            "Authorization": f"Bearer {OPENAI_API_KEY}",
-            "Content-Type": "application/json"
-        }
-        data = {
-            "model": "gpt-4o-mini",  # or "gpt-3.5-turbo" if you're using the 3.5 model
-            "messages": [{"role": "user", "content": user_message}]
-        }
-        response = requests.post(url, headers=headers, json=data)
-        if response.status_code == 200:
-            content_text = response.json()["choices"][0]["message"]["content"]
-            cocktail_names = re.findall(r"\*\*(.*?)\*\*", content_text)
-            cleaned_cocktails = [name.strip() for name in cocktail_names]
-            # Join with newlines for bullet points
-            return "\n".join(cleaned_cocktails)
-        else:
-            print("Error:", response.json())
-            return "Error with OpenAI API."
+    # Send a message to OpenAI's ChatGPT and return the response.
+    url = "https://api.openai.com/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {OPENAI_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "model": "gpt-4o-mini",  # or "gpt-3.5-turbo" if you're using the 3.5 model
+        "messages": [{"role": "user", "content": user_message}]
+    }
+    response = requests.post(url, headers=headers, json=data)
+    if response.status_code == 200:
+        content_text = response.json()["choices"][0]["message"]["content"]
+        cocktail_names = re.findall(r"\*\*(.*?)\*\*", content_text)
+        cleaned_cocktails = [name.strip() for name in cocktail_names]
+        # Join with newlines for bullet points
+        return "\n".join(cleaned_cocktails)
+    else:
+        print("Error:", response.json())
+        return "Error with OpenAI API."

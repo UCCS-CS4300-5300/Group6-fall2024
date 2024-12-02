@@ -8,27 +8,32 @@ from django.dispatch import receiver
 
 # Create your models here.
 class Cocktails(models.Model):
-    drinkID = models.CharField(max_length = 10, primary_key=True)
-    name = models.CharField(max_length = 200)
-    glass = models.CharField(max_length = 200, blank = True, null = True)
+    drinkID = models.CharField(max_length=10, primary_key=True)
+    name = models.CharField(max_length=200)
+    glass = models.CharField(max_length=200, blank=True, null=True)
     instructions = models.TextField()
     thumbnail = models.URLField()
-    ingredients = models.JSONField(null = True, blank = True)
-    measurements = models.JSONField(null = True, blank = True)
+    ingredients = models.JSONField(null=True, blank=True)
+    measurements = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return self.name
-    
 
     def get_absolute_url(self):
         return reverse("Drink_detail", args=[str(self.drinkID)])
 
 
 class Review(models.Model):
-    reviewID = models.CharField(max_length = 10, primary_key=True, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cocktail = models.ForeignKey(Cocktails, related_name="reviews", on_delete=models.CASCADE)
-    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # 1 to 5 rating
+    reviewID = models.CharField(max_length=10,
+                                primary_key=True,
+                                editable=False)
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE)
+    cocktail = models.ForeignKey(Cocktails,
+                                 related_name="reviews",
+                                 on_delete=models.CASCADE)
+    # 1-5 rating
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
     review_text = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -41,7 +46,8 @@ class Review(models.Model):
     def save(self, *args, **kwargs):
         # Generate a unique reviewID if it's a new object
         if not self.reviewID:
-            self.reviewID = str(uuid.uuid4())[:10]  # Use the first 10 characters of a UUID
+            # Use the first 10 characters of a UUID
+            self.reviewID = str(uuid.uuid4())[:10]
         super().save(*args, **kwargs)
 
 
@@ -68,14 +74,20 @@ class Meals(models.Model):
 
     def get_pairings_list(self):
         """Returns the recommended pairings as a list"""
-        return self.reccomended_pairing.split(',') if self.reccomended_pairing else []
+        return (self.reccomended_pairing.split(',')
+                if self.reccomended_pairing else [])
 
 
 class MealReview(models.Model):
-    reviewID = models.CharField(max_length=10, primary_key=True, editable=False)
+    reviewID = models.CharField(max_length=10,
+                                primary_key=True,
+                                editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    meal = models.ForeignKey(Meals, related_name="reviews", on_delete=models.CASCADE)
-    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # 1 to 5 rating
+    meal = models.ForeignKey(Meals,
+                             related_name="reviews",
+                             on_delete=models.CASCADE)
+    # 1 to 5 rating
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
     review_text = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -85,12 +97,13 @@ class MealReview(models.Model):
     def save(self, *args, **kwargs):
         # Generate a unique reviewID if it's a new object
         if not self.reviewID:
-            self.reviewID = str(uuid.uuid4())[:10]  # Use first 10 characters of UUID
+            # Use first 10 characters of UUID
+            self.reviewID = str(uuid.uuid4())[:10]
         super().save(*args, **kwargs)
 
 
 class Profile(models.Model):
-    # This line creates a one-to-one relationship between the 
+    # This line creates a one-to-one relationship between the
     # Profile model and Django's built-in User model.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # many-to-many relationship with the Cocktails model.

@@ -37,8 +37,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'app-jquinn3-5.devedu.io',
     'app-jedwar15-5.devedu.io',
-    'app-bsulliv2-5.devedu.io', 
-    'app-amorga-5.devedu.io', 
+    'app-bsulliv2-5.devedu.io',
+    'app-amorga-5.devedu.io',
     'app-cmarkow2-5.devedu.io',
     '127.0.0.1'
 ]
