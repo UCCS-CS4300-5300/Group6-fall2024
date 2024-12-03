@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from .models import Review, Meals, Cocktails, MealReview
-from .forms import ReviewForm, SignUpForm, MealReviewForm, CustomAuthenticationForm
+from .forms import (ReviewForm,
+                    SignUpForm,
+                    MealReviewForm,
+                    CustomAuthenticationForm)
 import requests
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -42,12 +45,16 @@ class CocktailDetails(generic.DetailView):
 
         # Check if the drink is saved in the user's profile
         if user.is_authenticated:
-            context['is_saved'] = user.profile.saved_drinks.filter(drinkID=cocktail.drinkID).exists()
+            context['is_saved'] = user.profile.saved_drinks.filter(
+                drinkID=cocktail.drinkID).exists()
         else:
             context['is_saved'] = False
 
         # Split instructions into a list and add to context
-        instructions_list = [instruction.strip() + '.' for instruction in cocktail.instructions.split('.') if instruction.strip()]
+        instructions_list = ([instruction.strip() + '.'
+                              for instruction in
+                              cocktail.instructions.split('.')
+                              if instruction.strip()])
         context['instructions_list'] = instructions_list
 
         return context
@@ -177,7 +184,10 @@ class MealDetails(generic.DetailView):
         context = super().get_context_data(**kwargs)
 
         # Split instructions into a list and add to context
-        instructions_list = [instruction.strip() + '.' for instruction in meal.instructions.split('.') if instruction.strip()]
+        instructions_list = ([instruction.strip() + '.'
+                              for instruction
+                              in meal.instructions.split('.')
+                              if instruction.strip()])
         context['instructions_list'] = instructions_list
 
         # Combine into pairs
@@ -186,7 +196,10 @@ class MealDetails(generic.DetailView):
 
         # Check if the meal is saved in the user's profile
         if user.is_authenticated:
-            context['is_saved'] = user.profile.saved_meals.filter(mealID=meal.mealID).exists()
+            context['is_saved'] = (user.
+                                   profile.
+                                   saved_meals.filter(mealID=meal.mealID).
+                                   exists())
         else:
             context['is_saved'] = False
 
@@ -248,7 +261,8 @@ def search_meals(request):
                         meal_obj.ingredients = ingredients
                         meal_obj.measurements = measurements
                         # meal_obj.reccomended_pairing =
-                        # get_chatgpt_response('What cocktails pair well with ' + meal['strMeal'])
+                        # get_chatgpt_response('What
+                        # cocktails pair well with ' + meal['strMeal'])
                         meal_obj.save()
 
                 # Search in database for matches in name or ingredients
@@ -308,7 +322,7 @@ def get_meal_detail(request):
     return render(request,
                   'meal_search_page.html',
                   {'mealID_list': mealID_list,
-                  'meals': meals})
+                   'meals': meals})
 
 
 def signup(request):
@@ -408,7 +422,8 @@ def delete_review(request, review_id):
 
     # Ensure only the author can delete their review
     if review.user != request.user:
-        return HttpResponseForbidden("You are not allowed to delete this review.")
+        return HttpResponseForbidden("""You are
+                not allowed to delete this review.""")
 
     review.delete()
     return redirect('Drink_detail', pk=review.cocktail.drinkID)
@@ -428,7 +443,8 @@ def remove_meal(request, meal_id):
     meal = get_object_or_404(Meals, mealID=meal_id)
     profile = request.user.profile
     profile.saved_meals.remove(meal)
-    messages.success(request, f'{meal.name} has been removed from your profile.')
+    messages.success(request,
+                     f'{meal.name} has been removed from your profile.')
     return redirect('meal_detail', pk=meal_id)
 
 
@@ -438,7 +454,8 @@ def delete_meal_review(request, review_id):
 
     # Ensure only the author can delete their review
     if review.user != request.user:
-        return HttpResponseForbidden("You are not allowed to delete this review.")
+        return HttpResponseForbidden("""You are not allowed to
+                                     delete this review.""")
 
     review.delete()
     return redirect('meal_detail', meal_id=review.meal.mealID)
@@ -447,7 +464,8 @@ def delete_meal_review(request, review_id):
 def update_meal_with_drink_pairing(request, meal_id):
     meal = get_object_or_404(Meals, pk=meal_id)
     print(request.method)
-    meal.reccomended_pairing = get_chatgpt_response('What cocktail pairs well with ' + meal.name)
+    meal.reccomended_pairing = get_chatgpt_response("""What cocktail pairs
+                                                    well with """ + meal.name)
     meal.save()
     return redirect('meal_detail', pk=meal_id)
 
@@ -460,7 +478,7 @@ def get_chatgpt_response(user_message):
         "Content-Type": "application/json"
     }
     data = {
-        "model": "gpt-4o-mini",  # or "gpt-3.5-turbo" if you're using the 3.5 model
+        "model": "gpt-4o-mini",  # or "gpt-3.5-turbo"
         "messages": [{"role": "user", "content": user_message}]
     }
     response = requests.post(url, headers=headers, json=data)
