@@ -383,28 +383,119 @@ p-results {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Sidebar adjustments */
     .sidebar {
-        width: 200px;
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .sidebar.collapsed {
+        width: 100%;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .sidebar ul li {
+        margin: 5px;
+    }
+
+    .sidebar ul li a {
+        padding: 8px;
         font-size: 14px;
     }
 
+    /* Logo adjustments */
     .logo {
-        width: 100px;
+        width: 80px;
+        top: 5px;
     }
 
-    main {
-        margin-left: 220px;
-        padding: 20px;
+    /* Main content adjustments */
+    main, .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
     }
-    .hero {
-        padding: 20px;
-        height: 250px; /* Smaller height on mobile */
+
+    .main-content.expanded {
+        margin-left: 0;
+        width: 100%;
     }
-    .hero-content h2 {
-        font-size: 1.5rem;
+
+    /* Image row adjustments */
+    .img-row {
+        flex-direction: column;
+        gap: 20px;
     }
+
+    .img-card, .img-card2 {
+        max-width: 100%;
+    }
+
+    /* Typography adjustments */
+    h1, h2, h3 {
+        font-size: 28px;
+    }
+
+    h4 {
+        font-size: 18px;
+    }
+
+    body, p {
+        font-size: 16px;
+    }
+
+    /* Search results adjustments */
+    .drink, .meal-result {
+        width: 95%;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .drink img, .meal-result img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    /* Button adjustments */
     .cta-button {
         padding: 8px 16px;
+        font-size: 14px;
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    /* Container adjustments */
+    .container {
+        flex-direction: column;
+    }
+
+    /* Hide sidebar toggle on mobile */
+    .sidebar-toggle {
+        display: none;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    h1, h2, h3 {
+        font-size: 24px;
+    }
+
+    .sidebar ul li a {
+        font-size: 12px;
+    }
+
+    .search-form input[type="text"] {
+        max-width: 200px;
     }
 }
 
