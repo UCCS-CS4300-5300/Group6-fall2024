@@ -1,0 +1,76 @@
+{% extends 'ourapp/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/auth_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-overlay">
+    <div class="auth-container">
+        <input type="checkbox" id="chk" aria-hidden="true" {% if request.resolver_match.url_name == 'login' %}checked{% endif %}>
+
+        <div class="signup-section">
+            <form method="post" action="{% url 'signup' %}" class="auth-form">
+                {% csrf_token %}
+                <label for="chk" aria-hidden="true">Sign up</label>
+                
+                <!-- Signup Fields with placeholders -->
+                <div class="form-group">
+                    <!-- {{ signup_form.username }} -->
+                    <input type="text" name="username" placeholder="Enter your username" class="input" required>
+                </div>
+                <div class="form-group">
+                    <!-- {{ signup_form.email }} -->
+                    <input type="email" name="email" placeholder="Enter your email" class="input" required>
+                </div>
+                <div class="form-group">
+                    <!-- {{ signup_form.password1 }} -->
+                    <input type="password" name="password1" placeholder="Enter your password" class="input" required>
+                </div>
+                <div class="form-group">
+                    <!-- {{ signup_form.password2 }} -->
+                    <input type="password" name="password2" placeholder="Confirm your password" class="input" required>
+                </div>
+                
+                {% if signup_form.errors %}
+                    <div class="form-errors">
+                        {{ signup_form.errors }}
+                    </div>
+                {% endif %}
+                <button type="submit">Sign up</button>
+            </form>
+        </div>
+
+        <div class="login-section">
+            <form method="post" action="{% url 'login' %}" class="auth-form">
+                {% csrf_token %}
+                <label for="chk" aria-hidden="true">Login</label>
+                
+                <!-- Login Fields with placeholders -->
+                <div class="form-group">
+                    <!-- {{ login_form.username }} -->
+                    <input type="text" name="username" placeholder="Enter your username" class="input" required>
+                </div>
+                <div class="form-group">
+                    <!-- {{ login_form.password }} -->
+                    <input type="password" name="password" placeholder="Enter your password" class="input" required>
+                </div>
+                
+                <div class="remember-me">
+                    {{ login_form.remember_me }}
+                    <label for="{{ login_form.remember_me.id_for_label }}">Remember me</label>
+                </div>
+                
+                {% if login_form.errors %}
+                    <div class="form-errors">
+                        {{ login_form.errors }}
+                    </div>
+                {% endif %}
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
