@@ -181,6 +181,7 @@ class MealDetails(generic.DetailView):
     def get_context_data(self, **kwargs):
         meal = self.object
         user = self.request.user
+
         context = super().get_context_data(**kwargs)
 
         # Split instructions into a list and add to context
@@ -202,6 +203,10 @@ class MealDetails(generic.DetailView):
                                    exists())
         else:
             context['is_saved'] = False
+
+        context['MealReviewForm'] = MealReviewForm()
+        context['reviews'] = MealReview.objects.filter(meal=meal)
+
 
         return context
 
@@ -458,7 +463,7 @@ def delete_meal_review(request, review_id):
                                      delete this review.""")
 
     review.delete()
-    return redirect('meal_detail', meal_id=review.meal.mealID)
+    return redirect('meal_detail', pk=review.meal.mealID)
 
 
 def update_meal_with_drink_pairing(request, meal_id):
