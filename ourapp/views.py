@@ -14,6 +14,7 @@ from datetime import datetime
 import re
 import os
 from dotenv import load_dotenv
+import ast
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -202,6 +203,10 @@ class MealDetails(generic.DetailView):
                                    exists())
         else:
             context['is_saved'] = False
+
+        # Get drink Pairing context
+        drink_pairings = drink_pairing_return(meal.mealID)
+        context['drink_pairings'] = drink_pairings
 
         return context
 
@@ -463,7 +468,6 @@ def delete_meal_review(request, review_id):
 
 def update_meal_with_drink_pairing(request, meal_id):
     meal = get_object_or_404(Meals, pk=meal_id)
-    print(request.method)
     meal.reccomended_pairing = get_chatgpt_response("""What cocktail pairs
                                                     well with """ + meal.name)
     meal.save()
@@ -487,7 +491,56 @@ def get_chatgpt_response(user_message):
         cocktail_names = re.findall(r"\*\*(.*?)\*\*", content_text)
         cleaned_cocktails = [name.strip() for name in cocktail_names]
         # Join with newlines for bullet points
-        return "\n".join(cleaned_cocktails)
+        #return "\n".join(cleaned_cocktails)
+        return cleaned_cocktails
     else:
         print("Error:", response.json())
         return "Error with OpenAI API."
+
+def drink_pairing_return(meal_id):
+    #gets the meal to have associated rec. pairing
+    meal = get_object_or_404(Meals, pk=meal_id)
+
+    #Cleans the string and makes a list of items not characters
+    cleaned_drink_list = clean_drink_names(meal.reccomended_pairing)
+
+    # Fetch all cocktail names in a dictionary for faster lookup
+    cocktail_names = {cocktail.name.lower().strip(): cocktail for cocktail in Cocktails.objects.all()}
+    print("Cocktail names:", list(cocktail_names.keys()))
+
+    # Initialize a dictionary for results
+    drink_items = {}
+
+    # Compare cleaned drinks with normalized cocktail names
+    for drink in cleaned_drink_list:
+        drink_words = drink.lower().split()  # Split drink into word
+        matched_cocktails = [
+            #cocktail for cocktail in cocktail_names.values() if drink.lower() in cocktail.name.lower()
+            cocktail for cocktail in cocktail_names.values()
+            if all(word in cocktail.name.lower() for word in drink_words)  # Match all words
+        ]
+        if matched_cocktails:
+            drink_items[drink] = matched_cocktails
+
+    # Print results for debugging
+    print("Drink items:", drink_items)
+
+    return drink_items  # Return results as needed
+
+def clean_drink_names(drink_string):
+        # Convert string representation of list to an actual Python list
+        try:
+            drink_list = ast.literal_eval(drink_string)
+        except (ValueError, SyntaxError):
+            raise ValueError("Input is not a valid string representation of a list.")
+    
+        # Initialize a list to store cleaned drink names
+        cleaned_drinks = []
+    
+        for drink in drink_list:
+            # Remove unwanted characters, keeping only alphabets and spaces
+            cleaned_drink = re.sub(r'[^a-zA-Z\s]', '', drink)
+            # Append the cleaned drink name to the list
+            cleaned_drinks.append(cleaned_drink.strip())
+    
+        return cleaned_drinks
