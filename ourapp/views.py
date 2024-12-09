@@ -274,48 +274,93 @@ def get_meal_detail(request):
     mealID_list = Meal.objects.values_list('mealID', flat=True).distinct()  
     return render(request, 'meal_search_page.html', {'mealID_list': mealID_list, 'meals': meals})
 
-def signup(request):
-    # Handle the user signup
+# def signup(request):
+#     # Handle the user signup
+#     if request.method == 'POST':
+#         # If the form is submitted, create an instance
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             # If the form is valid save the user and log them in
+#             user = form.save()
+#             login(request, user)
+#             # Redirect to the home page after successful signup
+#             return redirect('home_page')
+#     else:
+#         # If the request is Get create an empty instance
+#         form = SignUpForm()
+#     # Show the signup template with the form
+#     return render(request, 'ourapp/signup.html', {'form': form})
+
+# def user_login(request):
+#     # Handle the user login process
+#     if request.method == 'POST':
+#         # If the form is submitted create an instance
+#         form = CustomAuthenticationForm(request, data=request.POST)
+#         if form.is_valid():
+#             # If the form is valid get the username and password
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             # Authenticate the user
+#             user = authenticate(username=username, password=password)
+#             if user is not None:
+#                 # If the user is authenticated log them in
+#                 login(request, user)
+#                 # Check if the Remember Me box is checked
+#                 if form.cleaned_data.get('remember_me'):
+#                     # Set the session to expire to 1 week if checked
+#                     request.session.set_expiry(604800)  # 1 week in secs.
+#                 # Redirect to the home page after successful login
+#                 return redirect('home_page')
+#     else:
+#         # If the request method is Get
+#         form = CustomAuthenticationForm()
+#     # Show the login template
+#     return render(request, 'ourapp/login.html', {'form': form})
+
+def auth_page(request):
+    signup_form = SignUpForm()
+    login_form = CustomAuthenticationForm()
+    
     if request.method == 'POST':
-        # If the form is submitted, create an instance
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            # If the form is valid save the user and log them in
-            user = form.save()
-            login(request, user)
-            # Redirect to the home page after successful signup
-            return redirect('home_page')
-    else:
-        # If the request is Get create an empty instance
-        form = SignUpForm()
-    # Show the signup template with the form
-    return render(request, 'ourapp/signup.html', {'form': form})
+        if 'signup' in request.path:
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                login(request, user)
+                return redirect('home_page')
+            signup_form = form
+        elif 'login' in request.path:
+            form = CustomAuthenticationForm(request, data=request.POST)
+            if form.is_valid():
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user:
+                    login(request, user)
+                    if form.cleaned_data.get('remember_me'):
+                        request.session.set_expiry(1209600)  # 2 weeks
+                    return redirect('home_page')
+            login_form = form
+    
+    return render(request, 'ourapp/auth_base.html', {
+        'signup_form': signup_form,
+        'login_form': login_form,
+    })
+
+def signup(request):
+    return auth_page(request)
 
 def user_login(request):
-    # Handle the user login process
-    if request.method == 'POST':
-        # If the form is submitted create an instance
-        form = CustomAuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            # If the form is valid get the username and password
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            # Authenticate the user
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                # If the user is authenticated log them in
-                login(request, user)
-                # Check if the Remember Me box is checked
-                if form.cleaned_data.get('remember_me'):
-                    # Set the session to expire to 1 week if checked
-                    request.session.set_expiry(604800)  # 1 week in secs.
-                # Redirect to the home page after successful login
-                return redirect('home_page')
-    else:
-        # If the request method is Get
-        form = CustomAuthenticationForm()
-    # Show the login template
-    return render(request, 'ourapp/login.html', {'form': form})
+    return auth_page(request)
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect('home_page')
 
 # TO DO: Redirect to the login Page when logged out 
 @login_required
@@ -370,7 +415,6 @@ def delete_review(request, review_id):
     review.delete()
     return redirect('Drink_detail', pk=review.cocktail.drinkID)
     # Redirect to the detail page of the saved drink
-    # return redirect('Drink_detail', pk=drink_id) TWO RETURNS???
 
 @login_required
 def save_meal(request, meal_id):
