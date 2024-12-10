@@ -1,0 +1,21 @@
+./Group_Proj/settings.py:113:80: E501 line too long (95 > 79 characters)
+./Group_Proj/settings.py:116:80: E501 line too long (85 > 79 characters)
+./Group_Proj/settings.py:119:80: E501 line too long (86 > 79 characters)
+./Group_Proj/settings.py:122:80: E501 line too long (87 > 79 characters)
+./ourapp/forms.py:25:80: E501 line too long (85 > 79 characters)
+./ourapp/forms.py:39:80: E501 line too long (85 > 79 characters)
+./ourapp/forms.py:46:1: W391 blank line at end of file
+./ourapp/urls.py:41:5: E128 continuation line under-indented for visual indent
+./ourapp/urls.py:42:5: E128 continuation line under-indented for visual indent
+./ourapp/urls.py:43:2: W292 no newline at end of file
+./ourapp/views.py:12:1: F401 'django.http.JsonResponse' imported but unused
+./ourapp/views.py:64:80: E501 line too long (83 > 79 characters)
+./ourapp/views.py:87:80: E501 line too long (85 > 79 characters)
+./ourapp/views.py:131:80: E501 line too long (84 > 79 characters)
+./ourapp/views.py:240:80: E501 line too long (81 > 79 characters)
+./ourapp/views.py:404:80: E501 line too long (89 > 79 characters)
+./ourapp/views.py:405:80: E501 line too long (93 > 79 characters)
+./ourapp/views.py:570:80: E501 line too long (102 > 79 characters)
+./ourapp/views.py:580:80: E501 line too long (104 > 79 characters)
+./ourapp/views.py:582:80: E501 line too long (92 > 79 characters)
+./ourapp/views.py:598:80: E501 line too long (81 > 79 characters)
