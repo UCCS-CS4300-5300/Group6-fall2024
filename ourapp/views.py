@@ -38,6 +38,7 @@ class CocktailDetails(generic.DetailView):
         cocktail = self.object
         user = self.request.user
         context = super().get_context_data(**kwargs)
+
         # Load all reviews linked to this cocktail and add them to the context
         context['reviews'] = Review.objects.filter(cocktail=cocktail)
         # context['reviews'] = self.object.reviews.all()
@@ -56,6 +57,10 @@ class CocktailDetails(generic.DetailView):
                               cocktail.instructions.split('.')
                               if instruction.strip()])
         context['instructions_list'] = instructions_list
+
+        # Combine into pairs
+        ingredients_measurements = zip(cocktail.ingredients, cocktail.measurements)
+        context['ingredients_measurements'] = ingredients_measurements 
 
         return context
 
@@ -376,6 +381,10 @@ def get_meal_detail(request):
 def auth_page(request):
     signup_form = SignUpForm()
     login_form = CustomAuthenticationForm()
+
+    # If user is already authenticated, redirect to home page
+    if request.user.is_authenticated:
+        return redirect('home_page')
     
     if request.method == 'POST':
         if 'signup' in request.path:
@@ -406,13 +415,8 @@ def auth_page(request):
 def signup(request):
     return auth_page(request)
 
-
 def user_login(request):
     return auth_page(request)
-
-def user_logout(request):
-    logout(request)
-    return redirect('login')
 
 @login_required
 def user_logout(request):

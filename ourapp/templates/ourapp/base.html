@@ -41,10 +41,8 @@
     <div class="container">
                
         <!-- Sidebar Navigation -->
-        {% if user.is_authenticated %}
         <nav class="sidebar" aria-label="Main navigation sidebar">
-            <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">☰</button>
-                
+            <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">☰</button>  
             <div class="logo-container">
                 <a href="{% url 'home_page' %}">
                     <img class="logo" src="{% static 'Temp_logo.jpg' %}" alt="Sauced and Sauteed Logo" aria-label="Logo">
@@ -66,7 +64,6 @@
                 <li><a href="javascript:void(0);" aria-label="Toggle Dark Mode Button" onclick="toggleDarkMode()"><i class="fa-regular fa-moon"></i><span>Dark Mode</span></a></li>
             </ul>
         </nav>
-        {% endif %}
 
         <main class="main-content">
             {% block content %}{% endblock %}
