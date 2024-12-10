@@ -18,13 +18,30 @@
     <p aria-label="Meal Area"><strong>Area:</strong> {{ meal.area }}</p>
     <p aria-label="Recommended Drinks for Meal"><strong>Rec Drinks:</strong> 
         {% if meal.reccomended_pairing %}
-    {{ meal.reccomended_pairing|linebreaks }}
-{% else %}
-    <p>No recommended pairings available</p>
-{% endif %}
-{% for drink in drink_items %}
-        <li>drink_items.drink</li>
-{%endfor%}
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4">Recommended Drink Pairings:</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for drink_name, cocktails in drink_pairings.items %}
+                    {% for cocktail in cocktails %}
+                        <div class="border rounded-lg p-4 shadow-md">
+                            {% if cocktail.thumbnail %}
+                                <a href="{% url 'Drink_detail' pk=cocktail.drinkID %}" class="block">
+                                    <img src="{{ cocktail.thumbnail }}" 
+                                         alt="{{ cocktail.name }}" 
+                                         class="w-full h-48 object-cover rounded-md mb-2">
+                                    <h4 class="text-lg font-medium">{{ cocktail.name }}</h4>
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% empty %}
+                    <p>No matching cocktails found in our database.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+            <p class="mb-4">No recommended pairings available</p>
+        {% endif %}
     </ul>
 </p>
     <p aria-label="Meal Ingredients"><strong>Ingredients:</strong> 
