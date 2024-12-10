@@ -205,15 +205,12 @@ class MealDetails(generic.DetailView):
         else:
             context['is_saved'] = False
 
-<<<<<<< HEAD
         # Get drink Pairing context
         drink_pairings = drink_pairing_return(meal.mealID)
         context['drink_pairings'] = drink_pairings
-=======
         context['MealReviewForm'] = MealReviewForm()
         context['reviews'] = MealReview.objects.filter(meal=meal)
 
->>>>>>> 2228f5eec04c4b0994695b63dc436561949558d7
 
         return context
 
