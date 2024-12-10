@@ -43,27 +43,45 @@
 {% endif %}
 
 </p>
-    <p aria-label="Meal Ingredients"><strong>Ingredients:</strong> 
-        {% for ingredient in meal.ingredients %}
-            {{ ingredient }}{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-    </p>
+{% if user.is_authenticated %}
+    <div style="display: flex; justify-content: space-between; max-width: 100%; margin: 0 auto; gap: 20px;">
+        <!-- Ingredients & Measurements Section -->
+        <div style="flex: 1; max-width: 45%; text-align: left;">
+            <p aria-label="Meal Ingredients and Measurements" 
+               style="font-weight: bold; margin-bottom: 10px; text-align: left;">
+                Ingredients & Measurements
+            </p>
+            <div style="display: grid; grid-template-columns: auto auto; gap: 5px; margin: 10px 0;">
+                {% for ingredient, measurement in ingredients_measurements %}
+                    <div style="padding: 5px 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; text-align: left;">
+                        <strong style="color: black">{{ ingredient }}</strong>
+                    </div>
+                    <div style="padding: 5px 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; text-align: right;color: black">
+                        {{ measurement }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 
-    {% if user.is_authenticated %}
-    <p aria-label="Meal Ingredients and Measurements"><strong>Ingredients & Measurements:</strong></p>
+        <!-- Instructions Section -->
+        <div style="flex: 1; max-width: 45%; text-align: left;">
+            <p aria-label="Meal Instructions" 
+               style="font-weight: bold; margin-bottom: 10px; text-align: left;">
+                Instructions
+            </p>
+            <div style="display: grid; grid-template-columns: auto; gap: 10px;">
+                {% for instruction in instructions_list %}
+                    <div style="padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; color: black">
+                        {{ instruction }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% else %}
+    <p><em>Log in to view the ingredients, measurements, and instructions.</em></p>
+{% endif %}
 
-    {% for ingredient, measurement in ingredients_measurements %}
-        <li>{{ ingredient }} - {{ measurement }}</li>
-    {% endfor %}
-
-    <p aria-label="Meal Instructions"><strong>Instructions:</strong></p>
-    {% for instruction in instructions_list %}
-        <p>{{ instruction }}</p>
-    {% endfor %}
-    {% else %}
-    <p><em>Log in to view the measurements and instructions.</em></p>
-    {% endif %}
-    
 
     <!-- Save Meal Button -->
     {% if user.is_authenticated %}

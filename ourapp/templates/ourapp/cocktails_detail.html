@@ -19,19 +19,45 @@
         {% endfor %}
     </p>
 
-{% if user.is_authenticated %}
-    <p aria-label="Drink Ingredients and Measurements"><strong>Ingredients & Measurements:</strong></p>
-    {% for ingredient, measurement in ingredients_measurements %}
-        <li>{{ ingredient }} - {{ measurement }}</li>
-    {% endfor %}
+    {% if user.is_authenticated %}
+    <div style="display: flex; justify-content: space-between; max-width: 100%; margin: 0 auto; gap: 20px;">
+        <!-- Ingredients & Measurements Section -->
+        <div style="flex: 1; max-width: 45%; text-align: left;">
+            <p aria-label="Drink Ingredients and Measurements" 
+               style="font-weight: bold; margin-bottom: 10px; text-align: left;">
+                Ingredients & Measurements
+            </p>
+            <div style="display: grid; grid-template-columns: auto auto; gap: 5px; margin: 10px 0;">
+                {% for ingredient, measurement in ingredients_measurements %}
+                    <div style="padding: 5px 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; text-align: left;">
+                        <strong style="color: black">{{ ingredient }}</strong>
+                    </div>
+                    <div style="padding: 5px 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; text-align: right; color:black">
+                        {{ measurement }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 
-    <p aria-label="Drink Instructions"><strong>Instructions:</strong></p>
-    {% for instruction in instructions_list %}
-        <p>{{ instruction }}</p>
-    {% endfor %}
-    {% else %}
+        <!-- Instructions Section -->
+        <div style="flex: 1; max-width: 45%; text-align: left;">
+            <p aria-label="Drink Instructions" 
+               style="font-weight: bold; margin-bottom: 10px; text-align: left;">
+                Instructions
+            </p>
+            <div style="display: grid; grid-template-columns: auto; gap: 10px;">
+                {% for instruction in instructions_list %}
+                    <div style="padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;color: black">
+                        {{ instruction }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% else %}
     <p><em>Log in to view the measurements and instructions.</em></p>
-    {% endif %}
+{% endif %}
+
     
     {% if is_saved %}
         <!-- Remove Drink Button -->
