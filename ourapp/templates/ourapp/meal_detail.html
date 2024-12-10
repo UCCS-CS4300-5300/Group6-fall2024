@@ -3,8 +3,8 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel = "stylesheet" href="{% static 'css/pages/cocktail_and_meal_detail.css' %}">
     <link rel = "stylesheet" href="{% static 'css/pages/search_page.css' %}">
+    <link rel = "stylesheet" href="{% static 'css/pages/cocktail_and_meal_detail.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -17,21 +17,29 @@
     <p aria-label="Meal Category"><strong>Category:</strong> {{ meal.category }}</p>
     <p aria-label="Meal Area"><strong>Area:</strong> {{ meal.area }}</p>
     <p aria-label="Recommended Drinks for Meal"> 
-        {% if drink_pairings %}
-<div class="bento-grid">
-    {% for drink_name, cocktails in drink_pairings.items %}
-        {% for cocktail in cocktails %}
-            <div class="bento-item">
-                <a href="{% url 'Drink_detail' pk=cocktail.drinkID %}">
-                    <img src="{{ cocktail.thumbnail }}" alt="{{ cocktail.name }}" class="bento-thumbnail">
-                    <h4 class="bento-title">{{ cocktail.name }}</h4>
-                </a>
-            </div>
-        {% endfor %}
-    {% endfor %}
-</div>
+        {% if meal.reccomended_pairing %}
+    <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4">Recommended Drink Pairings:</h3>
+        
+        <div class="bento-grid">
+            {% for drink_name, cocktails in drink_pairings.items %}
+                {% for cocktail in cocktails %}
+                    {% if cocktail.thumbnail %}
+                        <div class="bento-item">
+                            <a href="{% url 'Drink_detail' pk=cocktail.drinkID %}">
+                                <img class="bento-thumbnail" src="{{ cocktail.thumbnail }}" alt="{{ cocktail.name }}">
+                                <div class="bento-title">{{ cocktail.name }}</div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% empty %}
+                <p>No matching cocktails found in our database.</p>
+            {% endfor %}
+        </div>
+    </div>
 {% else %}
-    <p>No recommended pairings available.</p>
+    <p>No recommended pairings available</p>
 {% endif %}
 
 </p>
