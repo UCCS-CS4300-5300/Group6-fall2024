@@ -78,10 +78,11 @@
             <p aria-label="Review Text">{{ review.review_text }}</p>
             <small>Posted on {{ review.created_at|date:"F j, Y" }}</small>
             {% if user.is_authenticated and review.user == user %}
-                <form action="{% url 'delete_meal_review' review_id=review.reviewID %}" method="post" style="display:inline;">
+                <form action="{% url 'delete_meal_review' review_id=review.reviewID %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="cta-button" aria-label="Delete Review">Delete Review</button>
                 </form>
+            
             {% endif %}
         </div>
         {% empty %}

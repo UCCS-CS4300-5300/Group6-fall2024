@@ -37,4 +37,9 @@ urlpatterns = [
     path('meal/details/updated/<int:meal_id>/',
          views.update_meal_with_drink_pairing,
          name='update_meal_pairing'),
+    path('meal/review/delete/<str:review_id>/',
+    views.delete_meal_review,
+    name='delete_meal_review'),
+
+
 ]
