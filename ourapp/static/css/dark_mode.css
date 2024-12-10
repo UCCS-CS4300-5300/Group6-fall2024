@@ -193,7 +193,7 @@ body, p {
 }
 
 .sidebar ul li a:hover {
-    background-color: #f2d5aa;
+    background-color: #454545;
     color: white;
     animation: bounce 0.5s; /* Bounce animation on hover */
 }
@@ -540,5 +540,10 @@ body.vertical-stack {
     gap: 20px;
 }
 
+.search-main {
+    background-color: #1e1c1c !important; /* Dark background */
+}
 
-
+.search-btn {
+    background-color: #4d4d4d !important;
+}

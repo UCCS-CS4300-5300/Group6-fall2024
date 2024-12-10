@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views. home_page, name='home_page'),
+    path('', views.home_page, name='home_page'),
     path('search/', views.search_page, name='search_page'),
     path('search/results/',
          views.search_results,
@@ -40,6 +40,4 @@ urlpatterns = [
     path('meal/review/delete/<str:review_id>/',
     views.delete_meal_review,
     name='delete_meal_review'),
-
-
 ]

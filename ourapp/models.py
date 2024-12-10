@@ -16,6 +16,10 @@ class Cocktails(models.Model):
     ingredients = models.JSONField(null=True, blank=True)
     measurements = models.JSONField(null=True, blank=True)
 
+    @property
+    def ingredient_measurements(self):
+        return list(zip(self.ingredients, self.measurements))
+
     def __str__(self):
         return self.name
 

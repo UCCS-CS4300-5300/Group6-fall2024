@@ -42,8 +42,7 @@
                
         <!-- Sidebar Navigation -->
         <nav class="sidebar" aria-label="Main navigation sidebar">
-            <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">☰</button>
-                
+            <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">☰</button>  
             <div class="logo-container">
                 <a href="{% url 'home_page' %}">
                     <img class="logo" src="{% static 'Temp_logo.jpg' %}" alt="Sauced and Sauteed Logo" aria-label="Logo">
@@ -57,17 +56,15 @@
                 <li><a href="https://images.app.goo.gl/eu5yi13W4Yaeccu47" aria-label="About us external link" target="_blank"><i class="fas fa-info-circle"></i><span>About Us</span> </a></li>
                 <li><a href="mailto:thastings@uccs.edu" aria-label="Contact us email link" target="_blank"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
                 {% if user.is_authenticated %}
-                    <br>
                     <li><a href="{% url 'profile' %}" aria-label="Profile page link"><i class="fa-solid fa-user"></i><span>Profile</span></a></li>
                     <li><a href="{% url 'logout' %}" aria-label="Logout link"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}" aria-label="Login/Register page link"><i class="fa-solid fa-user"></i><span>Login/Register</span></a></li>
                 {% endif %}
-                <br>
                 <li><a href="javascript:void(0);" aria-label="Toggle Dark Mode Button" onclick="toggleDarkMode()"><i class="fa-regular fa-moon"></i><span>Dark Mode</span></a></li>
             </ul>
         </nav>
-        
+
         <main class="main-content">
             {% block content %}{% endblock %}
         </main>

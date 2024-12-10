@@ -5,6 +5,7 @@
 {% block extra_css %}
     <link rel = "stylesheet" href="{% static 'css/pages/drink_results.css' %}">
     <link rel = "stylesheet" href="{% static 'css/pages/search_page.css' %}">
+    <link id="dark-mode-base" rel="stylesheet" href="dark_mode.css" disabled>
 {% endblock %}
 
 {% block title %}Recipe Search{% endblock %}
@@ -17,7 +18,7 @@
         <!-- Search Form -->
         <form class="search-form" action="{% url 'search_meals' %}" method="GET" onsubmit="hideSuggestions()">
             <input type="text" aria-label="Search input field" name="query" id="meal-search-box" placeholder="Search for a recipe..." required>
-            <button type="submit" aria-label="Submit search button" style="color: black; font-weight: bold;">Search</button>
+            <button class="search-btn" type="submit" aria-label="Submit search button" style="color: black; font-weight: bold;">Search</button>
         </form>
 
         <!-- Suggestions -->
