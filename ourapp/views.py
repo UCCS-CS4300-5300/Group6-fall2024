@@ -9,12 +9,13 @@ import requests
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from datetime import datetime
 import re
 import os
 from dotenv import load_dotenv
 import ast
+from django.core.mail import send_mail
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -397,6 +398,16 @@ def auth_page(request):
             if form.is_valid():
                 user = form.save()
                 login(request, user)
+
+                # Send a confirmation email
+                send_mail(
+                    subject="Welcome to Sauced and Sauted",
+                    message=f"Hi {user.username},\n\nThank you for signing up. Cheers!!",
+                    from_email="saucedandsauted@gmail.com",  # Replace with your sender email
+                    recipient_list=[user.email],
+                    fail_silently=False,
+                )
+                
                 return redirect('home_page')
             signup_form = form
         elif 'login' in request.path:
