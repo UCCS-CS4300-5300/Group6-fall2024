@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,8 @@
     <link id="dark-mode-search" rel="stylesheet" href="{% static 'css/pages/search_page_dark_mode.css' %}" disabled>
     {% elif request.path == "/meal/search/results" %}
     <link id="light-mode-meal-search" rel="stylesheet" href="{% static 'css/pages/search_page.css' %}">
-    <link id="dark-mode-meal-search" rel="stylesheet" href="{% static 'css/pages/search_page_dark_mode.css' %}" disabled>
+    <link id="dark-mode-meal-search" rel="stylesheet" href="{% static 'css/pages/search_page_dark_mode.css' %}"
+        disabled>
     {% endif %}
 
 
@@ -27,41 +29,62 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css" integrity="Fo3rlrZj/k7ujTnHg4CGR2DhYAW6ebY7h02mjSllkSBpCqLjNq0U6xgq/VEF1xbLdpKGpCzEVOE9/c5pE23cA==" crossorigin="anonymous">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css"
+        integrity="Fo3rlrZj/k7ujTnHg4CGR2DhYAW6ebY7h02mjSllkSBpCqLjNq0U6xgq/VEF1xbLdpKGpCzEVOE9/c5pE23cA=="
+        crossorigin="anonymous">
 </head>
+
 <body>
 
     <!-- Full-width Hero Section (displayed only on the homepage) -->
     {% if show_hero %}
     {% block hero %}{% endblock %}
-    
+
     {% endif %}
-    
+
     <div class="container">
-               
         <!-- Sidebar Navigation -->
         <nav class="sidebar" aria-label="Main navigation sidebar">
-            <button class="sidebar-toggle" aria-label="Toggle sidebar" onclick="toggleSidebar()">☰</button>  
             <div class="logo-container">
                 <a href="{% url 'home_page' %}">
-                    <img class="logo" src="{% static 'Temp_logo.jpg' %}" alt="Sauced and Sauteed Logo" aria-label="Logo">
+                    <img class="logo" src="{% static 'Temp_logo.jpg' %}" alt="Sauced and Sauteed Logo"
+                        aria-label="Logo">
                 </a>
             </div>
             <ul>
-                <li><a href="{% url 'home_page' %}" aria-label="Navbar home page link"><i class="fas fa-home"></i><span>Home</span></a></li>
-                <li><a href="{% url 'search_meals' %}" aria-label="Navbar meals search page link"><i class="fa-solid fa-utensils"></i><span>Recipe Search</span></a></li>
-                <li><a href="{% url 'search_page' %}?query=pairing" aria-label="navbar drink search page link"><i class="fas fa-wine-glass"></i><span>Drink Search</span></a></li>
-                <li><a href="https://www.dummies.com/article/home-auto-hobbies/food-drink/cooking-baking/general-cooking-baking/cooking-basics-for-dummies-cheat-sheet-208787/" aria-label="Tutorials external link" target="_blank"><i class="fas fa-book-open"></i><span>Tutorials</span></a></li>
-                <li><a href="https://images.app.goo.gl/eu5yi13W4Yaeccu47" aria-label="About us external link" target="_blank"><i class="fas fa-info-circle"></i><span>About Us</span> </a></li>
-                <li><a href="mailto:thastings@uccs.edu" aria-label="Contact us email link" target="_blank"><i class="fas fa-envelope"></i><span>Contact</span></a></li>
+                <li>
+                    <a href="javascript:void(0);" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                        <span>Collapse Sidebar</span>
+                    </a>
+                </li>
+                <li><a href="{% url 'home_page' %}" aria-label="Navbar home page link"><i
+                            class="fas fa-home"></i><span>Home</span></a></li>
+                <li><a href="{% url 'search_meals' %}" aria-label="Navbar meals search page link"><i
+                            class="fa-solid fa-utensils"></i><span>Recipe Search</span></a></li>
+                <li><a href="{% url 'search_page' %}?query=pairing" aria-label="navbar drink search page link"><i
+                            class="fas fa-wine-glass"></i><span>Drink Search</span></a></li>
+                <li><a href="https://www.dummies.com/article/home-auto-hobbies/food-drink/cooking-baking/general-cooking-baking/cooking-basics-for-dummies-cheat-sheet-208787/"
+                        aria-label="Tutorials external link" target="_blank"><i
+                            class="fas fa-book-open"></i><span>Tutorials</span></a></li>
+                <li><a href="https://images.app.goo.gl/eu5yi13W4Yaeccu47" aria-label="About us external link"
+                        target="_blank"><i class="fas fa-info-circle"></i><span>About Us</span> </a></li>
+                <li><a href="mailto:thastings@uccs.edu" aria-label="Contact us email link" target="_blank"><i
+                            class="fas fa-envelope"></i><span>Contact</span></a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'profile' %}" aria-label="Profile page link"><i class="fa-solid fa-user"></i><span>Profile</span></a></li>
-                    <li><a href="{% url 'logout' %}" aria-label="Logout link"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a></li>
+                <li><a href="{% url 'profile' %}" aria-label="Profile page link"><i
+                            class="fa-solid fa-user"></i><span>Profile</span></a></li>
+                <li><a href="{% url 'logout' %}" aria-label="Logout link"><i
+                            class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a></li>
                 {% else %}
-                    <li><a href="{% url 'login' %}" aria-label="Login/Register page link"><i class="fa-solid fa-user"></i><span>Login/Register</span></a></li>
+                <li><a href="{% url 'login' %}" aria-label="Login/Register page link"><i
+                            class="fa-solid fa-user"></i><span>Login/Register</span></a></li>
                 {% endif %}
-                <li><a href="javascript:void(0);" aria-label="Toggle Dark Mode Button" onclick="toggleDarkMode()"><i class="fa-regular fa-moon"></i><span>Dark Mode</span></a></li>
+                <li><a href="javascript:void(0);" aria-label="Toggle Dark Mode Button" onclick="toggleDarkMode()"><i
+                            class="fa-regular fa-moon"></i><span>Dark Mode</span></a></li>
             </ul>
         </nav>
 
@@ -74,7 +97,7 @@
             document.querySelector('.sidebar').classList.toggle('collapsed');
             document.querySelector('.main-content').classList.toggle('expanded');
         }
-    </script> 
+    </script>
     <script>
         function toggleDarkMode() {
             const baseLight = document.getElementById('light-mode-base');
@@ -83,11 +106,11 @@
             const pageDarkDrinkSearch = document.getElementById('dark-mode-search' + getCurrentPage());
             const pageLightMealSearch = document.getElementById('light-mode-meal-search' + getCurrentPage());
             const pageDarkMealSearch = document.getElementById('dark-mode-meal-search' + getCurrentPage());
-    
+
             // Toggle base stylesheets
             baseLight.disabled = !baseLight.disabled;
             baseDark.disabled = !baseDark.disabled;
-    
+
             // Toggle page-specific stylesheets if they exist
             if (pageLightDrinkSearch && pageDarkDrinkSearch) { // drinks
                 pageLightDrinkSearch.disabled = !pageLightDrinkSearch.disabled;
@@ -101,7 +124,7 @@
             // Save theme preference in localStorage
             localStorage.setItem('theme', baseDark.disabled ? 'light' : 'dark');
         }
-    
+
         // Function to determine the current page for loading page-specific styles
         function getCurrentPage() {
             const path = window.location.pathname;
@@ -110,7 +133,7 @@
             // Add more cases for other pages if needed
             return '';
         }
-    
+
         // Load saved theme preference
         document.addEventListener('DOMContentLoaded', () => {
             const theme = localStorage.getItem('theme');
@@ -118,7 +141,8 @@
                 toggleDarkMode();
             }
         });
-    </script>      
+    </script>
 
-    </body>
+</body>
+
 </html>
