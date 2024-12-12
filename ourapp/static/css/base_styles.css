@@ -1,11 +1,13 @@
 /* Global Styles */
 body {
     margin: 0;
-    background: linear-gradient(to right, #db978f, #da9086); /* Gradient from left to right d95a4a db978f */
+    background: linear-gradient(to right, #db978f, #da9086);
+    /* Gradient from left to right d95a4a db978f */
     color: #333;
     /* display: flex; causes problems /* Ensure body takes up full screen with flexbox */
     min-height: 100vh;
 }
+
 /* Main content styling */
 main {
     margin-left: 270px;
@@ -13,39 +15,50 @@ main {
     flex-grow: 1;
     font-size: 14px;
     box-sizing: border-box;
-    width: calc(100% - 270px); /* Ensure main content fills the space */
+    width: calc(100% - 270px);
+    /* Ensure main content fills the space */
 }
+
 .main-content {
-    margin-left: 250; 
+    margin-left: 250;
     padding: 40px;
-    width: calc(100% - 250px); 
+    width: calc(100% - 250px);
     transition: margin-left 0.3s ease, width 0.3s ease;
 }
+
 .main-content.expanded {
-    margin-left: 60px; /* Adjust margin when sidebar is collapsed */
-    width: calc(100% - 60px); /* Adjust width when sidebar is collapsed */
+    margin-left: 60px;
+    /* Adjust margin when sidebar is collapsed */
+    width: calc(100% - 60px);
+    /* Adjust width when sidebar is collapsed */
 }
 
 /* Heading font */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     font-family: "Pacifico", cursive;
     font-weight: 400;
     font-style: normal;
     font-size: 40px;
-    
+
 }
+
 h4 {
     font-family: "Pacifico", cursive;
     font-weight: 400;
     font-style: normal;
     font-size: 20px;
 }
+
 /* Main font */
 main {
     font-family: 'Poppins', sans-serif;
 }
+
 /* Body font */
-body, p {
+body,
+p {
     font-family: 'Great Vibes', sans-serif;
     font-size: 20px;
 }
@@ -54,46 +67,69 @@ body, p {
 .container {
     display: flex;
     min-height: 100vh;
-    margin-top: 0; /* Remove any unwanted margin */
+    margin-top: 0;
+    /* Remove any unwanted margin */
 }
 
 /* Image */
 /* Container for horizontal stacking of images */
 .img-row {
     display: flex;
-    justify-content: center; /* Center images horizontally */
-    align-items: center; /* Center images vertically if they vary in height */
-    gap: 50px; /* Space between images */
-    padding: 20px 0; /* Optional padding for spacing */
+    justify-content: center;
+    /* Center images horizontally */
+    align-items: center;
+    /* Center images vertically if they vary in height */
+    gap: 50px;
+    /* Space between images */
+    padding: 20px 0;
+    /* Optional padding for spacing */
 }
+
 /* Card style for images */
 .img-card {
     display: block;
-    width: 100%; /* Adjust width as needed */
-    max-width: 400px; /* Optional max-width to keep cards consistent */
+    width: 100%;
+    /* Adjust width as needed */
+    max-width: 400px;
+    /* Optional max-width to keep cards consistent */
     border-radius: 15px;
-    overflow: hidden; /* Ensures border-radius applies to shadow */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Initial shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    overflow: hidden;
+    /* Ensures border-radius applies to shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Initial shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Smooth transition */
 }
+
 .img-card2 {
     display: block;
-    width: 100%; /* Adjust width as needed */
-    max-width: 480px; /* Optional max-width to keep cards consistent */
+    width: 100%;
+    /* Adjust width as needed */
+    max-width: 480px;
+    /* Optional max-width to keep cards consistent */
     border-radius: 15px;
-    overflow: hidden; /* Ensures border-radius applies to shadow */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Initial shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    overflow: hidden;
+    /* Ensures border-radius applies to shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Initial shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Smooth transition */
 }
+
 /* Hover effect for card */
 .img-card:hover {
-    transform: scale(1.05); /* Slight zoom effect on hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow on hover */
+    transform: scale(1.05);
+    /* Slight zoom effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    /* Deeper shadow on hover */
 }
+
 /* Hover effect for card */
 .img-card2:hover {
-    transform: scale(1.05); /* Slight zoom effect on hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deeper shadow on hover */
+    transform: scale(1.05);
+    /* Slight zoom effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    /* Deeper shadow on hover */
 }
 
 /* Container Styling */
@@ -101,10 +137,14 @@ body, p {
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
-    width: 100% !important; /* Full width container */
-    height: 50px !important; /* Adjust height as needed */
-    background-color: #2c3e50 !important; /* Background color of the container */
-    color: #f2d5aa !important; /* Icon color */
+    width: 100% !important;
+    /* Full width container */
+    height: 50px !important;
+    /* Adjust height as needed */
+    background-color: #2c3e50 !important;
+    /* Background color of the container */
+    color: #f2d5aa !important;
+    /* Icon color */
     padding: 10px !important;
     position: relative !important;
 }
@@ -112,14 +152,20 @@ body, p {
 /* Icon Styling */
 .icon-carousel i {
     font-size: 24px !important;
-    margin: 0 15px !important; /* Space between icons */
+    margin: 0 15px !important;
+    /* Space between icons */
     animation: rotate-icons 10s linear infinite !important;
 }
 
 /* Keyframes for Icon Rotation */
 @keyframes rotate-icons {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
 /* Duplicate the icons to create the loop effect */
@@ -136,18 +182,19 @@ body, p {
 
 /* Sidebar Styles */
 .sidebar {
-    width: 250px;   
+    width: 250px;
     background-color: #2c3e50;
     padding: 20px;
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh; /* Ensure the sidebar takes up the full height */
+    height: 100vh;
     overflow-y: auto;
-    flex-shrink: 0; /* Prevents sidebar from shrinking */
+    flex-shrink: 0;
     border-radius: 0;
     z-index: 3;
-    transition: width 0.3s ease; /* Smooth transition */
+    transition: width 0.3s ease;
+    /* Smooth transition */
 }
 
 .sidebar ul {
@@ -167,14 +214,16 @@ body, p {
     color: white;
     font-size: 16px;
     font-weight: 600;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.5s; /* Smooth hover effects */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.5s;
+    /* Smooth hover effects */
     border-radius: 5px;
 }
 
 .sidebar ul li a:hover {
     background-color: #f2d5aa;
     color: white;
-    animation: bounce 0.5s; /* Bounce animation on hover */
+    animation: bounce 0.5s;
+    /* Bounce animation on hover */
 }
 
 .sidebar ul li a i {
@@ -187,25 +236,10 @@ body, p {
     color: white;
 }
 
-/* Sidebar Toggle Button */
-.sidebar-toggle {
-    position: absolute;
-    top: 20px;
-    /* right: +10px; /* Places the button slightly outside the sidebar */
-    background-color: #2c3e50;
-    color: white;
-    border: none;
-    padding: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease; /* Smooth transition for movement */
-}
-
-
 /* Collapsed Sidebar */
 .sidebar.collapsed {
-    width: 60px; /* Sidebar width when collapsed */
+    width: 60px;
+    /* Sidebar width when collapsed */
     /* transform: translateX(-250px); /* Moves sidebar off-screen */
 }
 
@@ -214,11 +248,11 @@ body, p {
 }
 
 .sidebar.collapsed ul li a i {
-    margin-right: 0; 
+    margin-right: 0;
 }
 
 .sidebar.collapsed ul li a span {
-    display: none; 
+    display: none;
 }
 
 .sidebar.collapsed .sidebar-toggle {
@@ -227,8 +261,9 @@ body, p {
 
 /* Logo styling for collapsed sidebar */
 .sidebar.collapsed .logo {
-    width: 50px; /* Adjust logo size for collapsed sidebar */
-    transition: width 0.3s ease; 
+    width: 50px;
+    /* Adjust logo size for collapsed sidebar */
+    transition: width 0.3s ease;
 }
 
 .sidebar.collapsed .logo-container {
@@ -249,12 +284,15 @@ body, p {
     height: auto;
     z-index: 1000;
     border-radius: 20%;
-    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out; /* Apply transition directly */
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+    /* Apply transition directly */
 }
 
 .logo:hover {
-    transform: scale(1.05); /* Slight zoom on hover */
-    opacity: 0.9; /* Reduce opacity for a fading effect */
+    transform: scale(1.05);
+    /* Slight zoom on hover */
+    opacity: 0.9;
+    /* Reduce opacity for a fading effect */
 }
 
 /* Call-to-action button */
@@ -269,22 +307,30 @@ body, p {
     color: white !important;
     font-size: 16px;
     font-weight: bold;
-    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth animation */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    /* Smooth animation */
 }
+
 .cta-button a {
-    color: inherit; /* Ensures link inherits the button color */
-    text-decoration: none; /* Removes underline */
+    color: inherit;
+    /* Ensures link inherits the button color */
+    text-decoration: none;
+    /* Removes underline */
 }
+
 .cta-button i {
-    margin-right: 5px; /* Space between icon and text */
+    margin-right: 5px;
+    /* Space between icon and text */
 }
+
 .cta-button:hover {
     background-color: #f2d5aa;
     color: white;
-    transform: scale(1.1); /* Add a subtle scale effect on hover */
+    transform: scale(1.1);
+    /* Add a subtle scale effect on hover */
 }
 
-/* login page button */ 
+/* login page button */
 login-button {
     padding: 10px 15px;
     background-color: #f2d5aa;
@@ -300,13 +346,15 @@ login-button:hover {
 }
 
 /* Results */
-.results, .suggestions {
+.results,
+.suggestions {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
+
 p-results {
     color: #ffffff;
 }
@@ -337,11 +385,13 @@ p-results {
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
     justify-content: space-between;
 }
+
 .drink img {
     width: 100px;
     border-radius: 4px;
     margin-right: 15px;
 }
+
 .meal-result img {
     width: 100px;
     border-radius: 4px;
@@ -350,11 +400,14 @@ p-results {
 
 .drink span {
     font-weight: bold;
-    color: #333; /* Dark text for the drink name */
+    color: #333;
+    /* Dark text for the drink name */
 }
+
 .meal-result span {
     font-weight: bold;
-    color: #333; /* Dark text for the drink name */
+    color: #333;
+    /* Dark text for the drink name */
 }
 
 /* Animations */
@@ -370,12 +423,19 @@ p-results {
 }
 
 @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
         transform: translateY(0);
     }
+
     40% {
         transform: translateY(-10px);
     }
+
     60% {
         transform: translateY(-5px);
     }
@@ -383,6 +443,7 @@ p-results {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
     /* Sidebar adjustments */
     .sidebar {
         width: 100%;
@@ -419,7 +480,8 @@ p-results {
     }
 
     /* Main content adjustments */
-    main, .main-content {
+    main,
+    .main-content {
         margin-left: 0;
         width: 100%;
         padding: 15px;
@@ -436,12 +498,15 @@ p-results {
         gap: 20px;
     }
 
-    .img-card, .img-card2 {
+    .img-card,
+    .img-card2 {
         max-width: 100%;
     }
 
     /* Typography adjustments */
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
         font-size: 28px;
     }
 
@@ -449,18 +514,21 @@ p-results {
         font-size: 18px;
     }
 
-    body, p {
+    body,
+    p {
         font-size: 16px;
     }
 
     /* Search results adjustments */
-    .drink, .meal-result {
+    .drink,
+    .meal-result {
         width: 95%;
         flex-direction: column;
         text-align: center;
     }
 
-    .drink img, .meal-result img {
+    .drink img,
+    .meal-result img {
         margin-right: 0;
         margin-bottom: 10px;
     }
@@ -486,7 +554,10 @@ p-results {
 
 /* Small mobile devices */
 @media (max-width: 480px) {
-    h1, h2, h3 {
+
+    h1,
+    h2,
+    h3 {
         font-size: 24px;
     }
 
@@ -505,8 +576,9 @@ body.vertical-stack {
     flex-direction: column;
 }
 
-.vertical-stack > .container {
-    margin-top: 50vh; /* Adjusts starting position to come below the hero section */
+.vertical-stack>.container {
+    margin-top: 50vh;
+    /* Adjusts starting position to come below the hero section */
 }
 
 /* Utility Class for Stacking */
@@ -516,4 +588,3 @@ body.vertical-stack {
     align-items: stretch;
     gap: 20px;
 }
-
